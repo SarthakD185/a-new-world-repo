@@ -127,7 +127,7 @@ export default function SignUp(props) {
     };
 
     try {
-      const response = await fetch('https://your-api-gateway-endpoint/dev/user', {
+      const response = await fetch('https://7ekkoc9ax6.execute-api.us-east-1.amazonaws.com/dev/user', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
