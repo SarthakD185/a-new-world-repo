@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-anewworld-dev-ac0da-authRole",
+      "UnauthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-ac0da-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-ac0da-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-anewworld-dev-ac0da-deployment",
+      "UnauthRoleName": "amplify-anewworld-dev-ac0da-unauthRole",
+      "StackName": "amplify-anewworld-dev-ac0da",
+      "StackId": "arn:aws:cloudformation:us-east-1:820242905696:stack/amplify-anewworld-dev-ac0da/8a0f1371-d828-11ef-b9e8-127cb1162fff",
+      "AmplifyAppId": "d1klxzvmxoh3ag"
+    },
+    "categories": {
+      "function": {
+        "anwUserConnect": {
+          "deploymentBucketName": "amplify-anewworld-dev-ac0da-deployment",
+          "s3Key": "amplify-builds/anwUserConnect-4e624f6f464f507a7563-build.zip"
+        }
+      },
+      "api": {
+        "connect": {}
+      }
+    }
+  }
+}
