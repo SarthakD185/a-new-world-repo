@@ -7,7 +7,7 @@ const DataComponent = () => {
 
   // Fetch data on component mount
   useEffect(() => {
-    fetch('https://jnbyk1y0q1.execute-api.us-east-1.amazonaws.com/production')
+    fetch('https://7ekkoc9ax6.execute-api.us-east-1.amazonaws.com/dev/user')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
