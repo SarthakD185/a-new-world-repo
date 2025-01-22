@@ -36,3 +36,92 @@
     transform: rotate(360deg);
   }
 }
+
+
+/* About Us */
+
+.verticalFlexContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontalFlexContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.contactLabel {
+  padding: 0px;
+  margin: 0px 0px 4px 0px;
+}
+
+#aboutUsContactForm {
+  width: 30%;
+  padding: 24px;
+}
+
+.contactInputField {
+  margin-bottom: 12px;
+  width: fill;
+}
+
+.messageInputField {
+  margin-bottom: 24px;
+  padding-bottom: 48px;
+  width: fill;
+}
+
+#aboutUsInfo {
+  width: 70%;
+  padding: 24px;
+  margin: 0;
+}
+
+#aboutUsHeader {
+  margin: 0;
+  padding-bottom: 24px;
+}
+
+p {
+  margin: 0;
+}
+
+/* NavBar */
+
+.sticky{
+  text-align: center;
+  position: sticky;
+  top: 0px;
+  margin: 0px;
+  background-color: #13505B;
+  color: white;
+  padding: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 999;
+}
+
+.navBar{
+  display: flex;
+  flex-direction: row;
+}
+
+.navItem{
+  margin: 12px 24px 12px 24px;
+}
+
+/* Images */
+
+.centerImagePadding {
+  display: block;
+  width: 400px;
+  height: auto;
+  margin: 0 auto;
+  padding: 24px 0px 24px 0px;
+}
+
+/* General */
+
+.center{
+  text-align: center;
+}
