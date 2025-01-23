@@ -85,7 +85,7 @@ export default function SignIn(props) {
     if (!validateInputs()) return;  // Check if inputs are valid before making the API call
 
     try {
-      const response = await fetch('https://your-api-gateway-endpoint/signin', {
+      const response = await fetch('https://njy3t6rrh1.execute-api.us-east-1.amazonaws.com/production/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
