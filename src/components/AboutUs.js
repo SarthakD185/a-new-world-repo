@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useState } from "react";
 import logo from '../assets/images/AardvarkLogoClearHorizontal.png';
-import NavBar from './NavBar';
 import '../App.css';
 
 function AboutUs() {
@@ -13,9 +12,7 @@ function AboutUs() {
     const handleSubmit = (event) => {
         //TODO - change from alert dialog to sending an actual email
         event.preventDefault();
-        alert(`The name you entered was: ${name}\n
-                The email you entered was: ${email}\n
-                The message you entered was: ${message}`);
+        alert(`The name you entered was: ${name}\nThe email you entered was: ${email}\nThe message you entered was: ${message}`);
         setName('');
         setEmail('');
         setMessage('');
@@ -29,11 +26,11 @@ function AboutUs() {
                 <img class='centerImagePadding' src={logo}></img>
             </p>
 
-            <div class="horizontalFlexContainer">
+            <div class="wideColumnContainer">
 
-                <div id="aboutUsInfo">
+                <div class='box'>
 
-                <h3 id="aboutUsHeader">About Us</h3>
+                    <h2>About Us</h2>
 
                     <p>
                     Aardvark Games is a tabletop game publisher dedicated to entertaining game players worldwide with 
@@ -44,11 +41,11 @@ function AboutUs() {
                     </p>
                 </div>
 
-                <div id='aboutUsContactForm'>
+                <div class='box'>
 
-                    <h3 id="aboutUsHeader">Contact</h3>
+                    <h2>Contact</h2>
 
-                    <form onSubmit={handleSubmit} class='verticalFlexContainer'>
+                    <form onSubmit={handleSubmit}>
                         <label><h4 class='contactLabel'>Name:</h4>
                             <input
                                 type="text" 
@@ -76,7 +73,9 @@ function AboutUs() {
                             />
                         </label>
 
-                        <input type="submit" value='Send Message'/>
+                        <div class='centerButton'>
+                            <input type="submit" value='Send Message' class='standardButton'/>
+                        </div>
                     </form>
 
                 </div>
