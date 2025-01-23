@@ -65,6 +65,7 @@ export default function SignIn(props) {
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
+  const [error, setError] = React.useState('');  // To display errors like invalid credentials
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -75,16 +76,35 @@ export default function SignIn(props) {
     setOpen(false);
   };
 
-  const handleSubmit = (event) => {
-    if (emailError || passwordError) {
-      event.preventDefault();
-      return;
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    const username = e.target.email.value;
+    const password = e.target.password.value;
+
+    if (!validateInputs()) return;  // Check if inputs are valid before making the API call
+
+    try {
+      const response = await fetch('https://your-api-gateway-endpoint/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200) {
+        console.log('Login successful:', data);
+        // You can store user data in local storage, context, or state and redirect
+        // For example, redirect to home page or dashboard
+        // history.push('/dashboard');
+      } else {
+        setError(data.message || 'Login failed'); // Update error state to show message
+      }
+    } catch (err) {
+      setError('An error occurred during sign-in.');
+      console.error('Error:', err);
     }
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   const validateInputs = () => {
@@ -129,7 +149,7 @@ export default function SignIn(props) {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={handleSignIn}
             noValidate
             sx={{
               display: 'flex',
@@ -181,10 +201,10 @@ export default function SignIn(props) {
               type="submit"
               fullWidth
               variant="contained"
-              onClick={validateInputs}
             >
               Sign in
             </Button>
+            {error && <Typography color="error" variant="body2">{error}</Typography>}
             <Link
               component="button"
               type="button"
@@ -197,7 +217,6 @@ export default function SignIn(props) {
           </Box>
           <Divider>or</Divider>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            
             <Typography sx={{ textAlign: 'center' }}>
               Don&apos;t have an account?{' '}
               <Link
