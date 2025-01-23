@@ -79,7 +79,7 @@ export default function SignIn(props) {
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    const username = e.target.email.value;
+    const email = e.target.email.value;
     const password = e.target.password.value;
 
     if (!validateInputs()) return;  // Check if inputs are valid before making the API call
@@ -88,16 +88,14 @@ export default function SignIn(props) {
       const response = await fetch('https://njy3t6rrh1.execute-api.us-east-1.amazonaws.com/production/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
 
       if (response.status === 200) {
         console.log('Login successful:', data);
-        // You can store user data in local storage, context, or state and redirect
-        // For example, redirect to home page or dashboard
-        // history.push('/dashboard');
+        
       } else {
         setError(data.message || 'Login failed'); // Update error state to show message
       }
