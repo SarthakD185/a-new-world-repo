@@ -256,14 +256,16 @@ https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
-    padding: 2rem;
+    padding: 2rem 4rem;
+    max-width: 1800px;
+    margin: 0 auto;
 }
 
 .gallery-item {
     background: var(--surface-color);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+    padding: 1.5rem;
     transition: transform 0.2s ease-in-out;
     text-align: center;
 }
@@ -290,4 +292,13 @@ https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b
     color: var(--text-secondary-color);
     font-size: 0.9rem;
     line-height: 1.4;
+}
+
+.wideColumnContainer {
+    margin: 18px;
+}
+
+.wideColumnContainer .box {
+    max-width: 1400px;
+    margin: 18px auto;
 }

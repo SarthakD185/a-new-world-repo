@@ -11,7 +11,7 @@ function GalleryPage() {
 
             <div className="wideColumnContainer">
                 <div className='box'>
-                    <h2>Our Games</h2>
+                    <h2>Gallery</h2>
                     
                     <div className="gallery-grid">
                         <div className="gallery-item">
