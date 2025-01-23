@@ -250,3 +250,44 @@ h2 {
 Color Palette Link
 https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b 
 */
+
+/* Gallery Grid Styles */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.gallery-item {
+    background: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.gallery-item h3 {
+    color: var(--text-color);
+    margin: 0.5rem 0;
+}
+
+.gallery-item p {
+    color: var(--text-secondary-color);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
