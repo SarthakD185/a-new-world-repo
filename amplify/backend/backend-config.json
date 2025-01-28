@@ -1,6 +1,6 @@
 {
   "api": {
-    "connect": {
+    "api57650bde": {
       "dependsOn": [
         {
           "attributes": [
@@ -8,7 +8,7 @@
             "Arn"
           ],
           "category": "function",
-          "resourceName": "anwUserConnect"
+          "resourceName": "UserHandler"
         }
       ],
       "providerPlugin": "awscloudformation",
@@ -16,27 +16,26 @@
     }
   },
   "function": {
-    "anwUserConnect": {
+    "UserHandler": {
       "build": true,
-      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "parameters": {
-    "AMPLIFY_function_anwUserConnect_deploymentBucketName": {
+    "AMPLIFY_function_UserHandler_deploymentBucketName": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "anwUserConnect"
+          "resourceName": "UserHandler"
         }
       ]
     },
-    "AMPLIFY_function_anwUserConnect_s3Key": {
+    "AMPLIFY_function_UserHandler_s3Key": {
       "usedBy": [
         {
           "category": "function",
-          "resourceName": "anwUserConnect"
+          "resourceName": "UserHandler"
         }
       ]
     }

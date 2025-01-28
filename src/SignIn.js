@@ -143,7 +143,7 @@ export default function SignIn(props) {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
-            Sign in THIS IS A PLACEHOLDER
+            Sign in 
           </Typography>
           <Box
             component="form"
