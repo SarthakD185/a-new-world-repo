@@ -2,8 +2,12 @@
   "name": "a-new-world",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.19.0"
+  },
   "dependencies": {
     "@aws-amplify/api-rest": "^4.0.66",
+    "@aws-amplify/cli": "^12.14.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^6.4.0",

@@ -3,14 +3,16 @@ backend:
   phases:
     build:
       commands:
+        - nvm install 18.19.0
+        - nvm use 18.19.0
         - npm ci --cache .npm --prefer-offline
-        - npx ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+        - ./node_modules/.bin/amplify-cli pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID # Use local path
 frontend:
   phases:
     preBuild:
       commands:
-        - nvm install 18.19.0 # or any other required version
-        - nvm use 18.19.0     # ensures using the correct version
+        - nvm install 18.19.0
+        - nvm use 18.19.0
         - npm ci
     build:
       commands:
