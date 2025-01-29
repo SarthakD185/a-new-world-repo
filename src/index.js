@@ -9,15 +9,11 @@ import AboutUs from './components/AboutUs';
 import NavBar from './components/NavBar';
 import LandingPage from './components/LandingPage';
 import GalleryPage from './components/GalleryPage';
-import App from './App';
-import {Amplify} from 'aws-amplify';
-import config from "./aws-exports";
-
-Amplify.configure(config);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <NavBar />
 
     <BrowserRouter>

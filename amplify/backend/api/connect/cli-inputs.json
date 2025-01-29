@@ -1,9 +1,9 @@
 {
   "version": 1,
   "paths": {
-    "/user/{email}": {
-      "name": "/user/{email}",
-      "lambdaFunction": "UserHandler",
+    "/user": {
+      "name": "/user",
+      "lambdaFunction": "anwUserConnect",
       "permissions": {
         "setting": "open"
       }
