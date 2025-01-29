@@ -23,5 +23,4 @@ frontend:
       - '**/*'
   cache:
     paths:
-       - node_modules/**/*  # Cache node_modules directory to prevent rebuilds
-       - .npm/**/*
+      - .npm/**/*
