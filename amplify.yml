@@ -6,7 +6,7 @@ backend:
         - nvm install 18.19.0
         - nvm use 18.19.0
         - npm ci --cache .npm --prefer-offline
-        - ./node_modules/.bin/amplify-cli pipeline-deploy --branch main --app-id d11xveyyaab7kr 
+        - ./node_modules/.bin/amplify-cli pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID # Use local path
 frontend:
   phases:
     preBuild:
