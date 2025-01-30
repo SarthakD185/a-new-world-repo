@@ -5,7 +5,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
-import AboutUs from './components/AboutUs';
+import AboutUs from './components/AboutUsPage';
 import NavBar from './components/NavBar';
 import LandingPage from './components/LandingPage';
 import GalleryPage from './components/GalleryPage';

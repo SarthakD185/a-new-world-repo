@@ -1,0 +1,124 @@
+/* Landing Page */
+
+body {
+  background-color: #e1f3f4;
+}
+
+.heroImage {
+  width: 100%;
+  height: 32em;
+  object-fit: cover;
+}
+  
+/* https://www.w3schools.com/howto/howto_css_hero_image.asp */
+.heroButton {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 16px 48px;
+  color: black;
+  background-color: #7fb493;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 48px;
+}
+  
+.heroButton:hover {
+  background-color: #13505b;
+  color: white;
+}
+  
+#heroText {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.9)), url('../images/GamingAardvarkForestsOfLegend.jpg');
+  text-align: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: sticky;
+  color: white;
+  width: 100%;
+  height: 12em;
+  padding: 10em 0;
+}
+  
+#heroText h3 {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-weight: 500;
+  font-size: larger;
+  margin: 16px 24px;
+}
+  
+#heroTextSmall {
+  margin: 48px 0px;
+}
+  
+#heroText h4 {
+  text-align: center;
+  font-weight: 700;
+  font-size: medium;
+  margin: 0;
+}
+  
+#landingPageSection1 {
+  display: grid;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+  
+#landingPageSection2 {
+  display: grid;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+  
+#landingPageSection3 {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+#gameplayHeader {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+}
+
+#gameplayParagraphs {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+#gameplaySlideshow {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  align-content: center;
+}
+  
+.popup {
+  padding: 24px;
+}
+
+.popupHeader {
+  margin: 12px 0px 8px 0px;
+}
+
+.content > p {
+  margin-bottom: 24px;
+}
+
+.widePopup {
+  width: 80%;
+}
