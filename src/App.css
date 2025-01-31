@@ -37,29 +37,6 @@
   }
 }
 
-
-/* About Us */
-
-.contactLabel {
-  padding: 0px;
-  margin: 0px 0px 4px 0px;
-}
-
-.contactInputField {
-  margin-bottom: 12px;
-  width: max-content;
-}
-
-.messageInputField {
-  margin-bottom: 24px;
-  padding-bottom: 48px;
-  width: max-content;
-}
-
-p {
-  margin: 0;
-}
-
 /* NavBar */
 
 .sticky{
@@ -183,6 +160,10 @@ i {
   grid-template-rows: auto;
 }
 
+.fill {
+  width: fill;
+}
+
 
 
 
@@ -235,11 +216,6 @@ https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b
     line-height: 1.4;
 }
 
-.wideColumnContainer {
-    margin: 18px;
-}
-
 .wideColumnContainer .box {
     max-width: 1400px;
-    margin: 18px auto;
 }

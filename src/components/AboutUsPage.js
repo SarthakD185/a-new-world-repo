@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from "react";
 import logo from '../assets/images/AardvarkLogoClearHorizontal.png';
 import '../App.css';
+import '../assets/css/AboutUs.css'
 
 function AboutUs() {
 
@@ -41,7 +42,7 @@ function AboutUs() {
                     </p>
                 </div>
 
-                <div class='box'>
+                <div class='box fill'>
 
                     <h2>Contact</h2>
 
@@ -57,7 +58,7 @@ function AboutUs() {
 
                         <label><h4 class='contactLabel'>Email:</h4>
                             <input
-                                type="text" 
+                                type="email" 
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 class='contactInputField'

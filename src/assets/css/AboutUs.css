@@ -1,0 +1,24 @@
+.contactLabel {
+    padding: 0px;
+    margin: 0px 0px 4px 0px;
+    width: 100%;
+}
+  
+.contactInputField {
+    margin-bottom: 12px;
+    width: 100%;
+}
+  
+.messageInputField {
+    margin-bottom: 24px;
+    padding-bottom: 48px;
+    width: 100%;
+}
+  
+p {
+    margin: 0;
+}
+
+.wideColumnContainer > div {
+    margin: 18px;
+}
