@@ -164,6 +164,18 @@ i {
   width: fill;
 }
 
+.horizontalFlex {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.extraWideColumnContainer {
+  display: grid;
+  grid-template-columns: 75% 25%;
+  grid-template-rows: auto;
+  margin: 18px;
+}
 
 
 

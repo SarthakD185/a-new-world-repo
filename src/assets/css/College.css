@@ -1,0 +1,17 @@
+.smallLogo {
+    width: 100px;
+    height: 100px;
+    margin-right: 24px;
+}
+
+.borderPadding {
+    margin: 36px;
+}
+
+.spaceBetween {
+    justify-content: space-between;
+}
+
+.search {
+    width: 30%;
+}

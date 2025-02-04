@@ -9,6 +9,8 @@ import AboutUs from './components/AboutUsPage';
 import NavBar from './components/NavBar';
 import LandingPage from './components/LandingPage';
 import GalleryPage from './components/GalleryPage';
+import CollegePage from './components/college/CollegePage';
+import IndividualCollegePage from './components/college/IndividualCollegePage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +26,8 @@ root.render(
         <Route path="/signup" element={<SignUp />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/gallery" element={<GalleryPage />} />
+        <Route path="/colleges" element={<CollegePage />} />
+        <Route path="/individualCollege" element={<IndividualCollegePage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
