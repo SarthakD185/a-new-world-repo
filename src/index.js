@@ -11,6 +11,7 @@ import LandingPage from './components/LandingPage';
 import GalleryPage from './components/GalleryPage';
 import CollegePage from './components/college/CollegePage';
 import IndividualCollegePage from './components/college/IndividualCollegePage';
+import ScrollToTop from './components/ScrollToTop';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
     <NavBar />
 
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         {/* Set the default route for '/' */}
         <Route path="/" element={<LandingPage />} />

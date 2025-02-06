@@ -4,8 +4,10 @@ import galleryData from '../../assets/data/gallery.json';
 import '../../assets/css/IndividualCollege.css';
 import '../../App.css';
 import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from 'swiper/modules';
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+{/* https://swiperjs.com/demos */}
 function GalleryList(props) {
 
     //create a new array by filtering the original array
@@ -33,11 +35,13 @@ function GalleryList(props) {
         return (
 
             <Swiper
-                spaceBetween={50}
                 slidesPerView={3}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-                className='mySwiper'
+                spaceBetween={30}
+                pagination={{
+                clickable: true,
+                }}
+                modules={[Pagination]}
+                className='swiper'
             >
 
                 {filteredData.map((image) => (

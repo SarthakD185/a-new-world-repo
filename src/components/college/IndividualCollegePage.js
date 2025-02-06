@@ -7,11 +7,13 @@ import TextField from "@mui/material/TextField";
 import TeamList from './TeamList';
 import AnnouncementsList from './AnnouncementsList';
 import GalleryList from './GalleryList';
+import { useNavigate } from 'react-router-dom';
 
 function IndividualCollegePage() {
 
     const location = useLocation();
     const data = location.state;
+    const navigate = useNavigate();
 
     const [inputText, setInputText] = useState("");
 
@@ -25,6 +27,10 @@ function IndividualCollegePage() {
 
     };
 
+    function handleClickGallery(collegeInfo) {
+        navigate('/gallery');
+    }
+
     return (
     
         <div>
@@ -37,14 +43,22 @@ function IndividualCollegePage() {
             <div class='extraWideColumnContainer'>
                     
                 <div class='box' id='individualCollegeGallery'>
-                    <h2>Gallery</h2>
+
+                    <div class='horizontalFlex spaceBetween stickyHeader smallBottomMargin'>
+                        <h2 class='noPadding noMargin'>Gallery</h2>
+
+                        <div class='centerButton'>
+                            <button class='standardButton' onClick={()=>handleClickGallery(data.id)}>View More</button>
+                        </div>
+                        
+                    </div>
 
                     <GalleryList collegeID={data.id} />
 
                 </div>
 
                 <div class='box' id='individualCollegeRegisteredTeams'>
-                    <div class='horizontalFlex spaceBetween' id='registeredTeamsSearch'>
+                    <div class='horizontalFlex spaceBetween stickyHeader'>
                         <h2 class='noPadding noMargin'>Registered Teams</h2>
 
                         {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
