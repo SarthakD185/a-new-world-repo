@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React } from 'react';
 import data from '../../assets/data/colleges.json';
 import { HR } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
@@ -34,26 +34,40 @@ function CollegeList(props) {
 
     })
 
-    return (
+    if(filteredData.length === 0){
 
-        <div>
-            {filteredData.map((college) => (
-                <div key={college.id}>
-                    <div class='horizontalFlex spaceBetween'>
-                        <div class='horizontalFlex'>
-                            <img src={require(`../../assets/images/${college.image}`)} class='smallLogo'></img>
-                            <h3>{college.name}</h3>
+        return(
+            <div class='fullHeight'>
+                <p class='center'>No Colleges to Display</p>
+            </div>
+        )
+
+    } else {
+
+        return (
+
+            <div>
+                {/* https://flowbite-react.com/docs/typography/hr */}
+                <HR />
+                
+                {filteredData.map((college) => (
+                    <div key={college.id}>
+                        <div class='horizontalFlex spaceBetween'>
+                            <div class='horizontalFlex'>
+                                <img src={require(`../../assets/images/${college.image}`)} class='smallLogo'></img>
+                                <h3>{college.name}</h3>
+                            </div>
+                            <div class='centerButton'>
+                                <button class='standardButton' onClick={()=>handleClick(college)}>View College</button>
+                            </div>
                         </div>
-                        <div class='centerButton'>
-                            <button class='standardButton' onClick={()=>handleClick(college)}>View College</button>
-                        </div>
+                        <HR />
                     </div>
-                    <HR />
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
 
-    )
+        )
+    }
 
 }
 

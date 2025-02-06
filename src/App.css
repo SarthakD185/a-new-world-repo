@@ -177,7 +177,21 @@ i {
   margin: 18px;
 }
 
+.rounded {
+  border-radius: 8px;
+}
 
+.noPadding {
+  padding: 0px;
+}
+
+.noMargin {
+  margin: 0px;
+}
+
+.fullHeight {
+  height: 100%;
+}
 
 
 /* 

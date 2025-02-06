@@ -2,11 +2,28 @@ import * as React from 'react';
 import '../../App.css';
 import '../../assets/css/IndividualCollege.css';
 import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import TextField from "@mui/material/TextField";
+import TeamList from './TeamList';
+import AnnouncementsList from './AnnouncementsList';
+import GalleryList from './GalleryList';
 
 function IndividualCollegePage() {
 
     const location = useLocation();
     const data = location.state;
+
+    const [inputText, setInputText] = useState("");
+
+    let inputHandler = (e) => {
+
+        //convert input text to lower case
+
+        var lowerCase = e.target.value.toLowerCase();
+
+        setInputText(lowerCase);
+
+    };
 
     return (
     
@@ -21,14 +38,36 @@ function IndividualCollegePage() {
                     
                 <div class='box' id='individualCollegeGallery'>
                     <h2>Gallery</h2>
+
+                    <GalleryList collegeID={data.id} />
+
                 </div>
 
                 <div class='box' id='individualCollegeRegisteredTeams'>
-                    <h2>Registered Teams</h2>
+                    <div class='horizontalFlex spaceBetween' id='registeredTeamsSearch'>
+                        <h2 class='noPadding noMargin'>Registered Teams</h2>
+
+                        {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+                        <div className="search">
+                            <TextField
+                                id="outlined-basic"
+                                onChange={inputHandler}
+                                variant="outlined"
+                                fullWidth
+                                label="Search"
+                            />
+                        </div>
+                    </div>
+                    
+                    <TeamList input={inputText} collegeID={data.id} />
+
                 </div>
 
                 <div class='box' id='individualCollegeAnnouncements'>
                     <h2>Announcements</h2>
+
+                    <AnnouncementsList collegeID={data.id} />
+
                 </div>
 
             </div>

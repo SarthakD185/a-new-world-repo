@@ -1,7 +1,6 @@
 import * as React from 'react';
 import '../../App.css';
 import '../../assets/css/College.css';
-import { HR } from "flowbite-react";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import CollegeList from './CollegeList';
@@ -39,10 +38,6 @@ function CollegePage() {
                     label="Search"
                     />
                 </div>
-
-
-                {/* https://flowbite-react.com/docs/typography/hr */}
-                <HR />
                     
                 <CollegeList input={inputText} />
                     

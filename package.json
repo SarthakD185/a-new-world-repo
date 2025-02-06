@@ -17,6 +17,7 @@
     "react-scripts": "^5.0.1",
     "react-slideshow-image": "^4.3.2",
     "reactjs-popup": "^2.0.6",
+    "swiper": "^11.2.2",
     "web-vitals": "^4.2.4",
     "yet-another-react-lightbox": "^3.21.7"
   },

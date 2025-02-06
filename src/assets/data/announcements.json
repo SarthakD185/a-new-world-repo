@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/01/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/03/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/08/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/12/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/14/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/25/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/28/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/30/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "02/02/25",
+        "collegeID": 1,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/09/25",
+        "collegeID": 2,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/13/25",
+        "collegeID": 2,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/16/25",
+        "collegeID": 2,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/27/25",
+        "collegeID": 2,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/02/25",
+        "collegeID": 3,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/04/25",
+        "collegeID": 3,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/11/25",
+        "collegeID": 3,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/16/25",
+        "collegeID": 3,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/25/25",
+        "collegeID": 3,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/05/25",
+        "collegeID": 5,
+        "title": "Announcement Title"
+    },
+    {
+        "id": 1,
+        "content": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "postDate": "01/23/25",
+        "collegeID": 5,
+        "title": "Announcement Title"
+    }
+]
