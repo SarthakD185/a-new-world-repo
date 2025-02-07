@@ -120,12 +120,12 @@ export default function SignUp(props) {
 
     const formData = {
       firstname: data.get('name'),
-      lastName: data.get('lastName'),
+      lastname: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
       username: data.get('username'),
       confirm_password: data.get('password'),
-      selectedRole: selectedRole,
+      college: selectedRole,
     };
 
     try {
