@@ -13,8 +13,8 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
-import Link from '@mui/material/Link'; // MUI Link
-import { Link as RouterLink } from 'react-router-dom'; // React Router Link
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -127,7 +127,7 @@ export default function SignUp(props) {
     };
 
     try {
-      const response = await fetch('https://7ekkoc9ax6.execute-api.us-east-1.amazonaws.com/dev/user', {
+      const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -155,7 +155,6 @@ export default function SignUp(props) {
             Sign up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {/* Form fields */}
             <Stack direction="row" spacing={2}>
               <FormControl sx={{ flex: 1 }}>
                 <FormLabel htmlFor="name">First name</FormLabel>
