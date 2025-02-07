@@ -1,64 +1,3 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
-import Link from '@mui/material/Link';
-import { Link as RouterLink } from 'react-router-dom';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  maxWidth: '600px',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  [theme.breakpoints.up('sm')]: {
-    width: '80%',
-    maxWidth: '800px',
-  },
-  ...theme.applyStyles('dark', {
-    boxShadow: 'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
-
-const SignUpContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
-  padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
-  '&::before': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    zIndex: -1,
-    inset: 0,
-    backgroundImage: 'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-    backgroundRepeat: 'no-repeat',
-    ...theme.applyStyles('dark', {
-      backgroundImage: 'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-    }),
-  },
-}));
-
 export default function SignUp(props) {
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
@@ -71,6 +10,7 @@ export default function SignUp(props) {
   const validateInputs = () => {
     const email = document.getElementById('email');
     const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
     const name = document.getElementById('name');
 
     let isValid = true;
@@ -91,6 +31,12 @@ export default function SignUp(props) {
     } else {
       setPasswordError(false);
       setPasswordErrorMessage('');
+    }
+
+    if (password.value !== confirmPassword.value) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Passwords do not match.');
+      isValid = false;
     }
 
     if (!name.value || name.value.length < 1) {
@@ -119,11 +65,13 @@ export default function SignUp(props) {
     const data = new FormData(event.currentTarget);
 
     const formData = {
-      name: data.get('name'),
+      firstname: data.get('name'),
       lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password'),
       username: data.get('username'),
+      confirm_password: data.get('password'),
+      college: selectedRole,  // Include the selected college
     };
 
     try {
@@ -259,15 +207,15 @@ export default function SignUp(props) {
                 id="role"
                 value={selectedRole}
                 onChange={handleRoleChange}
-                label="Role"
+                label="College"
                 required
               >
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value="option1">Option 1</MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
-                <MenuItem value="option3">Option 3</MenuItem>
+                <MenuItem value="MIT">MIT</MenuItem>
+                <MenuItem value="Harvard">Harvard</MenuItem>
+                <MenuItem value="Stanford">Stanford</MenuItem>
               </Select>
             </FormControl>
 
