@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
 import Link from '@mui/material/Link'; // MUI Link
-import { Link as RouterLink } from 'react-router-dom'; // React Router Link
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; // React Router Link
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -67,6 +67,7 @@ export default function SignIn(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [error, setError] = React.useState('');  // To display errors like invalid credentials
   const [open, setOpen] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -130,6 +131,16 @@ export default function SignIn(props) {
     }
 
     return isValid;
+  };
+
+  const handleBypass = () => {
+    //mock data
+    const mockData = {
+      id: "test-id",
+      name: "Test User Profile",
+      image: "AardvarkLogoClearHorizontal.png" 
+    };
+    navigate('/profile', { state: mockData });
   };
 
   return (
@@ -226,6 +237,14 @@ export default function SignIn(props) {
                 Sign up
               </Link>
             </Typography>
+            <Button
+              onClick={handleBypass}
+              variant="outlined"
+              size="small"
+              sx={{ alignSelf: 'center' }}
+            >
+              Bypass to Profile Page
+            </Button>
           </Box>
         </Card>
       </SignInContainer>

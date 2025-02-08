@@ -11,6 +11,7 @@ import LandingPage from './components/LandingPage';
 import GalleryPage from './components/GalleryPage';
 import CollegePage from './components/college/CollegePage';
 import IndividualCollegePage from './components/college/IndividualCollegePage';
+import ProfilePage from './components/ProfilePage';
 import ScrollToTop from './components/ScrollToTop';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,6 +31,7 @@ root.render(
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/colleges" element={<CollegePage />} />
         <Route path="/individualCollege" element={<IndividualCollegePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
