@@ -125,6 +125,13 @@ body, html {
   margin: 18px;
 }
 
+.threeColumnContainer {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+  grid-template-rows: auto;
+  margin: 18px;
+}
+
 .box {
   background-color: #ffffff;
   padding: 24px;
@@ -191,6 +198,14 @@ i {
 
 .fullHeight {
   height: 100%;
+}
+
+.smallFont {
+  font-size: 14px;
+}
+
+.lightFont {
+  font-weight: 200;
 }
 
 

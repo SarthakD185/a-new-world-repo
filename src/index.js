@@ -13,6 +13,8 @@ import CollegePage from './components/college/CollegePage';
 import IndividualCollegePage from './components/college/IndividualCollegePage';
 import ProfilePage from './components/ProfilePage';
 import ScrollToTop from './components/ScrollToTop';
+import TournamentPage from './components/tournament/TournamentPage';
+import IndividualTournamentPage from './components/tournament/IndividualTournamentPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -32,6 +34,8 @@ root.render(
         <Route path="/colleges" element={<CollegePage />} />
         <Route path="/individualCollege" element={<IndividualCollegePage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/tournament" element={<TournamentPage />} />
+        <Route path="/individualTournament" element={<IndividualTournamentPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -60,6 +60,7 @@
     height: auto;
 }
 
+/*
 #individualCollegeAnnouncements {
     grid-column-start: 3;
     grid-column-end: 4;
@@ -68,6 +69,7 @@
     height: 800px;
     overflow: scroll;
 }
+*/
 
 .paddingTop {
     padding-top: 24px;

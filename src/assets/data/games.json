@@ -1,0 +1,110 @@
+[
+    {
+        "id": 1,
+        "collegeID": 1,
+        "team1": "Debug Frogs",
+        "team2": "Bored Gamers",
+        "location": "Wallace 1545",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 2,
+        "collegeID": 1,
+        "team1": "New Worlders",
+        "team2": "The Explorers",
+        "location": "Wallace 3470",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 3,
+        "collegeID": 2,
+        "team1": "Dice Rollers",
+        "team2": "The Crew",
+        "location": "Room 120",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 4,
+        "collegeID": 3,
+        "team1": "The Terrible Teammates",
+        "team2": "Scaredy Cats",
+        "location": "Room 236",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 5,
+        "collegeID": 4,
+        "team1": "Bubble Bursters",
+        "team2": "GOATs",
+        "location": "Room 114",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 6,
+        "collegeID": 5,
+        "team1": "Troublemakers",
+        "team2": "Team Name",
+        "location": "Room 146",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 7,
+        "collegeID": 5,
+        "team1": "Here To Win",
+        "team2": "No Sleep",
+        "location": "Room 148",
+        "startTime": "11:00am",
+        "status": "active"
+    },
+    {
+        "id": 8,
+        "collegeID": 1,
+        "team1": "The Pros",
+        "team2": null,
+        "location": "Wallace 1545",
+        "startTime": "1:00pm",
+        "status": "waiting"
+    },
+    {
+        "id": 9,
+        "collegeID": 1,
+        "team1": null,
+        "team2": null,
+        "location": "Wallace 1545",
+        "startTime": "3:00pm",
+        "status": "waiting"
+    },
+    {
+        "id": 10,
+        "collegeID": 2,
+        "team1": "The Seven Amigos",
+        "team2": null,
+        "location": "Room 120",
+        "startTime": "1:00pm",
+        "status": "waiting"
+    },
+    {
+        "id": 11,
+        "collegeID": 3,
+        "team1": "Bagel Buddies",
+        "team2": null,
+        "location": "Room 236",
+        "startTime": "1:00pm",
+        "status": "waiting"
+    },
+    {
+        "id": 12,
+        "collegeID": 5,
+        "team1": null,
+        "team2": null,
+        "location": "Room 146",
+        "startTime": "1:00pm",
+        "status": "waiting"
+    }
+]
