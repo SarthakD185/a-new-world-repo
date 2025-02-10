@@ -10,13 +10,17 @@ function CurrentGameList(props) {
 
     const filteredGames = games.filter((el) => {
 
-        if((el.collegeID == props.collegeID) && (el.status == "active")) {
+        if((el.collegeID === props.collegeID) && (el.status === "active")) {
 
             return el;
 
         }
 
     })
+
+    const formatOptions = {
+        timeStyle: "short"
+    };
 
     if(filteredGames.length === 0){
 
@@ -43,7 +47,7 @@ function CurrentGameList(props) {
                                     </div>
 
                                     <div>
-                                        <p class='smallFont lightFont'>Start Time: {game.startTime}</p>
+                                        <p class='smallFont lightFont'>Start Time: {Intl.DateTimeFormat('en-US', formatOptions).format(new Date(game.startTime))}</p>
                                     </div>
                                 </div>
                                 <HR />

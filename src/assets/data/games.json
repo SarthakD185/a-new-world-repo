@@ -5,7 +5,7 @@
         "team1": "Debug Frogs",
         "team2": "Bored Gamers",
         "location": "Wallace 1545",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -14,7 +14,7 @@
         "team1": "New Worlders",
         "team2": "The Explorers",
         "location": "Wallace 3470",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -23,7 +23,7 @@
         "team1": "Dice Rollers",
         "team2": "The Crew",
         "location": "Room 120",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -32,7 +32,7 @@
         "team1": "The Terrible Teammates",
         "team2": "Scaredy Cats",
         "location": "Room 236",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -41,7 +41,7 @@
         "team1": "Bubble Bursters",
         "team2": "GOATs",
         "location": "Room 114",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -50,7 +50,7 @@
         "team1": "Troublemakers",
         "team2": "Team Name",
         "location": "Room 146",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -59,7 +59,7 @@
         "team1": "Here To Win",
         "team2": "No Sleep",
         "location": "Room 148",
-        "startTime": "11:00am",
+        "startTime": "2025-05-17T15:00:00.000Z",
         "status": "active"
     },
     {
@@ -68,7 +68,7 @@
         "team1": "The Pros",
         "team2": null,
         "location": "Wallace 1545",
-        "startTime": "1:00pm",
+        "startTime": "2025-05-17T17:00:00.000Z",
         "status": "waiting"
     },
     {
@@ -77,7 +77,7 @@
         "team1": null,
         "team2": null,
         "location": "Wallace 1545",
-        "startTime": "3:00pm",
+        "startTime": "2025-05-17T19:00:00.000Z",
         "status": "waiting"
     },
     {
@@ -86,7 +86,7 @@
         "team1": "The Seven Amigos",
         "team2": null,
         "location": "Room 120",
-        "startTime": "1:00pm",
+        "startTime": "2025-05-17T17:00:00.000Z",
         "status": "waiting"
     },
     {
@@ -95,7 +95,7 @@
         "team1": "Bagel Buddies",
         "team2": null,
         "location": "Room 236",
-        "startTime": "1:00pm",
+        "startTime": "2025-05-17T17:00:00.000Z",
         "status": "waiting"
     },
     {
@@ -104,7 +104,7 @@
         "team1": null,
         "team2": null,
         "location": "Room 146",
-        "startTime": "1:00pm",
+        "startTime": "2025-05-17T17:00:00.000Z",
         "status": "waiting"
     }
 ]

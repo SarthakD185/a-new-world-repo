@@ -30,3 +30,11 @@
     grid-row-end: 3;
     height: 200px;
 }
+
+.largeButton {
+    padding: 16px 36px;
+    border-radius: 48px;
+    margin: 18px 0px 18px 0px;
+    font-size: 16px;
+    font-weight: 500;
+}
