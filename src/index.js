@@ -15,6 +15,7 @@ import ProfilePage from './components/ProfilePage';
 import ScrollToTop from './components/ScrollToTop';
 import TournamentPage from './components/tournament/TournamentPage';
 import IndividualTournamentPage from './components/tournament/IndividualTournamentPage';
+import TeamPage from './components/TeamPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -36,6 +37,7 @@ root.render(
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/tournament" element={<TournamentPage />} />
         <Route path="/individualTournament" element={<IndividualTournamentPage />} />
+        <Route path="/team" element={<TeamPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

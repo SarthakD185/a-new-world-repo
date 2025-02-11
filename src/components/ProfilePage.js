@@ -64,6 +64,7 @@ function ProfilePage() {
                         <div>
                             <p>Team Name:</p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
+                            <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button>
                         </div>
 
                         <div>
