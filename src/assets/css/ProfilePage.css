@@ -1,6 +1,6 @@
 .pageGrid {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: 1.5fr 1.5fr 1fr;
     grid-template-rows: auto;
     margin: 18px;
 }
@@ -17,6 +17,11 @@
     justify-content: space-evenly;
 
     min-height: 150px;
+
+    /* button font is bigger */
+    button {
+        font-size: 1.2rem;
+    }
 }
 
 #accountInformation {
@@ -70,6 +75,12 @@
     overflow: scroll;
 }
 */
+
+.upcomingEvent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 
 .paddingTop {
     padding-top: 24px;
