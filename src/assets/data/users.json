@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "name": "Emma",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 2,
+        "name": "Alison", 
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 3,
+        "name": "Caleb",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 4,
+        "name": "Tristan",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 5,
+        "name": "Sarthak",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 6,
+        "name": "Gavin",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 2
+    },
+    {
+        "id": 7,
+        "name": "Gabe",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 2
+    },
+    {
+        "id": 8,
+        "name": "John",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 2
+    },
+    {
+        "id": 9,
+        "name": "Jane",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 2
+    }
+]

@@ -1,0 +1,134 @@
+.pageGrid {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr;
+    grid-template-rows: auto;
+    margin: 18px;
+}
+
+#teamActionButtons{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+    min-height: 150px;
+
+    /* button font is bigger */
+    button {
+        font-size: 1.2rem;
+    }
+}
+
+#accountInformation {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: auto;
+}
+
+#registrationInformation {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: auto;
+}
+
+#teamEvents {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: auto;
+}
+
+#bioInformation {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+    height: auto;
+}
+
+#upcomingEvents {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 6;
+    height: auto;
+    overflow: scroll;
+}
+
+#teamGallery {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 6;
+    height: auto;
+}
+
+/*
+#individualCollegeAnnouncements {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    height: 800px;
+    overflow: scroll;
+}
+*/
+
+.upcomingEvent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.verticalFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+.fixedWidthBox {
+    width: 150px;
+    text-align: center;
+    img {
+        margin: 10px;
+    }
+}
+
+
+
+.paddingTop {
+    padding-top: 24px;
+}
+
+.shortBio {
+    overflow: hidden;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.smallBottomMargin {
+    margin: 0px 0px 8px 0px;
+}
+
+.stickyHeader {
+    position: sticky;
+    max-height: 56px;
+}
+
+
