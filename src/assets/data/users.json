@@ -3,63 +3,64 @@
         "id": 1,
         "name": "Emma",
         "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+        "teamRole": "Expedition Leader", 
         "profileImage": "teamLogo.jpg",
         "collegeID": 1
     },
     {
         "id": 2,
-        "name": "Alison", 
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
+        "name": "Alison",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Resource Specialist",
+        "profileImage": "teamLogo.jpg", 
         "collegeID": 1
     },
     {
         "id": 3,
-        "name": "Caleb",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
+        "name": "Tristan",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
         "collegeID": 1
     },
     {
         "id": 4,
-        "name": "Tristan",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
+        "name": "Caleb",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Weapons Specialist",
+        "profileImage": "teamLogo.jpg", 
         "collegeID": 1
     },
     {
         "id": 5,
-        "name": "Sarthak",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
-        "collegeID": 1
+        "name": "Gabe",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Scientist",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 2
     },
     {
         "id": 6,
-        "name": "Gavin",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
-        "collegeID": 2
+        "name": "Sarthak",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Chronicler",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
     },
     {
         "id": 7,
-        "name": "Gabe",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
-        "collegeID": 2
+        "name": "Gavin",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
     },
     {
         "id": 8,
-        "name": "John",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
-        "collegeID": 2
-    },
-    {
-        "id": 9,
         "name": "Jane",
-        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "profileImage": "teamLogo.jpg",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
         "collegeID": 2
     }
 ]

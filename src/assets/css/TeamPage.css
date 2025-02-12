@@ -24,19 +24,27 @@
     }
 }
 
+#teamProfilePicture {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: auto;
+}
+
 #accountInformation {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
 #registrationInformation {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
@@ -46,30 +54,39 @@
     grid-row-start: 2;
     grid-row-end: 3;
     height: auto;
+
+    /* hide imgs */
+    img {
+        display: none;
+    }
 }
+
+/* add override for the upcomingeventscomponents */
+
 
 #bioInformation {
     grid-column-start: 3;
     grid-column-end: 4;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
 #upcomingEvents {
     grid-column-start: 1;
     grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 6;
+    grid-row-start: 2;
+    grid-row-end: 5;
     height: auto;
     overflow: scroll;
+
 }
 
 #teamGallery {
     grid-column-start: 3;
     grid-column-end: 4;
-    grid-row-start: 4;
-    grid-row-end: 6;
+    grid-row-start: 3;
+    grid-row-end: 5;
     height: auto;
 }
 
@@ -95,16 +112,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
+    gap: 5px;
     align-items: center;
     text-align: center;
 }
 
 .fixedWidthBox {
-    width: 150px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 300px;
     text-align: center;
     img {
-        margin: 10px;
+        margin: 5px;
     }
 }
 
