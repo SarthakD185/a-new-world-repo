@@ -109,7 +109,7 @@ function TeamPage() {
                 
 
                 {/* teams profile picture */}
-                <div class='box' id='teamProfilePicture'>
+                <div class='box' id='Team'>
                     <img src={teamData[teamID].image} class='smallLogo'></img>
                 </div>
 
