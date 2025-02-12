@@ -22,7 +22,7 @@ export default function SignUp() {
     // Fetch colleges from backend API
     const fetchColleges = async () => {
       try {
-        const response = await fetch('https://your-api-endpoint.com/colleges');
+        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod');
         if (!response.ok) throw new Error('Failed to fetch colleges');
         
         const data = await response.json();
