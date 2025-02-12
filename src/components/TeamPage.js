@@ -145,6 +145,7 @@ function TeamPage() {
                 </div>
 
                 <div class='box' id='teamEvents'>
+                    <h2>Next Event</h2>
                     <UpcomingEventComponent 
                             eventTitle="Opening Ceremonies"
                             team1Number={teamData[teamID].name}

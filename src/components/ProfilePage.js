@@ -64,13 +64,14 @@ function ProfilePage() {
                         <div>
                             <p>Team Name:</p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
-                            <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button>
                         </div>
 
                         <div>
                             <p>Registration Status</p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
                         </div>
+
+                        <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button>
                         
                     </div>
                 </div>
@@ -120,7 +121,7 @@ function ProfilePage() {
                     </div>
                 </div>
 
-                <div class='box' id='teamGallery'>
+                <div class='box' id='teamGalleryOnProfile'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>
