@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
@@ -116,12 +115,14 @@ export default function SignUp(props) {
       try {
         const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
         const result = await response.json();
-            console.log('API response:', result);  
-                if (Array.isArray(result)) {
-                    setColleges(result);
-                } else {
-                    console.error('Data is not an array:', result);
-                }
+        console.log('API response:', result);
+
+        // Check if the result is an array and handle accordingly
+        if (Array.isArray(result)) {
+          setColleges(result);
+        } else {
+          console.error('Data is not an array:', result);
+        }
       } catch (error) {
         console.error('Failed to fetch colleges:', error);
       }
@@ -206,8 +207,8 @@ export default function SignUp(props) {
                   helperText={nameErrorMessage}
                   color={nameError ? 'error' : 'primary'}
                 />
-                </FormControl>
-              </Stack>
+              </FormControl>
+            </Stack>
 
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
@@ -247,7 +248,6 @@ export default function SignUp(props) {
                   required
                   fullWidth
                   name="password"
-                  placeholder="••••••"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -257,16 +257,14 @@ export default function SignUp(props) {
                   color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
-
               <FormControl sx={{ flex: 1 }}>
-                <FormLabel htmlFor="confirm_password">Confirm Password</FormLabel>
+                <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
                 <TextField
                   required
                   fullWidth
-                  name="confirm_password"
-                  placeholder="••••••"
+                  name="confirmPassword"
                   type="password"
-                  id="confirm_password"
+                  id="confirmPassword"
                   autoComplete="new-password"
                   variant="outlined"
                   error={passwordError}
@@ -276,34 +274,32 @@ export default function SignUp(props) {
               </FormControl>
             </Stack>
 
-            {/* College Dropdown */}
             <FormControl fullWidth>
-              <InputLabel id="college-label">Select your College</InputLabel>
+              <InputLabel id="college-label">College</InputLabel>
               <Select
                 labelId="college-label"
                 id="college"
                 value={selectedCollege}
+                label="College"
                 onChange={handleCollegeChange}
-                label="Select your College"
-                required
               >
-                {colleges.length === 0 ? (
-                  <MenuItem value="">
-                    <em>Loading...</em>
-                  </MenuItem>
-                ) : (
+                {colleges.length ? (
                   colleges.map((college) => (
-                    <MenuItem key={college.CollegeID} value={college.COLLEGE_NAME}>
-                      {college.COLLEGE_NAME}
+                    <MenuItem key={college.id} value={college.id}>
+                      {college.name}
                     </MenuItem>
                   ))
+                ) : (
+                  <MenuItem disabled>No colleges available</MenuItem>
                 )}
               </Select>
             </FormControl>
 
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
-              Sign Up
-            </Button>
+            <Box sx={{ mt: 2 }}>
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                Sign Up
+              </Button>
+            </Box>
           </Box>
         </Card>
       </SignUpContainer>
