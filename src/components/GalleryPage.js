@@ -10,6 +10,7 @@ import * as React from 'react';
 import GalleryGrid from './gallery/GalleryGrid.jsx';
 import logo from '../assets/images/AardvarkLogoClearHorizontal.png';
 import FileUploader from './gallery/FileUploader.jsx';
+import Filter from './gallery/Filter.jsx';
 import '../App.css';
 
 function GalleryPage() {
@@ -21,14 +22,19 @@ function GalleryPage() {
             </p>
 
             <div>
-                
                 <FileUploader />
             </div>
 
-
             <div>
-                <GalleryGrid />
+                {/* tester until the one inside the gallery grid is working */}
+                {/* <div className='box'>
+                    <Filter />
+                </div> */}
+                <div>
+                    <GalleryGrid />
+                </div>
             </div>
+
         </div>
     );
 }
