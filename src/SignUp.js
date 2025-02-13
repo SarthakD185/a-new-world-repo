@@ -282,15 +282,18 @@ export default function SignUp(props) {
                 value={selectedCollege}
                 label="College"
                 onChange={handleCollegeChange}
+                required
               >
-                {colleges.length ? (
-                  colleges.map((college) => (
-                    <MenuItem key={college.id} value={college.id}>
-                      {college.name}
+                {colleges.length === 0 ? (
+                  <MenuItem value="">
+                    <em>Loading...</em>
+                  </MenuItem>
+                ) : (
+                  colleges.map((college, index) => (
+                    <MenuItem key={index} value={college}>
+                      {college}
                     </MenuItem>
                   ))
-                ) : (
-                  <MenuItem disabled>No colleges available</MenuItem>
                 )}
               </Select>
             </FormControl>
