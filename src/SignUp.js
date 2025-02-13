@@ -67,19 +67,19 @@ export default function SignUp(props) {
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
   const [selectedRole, setSelectedRole] = React.useState('');
-  const [collegeNames, setCollegeNames] = React.useState([]);
-
+  const [colleges, setColleges] = React.useState([]);
+  
   React.useEffect(() => {
+    // Fetch colleges from the API and populate the dropdown
     const fetchColleges = async () => {
       try {
-        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod');
+        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
         const data = await response.json();
-        setCollegeNames(data.colleges || []);
+        setColleges(data);
       } catch (error) {
-        console.error('Failed to fetch colleges:', error);
+        console.error('Error fetching colleges:', error);
       }
     };
-
     fetchColleges();
   }, []);
 
@@ -262,6 +262,9 @@ export default function SignUp(props) {
                   id="confirmPassword"
                   autoComplete="new-password"
                   variant="outlined"
+                  error={passwordError}
+                  helperText={passwordErrorMessage}
+                  color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
             </Stack>
@@ -276,11 +279,17 @@ export default function SignUp(props) {
                 label="College"
                 required
               >
-                {collegeNames.map((college, index) => (
-                  <MenuItem key={index} value={college}>
-                    {college}
+                {colleges.length === 0 ? (
+                  <MenuItem value="">
+                    <em>Loading...</em>
                   </MenuItem>
-                ))}
+                ) : (
+                  colleges.map((college) => (
+                    <MenuItem key={college.id} value={college.name}>
+                      {college.name}
+                    </MenuItem>
+                  ))
+                )}
               </Select>
             </FormControl>
 
