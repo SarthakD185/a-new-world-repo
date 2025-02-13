@@ -67,6 +67,21 @@ export default function SignUp(props) {
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
   const [selectedRole, setSelectedRole] = React.useState('');
+  const [collegeNames, setCollegeNames] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod');
+        const data = await response.json();
+        setCollegeNames(data.colleges || []);
+      } catch (error) {
+        console.error('Failed to fetch colleges:', error);
+      }
+    };
+
+    fetchColleges();
+  }, []);
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -247,9 +262,6 @@ export default function SignUp(props) {
                   id="confirmPassword"
                   autoComplete="new-password"
                   variant="outlined"
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
             </Stack>
@@ -261,15 +273,14 @@ export default function SignUp(props) {
                 id="role"
                 value={selectedRole}
                 onChange={handleRoleChange}
-                label="Role"
+                label="College"
                 required
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="option1">Option 1</MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
-                <MenuItem value="option3">Option 3</MenuItem>
+                {collegeNames.map((college, index) => (
+                  <MenuItem key={index} value={college}>
+                    {college}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
 
@@ -287,4 +298,3 @@ export default function SignUp(props) {
     </>
   );
 }
-
