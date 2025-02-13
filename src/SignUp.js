@@ -74,10 +74,19 @@ export default function SignUp(props) {
     const fetchColleges = async () => {
       try {
         const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch colleges');
+        }
+        
         const data = await response.json();
-        setColleges(data);
+        console.log('API Response:', data); // Log to check the structure of the response
+        
+        // Ensure colleges is an array
+        setColleges(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching colleges:', error);
+        setColleges([]); // Fallback to an empty array if there is an error
       }
     };
     fetchColleges();
