@@ -60,37 +60,14 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props) {
+  const [colleges, setColleges] = React.useState([]); // To store the college data
+  const [selectedCollege, setSelectedCollege] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
-  const [selectedRole, setSelectedRole] = React.useState('');
-  const [colleges, setColleges] = React.useState([]);
-  
-  React.useEffect(() => {
-    // Fetch colleges from the API and populate the dropdown
-    const fetchColleges = async () => {
-      try {
-        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch colleges');
-        }
-        
-        const data = await response.json();
-        console.log('API Response:', data); // Log to check the structure of the response
-        
-        // Ensure colleges is an array
-        setColleges(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error('Error fetching colleges:', error);
-        setColleges([]); // Fallback to an empty array if there is an error
-      }
-    };
-    fetchColleges();
-  }, []);
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -129,9 +106,29 @@ export default function SignUp(props) {
     return isValid;
   };
 
-  const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
+  const handleCollegeChange = (event) => {
+    setSelectedCollege(event.target.value);
   };
+
+  // Fetch colleges on component mount
+  React.useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setColleges(data); // assuming the data is an array of college objects
+        } else {
+          console.error('Data is not an array');
+        }
+      } catch (error) {
+        console.error('Failed to fetch colleges:', error);
+      }
+    };
+
+    fetchColleges();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -149,7 +146,7 @@ export default function SignUp(props) {
       password: data.get('password'),
       username: data.get('username'),
       confirm_password: data.get('password'),
-      college: selectedRole,
+      college: selectedCollege, // include the selected college here
     };
 
     try {
@@ -209,8 +206,8 @@ export default function SignUp(props) {
                   helperText={nameErrorMessage}
                   color={nameError ? 'error' : 'primary'}
                 />
-              </FormControl>
-            </Stack>
+                </FormControl>
+              </Stack>
 
             <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
@@ -260,15 +257,16 @@ export default function SignUp(props) {
                   color={passwordError ? 'error' : 'primary'}
                 />
               </FormControl>
+
               <FormControl sx={{ flex: 1 }}>
-                <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+                <FormLabel htmlFor="confirm_password">Confirm Password</FormLabel>
                 <TextField
                   required
                   fullWidth
-                  name="confirmPassword"
+                  name="confirm_password"
                   placeholder="••••••"
                   type="password"
-                  id="confirmPassword"
+                  id="confirm_password"
                   autoComplete="new-password"
                   variant="outlined"
                   error={passwordError}
@@ -278,14 +276,15 @@ export default function SignUp(props) {
               </FormControl>
             </Stack>
 
+            {/* College Dropdown */}
             <FormControl fullWidth>
-              <InputLabel id="role-label">Select your college</InputLabel>
+              <InputLabel id="college-label">Select your College</InputLabel>
               <Select
-                labelId="role-label"
-                id="role"
-                value={selectedRole}
-                onChange={handleRoleChange}
-                label="College"
+                labelId="college-label"
+                id="college"
+                value={selectedCollege}
+                onChange={handleCollegeChange}
+                label="Select your College"
                 required
               >
                 {colleges.length === 0 ? (
@@ -294,20 +293,15 @@ export default function SignUp(props) {
                   </MenuItem>
                 ) : (
                   colleges.map((college) => (
-                    <MenuItem key={college.id} value={college.name}>
-                      {college.name}
+                    <MenuItem key={college.CollegeID} value={college.COLLEGE_NAME}>
+                      {college.COLLEGE_NAME}
                     </MenuItem>
                   ))
                 )}
               </Select>
             </FormControl>
 
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="By signing up, you agree to the Terms and Privacy Policy."
-            />
-
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
               Sign Up
             </Button>
           </Box>
