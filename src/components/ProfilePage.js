@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import TeamList from './college/TeamList';
 import AnnouncementsList from './college/AnnouncementsList';
 import GalleryList from './college/GalleryList';
-
+import UpcomingEventComponent from './profile/upcomingEventComponent';
 function ProfilePage() {
 
     const location = useLocation();
@@ -46,20 +46,19 @@ function ProfilePage() {
 
                 <div class='box' id='accountInformation'>
                     <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Account Information</h2>
+                        <h2>Account Information</h2>
                     </div>
                     <div>
-                        <p>College Affiliation:</p>
-                        <p>Username:</p>
-                        <p>Full Name:</p>
-                        <p>Email Address</p>
-                        
+                        <p>College Affiliation: {data.collegeAffiliation || "University of Nebraska Lincoln"}</p>
+                        <p>Username: {data.username || "user_name2024"}</p>
+                        <p>Full Name: {data.fullName || "Jane Smith"}</p>
+                        <p>Email Address: {data.email || "jsmith@unl.edu"}</p>
                     </div>
                 </div>
 
                 <div class='box' id='registrationInformation'>
                     <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Registration Information</h2>
+                        <h2>Registration Information</h2>
                     </div>
                     <div class='horizontalFlex spaceBetween'>
                         <div>
@@ -71,34 +70,50 @@ function ProfilePage() {
                             <p>Registration Status</p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
                         </div>
+
+                        <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button>
                         
                     </div>
                 </div>
 
                 <div class='box' id='upcomingEvents'>
                     <h2>Upcoming Events</h2>
-
-                    <h3>Opening Ceremony</h3>
-                    <p>Room: Auditorium A</p>
-                    <hr></hr>
-                    <h4>Match 1: Round of 32</h4>
-                    <p>YOUR TEAM Team 1[image] vs Team 2[image]</p>
-                    <p>Room: 123-A</p>
-                    <hr></hr>
-                    <h4>Game 2</h4>
-                    <p>Team 3[image] vs YOUR TEAM Team 1[image]</p>
-                    <p>Room: 456-B</p>
-                    <hr></hr>
-                    <h4>Game 3</h4>
-                    <p>YOUR TEAM Team 1[image] vs Team 4[image]</p>
-                    <p>Room: 2345-C</p>
-                    <hr></hr>
+                    
+                    <UpcomingEventComponent 
+                        eventTitle="Opening Ceremonies"
+                        team1Number="1"
+                        team2Number="2"
+                        location="123-A"
+                        team1Logo="https://placehold.co/100"
+                        team2Logo="https://placehold.co/100"
+                        isYourTeam1={true}
+                    />
+                    
+                    <UpcomingEventComponent 
+                        eventTitle="Match 1: Round of 32"
+                        team1Number="3"
+                        team2Number="1"
+                        location="456-B"
+                        team1Logo="https://placehold.co/100"
+                        team2Logo="https://placehold.co/100"
+                        isYourTeam1={false}
+                    />
+                    
+                    <UpcomingEventComponent 
+                        eventTitle="Match 2: Round of 16"
+                        team1Number="1"
+                        team2Number="4"
+                        location="2345-C"
+                        team1Logo="https://placehold.co/100"
+                        team2Logo="https://placehold.co/100"
+                        isYourTeam1={true}
+                    />
                 </div>
 
 
                 <div class='box' id='bioInformation'>
                     <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Your Bio</h2>
+                        <h2>Your Bio</h2>
                     </div>
                     <div>
                         <p>loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -106,7 +121,7 @@ function ProfilePage() {
                     </div>
                 </div>
 
-                <div class='box' id='teamGallery'>
+                <div class='box' id='teamGalleryOnProfile'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>

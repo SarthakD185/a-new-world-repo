@@ -24,43 +24,68 @@
     }
 }
 
+#teamProfilePicture {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: auto;
+}
+
 #accountInformation {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
 #registrationInformation {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
-#bioInformation {
+#teamEvents {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
+    height: auto;
+
+    /* hide imgs */
+    img {
+        display: none;
+    }
+}
+
+/* add override for the upcomingeventscomponents */
+
+
+#bioInformation {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6;
     height: auto;
 }
 
 #upcomingEvents {
     grid-column-start: 1;
     grid-column-end: 3;
-    grid-row-start: 3;
-    grid-row-end: 4;
+    grid-row-start: 2;
+    grid-row-end: 5;
     height: auto;
     overflow: scroll;
+
 }
 
-#teamGalleryOnProfile {
+#teamGallery {
     grid-column-start: 3;
     grid-column-end: 4;
-    grid-row-start: 2;
+    grid-row-start: 3;
     grid-row-end: 5;
     height: auto;
 }
@@ -81,6 +106,29 @@
     flex-direction: row;
     justify-content: space-between;
 }
+
+
+.verticalFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: center;
+    text-align: center;
+}
+
+.fixedWidthBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 300px;
+    text-align: center;
+    img {
+        margin: 5px;
+    }
+}
+
+
 
 .paddingTop {
     padding-top: 24px;
@@ -103,47 +151,4 @@
     max-height: 56px;
 }
 
-#postDate {
-    margin: 0px;
-    padding: 0px;
-    font-size: small;
-    font-weight: 200;
-}
 
-/* Swiper */
-.swiper {
-    width: 100%;
-    height: 100%;
-}
-  
-.swiper-slide {
-    text-align: center;
-    font-size: 18px;
-  
-    /* Center slide text vertically */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-  
-.swiper-slide img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.swiperDiv {
-    text-align: center;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: sticky;
-    color: white;
-    width: 100%;
-    height: 12em;
-}
-
-.swiper {
-    height: 272px;
-}

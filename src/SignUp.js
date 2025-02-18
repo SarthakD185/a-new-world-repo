@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
@@ -60,13 +59,14 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignUp(props) {
+  const [colleges, setColleges] = React.useState([]); // To store the college data
+  const [selectedCollege, setSelectedCollege] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
-  const [selectedRole, setSelectedRole] = React.useState('');
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -105,9 +105,31 @@ export default function SignUp(props) {
     return isValid;
   };
 
-  const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
+  const handleCollegeChange = (event) => {
+    setSelectedCollege(event.target.value);
   };
+
+  // Fetch colleges on component mount
+  React.useEffect(() => {
+    const fetchColleges = async () => {
+      try {
+        const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod/colleges');
+        const result = await response.json();
+        console.log('API response:', result);
+
+        // Check if the result is an array and handle accordingly
+        if (Array.isArray(result)) {
+          setColleges(result);
+        } else {
+          console.error('Data is not an array:', result);
+        }
+      } catch (error) {
+        console.error('Failed to fetch colleges:', error);
+      }
+    };
+
+    fetchColleges();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -125,7 +147,7 @@ export default function SignUp(props) {
       password: data.get('password'),
       username: data.get('username'),
       confirm_password: data.get('password'),
-      college: selectedRole,
+      college: selectedCollege, // include the selected college here
     };
 
     try {
@@ -226,7 +248,6 @@ export default function SignUp(props) {
                   required
                   fullWidth
                   name="password"
-                  placeholder="••••••"
                   type="password"
                   id="password"
                   autoComplete="new-password"
@@ -237,12 +258,11 @@ export default function SignUp(props) {
                 />
               </FormControl>
               <FormControl sx={{ flex: 1 }}>
-                <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
+                <FormLabel htmlFor="confirmPassword">Confirm password</FormLabel>
                 <TextField
                   required
                   fullWidth
                   name="confirmPassword"
-                  placeholder="••••••"
                   type="password"
                   id="confirmPassword"
                   autoComplete="new-password"
@@ -255,32 +275,34 @@ export default function SignUp(props) {
             </Stack>
 
             <FormControl fullWidth>
-              <InputLabel id="role-label">Select your college</InputLabel>
+              <InputLabel id="college-label">College</InputLabel>
               <Select
-                labelId="role-label"
-                id="role"
-                value={selectedRole}
-                onChange={handleRoleChange}
-                label="Role"
+                labelId="college-label"
+                id="college"
+                value={selectedCollege}
+                label="College"
+                onChange={handleCollegeChange}
                 required
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value="option1">Option 1</MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
-                <MenuItem value="option3">Option 3</MenuItem>
+                {colleges.length === 0 ? (
+                  <MenuItem value="">
+                    <em>Loading...</em>
+                  </MenuItem>
+                ) : (
+                  colleges.map((college, index) => (
+                    <MenuItem key={index} value={college}>
+                      {college}
+                    </MenuItem>
+                  ))
+                )}
               </Select>
             </FormControl>
 
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="By signing up, you agree to the Terms and Privacy Policy."
-            />
-
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-              Sign Up
-            </Button>
+            <Box sx={{ mt: 2 }}>
+              <Button type="submit" variant="contained" color="primary" fullWidth>
+                Sign Up
+              </Button>
+            </Box>
           </Box>
         </Card>
       </SignUpContainer>

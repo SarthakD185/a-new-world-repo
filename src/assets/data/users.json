@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "name": "Alison",
+        "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit.",
+        "teamRole": "Expedition Leader", 
+        "profileImage": "teamLogo.jpg",
+        "collegeID": 1
+    },
+    {
+        "id": 2,
+        "name": "Emmma",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Resource Specialist",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
+    },
+    {
+        "id": 3,
+        "name": "Tristan",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
+    },
+    {
+        "id": 4,
+        "name": "Caleb",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Weapons Specialist",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
+    },
+    {
+        "id": 5,
+        "name": "Gabe",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Scientist",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 2
+    },
+    {
+        "id": 6,
+        "name": "Sarthak",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Chronicler",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
+    },
+    {
+        "id": 7,
+        "name": "Gavin",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 1
+    },
+    {
+        "id": 8,
+        "name": "Jane",
+        "userBio": "Passionate about outdoor adventures and team building.",
+        "teamRole": "Technician",
+        "profileImage": "teamLogo.jpg", 
+        "collegeID": 2
+    }
+]
