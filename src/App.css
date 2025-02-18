@@ -102,12 +102,50 @@ body, html {
   background-color: #7fb493;
   text-align: center;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius: 48px;
   width: initial;
 }
 
+.secondaryButton {
+  border-style: solid;
+  border-color: #13505B;
+  border-radius: 48px;
+  background-color: #ffffff;
+  display: inline-block;
+  outline: 0;
+  padding: 10px 25px;
+  color: #13505B;
+  text-align: center;
+  cursor: pointer;
+  width: initial;
+  border-width: thin;
+}
+
+.redButton {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #F47A60;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 48px;
+  width: initial;
+}
+
+.redButton:hover {
+  background-color: #13505B;
+  color: white;
+}
+
+.secondaryButton:hover {
+  background-color: #13505B;
+  color: white;
+}
+
 .standardButton:hover {
-  background-color: #13505b;
+  background-color: #13505B;
   color: white;
 }
 
@@ -198,6 +236,10 @@ i {
 
 .fullHeight {
   height: 100%;
+}
+
+.fullWidth {
+  width: 100%;
 }
 
 .smallFont {

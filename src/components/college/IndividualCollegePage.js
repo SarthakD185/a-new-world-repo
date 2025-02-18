@@ -8,6 +8,8 @@ import TeamList from './TeamList';
 import AnnouncementsList from './AnnouncementsList';
 import GalleryList from './GalleryList';
 import { useNavigate } from 'react-router-dom';
+import { FaPlusCircle } from 'react-icons/fa';
+import Popup from 'reactjs-popup';
 
 function IndividualCollegePage() {
 
@@ -59,7 +61,49 @@ function IndividualCollegePage() {
 
                 <div class='box' id='individualCollegeRegisteredTeams'>
                     <div class='horizontalFlex spaceBetween stickyHeader'>
-                        <h2 class='noPadding noMargin'>Registered Teams</h2>
+                        <div class='horizontalFlex'>
+                            <h2 class='noPadding noMargin'>Registered Teams</h2>
+
+                            <div class='centerButton' style={{marginLeft: '24px'}}>
+                                <Popup trigger=
+                                    {<button class='standardButton'>
+                                        <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
+                                            Create Team <FaPlusCircle size='14px' style={{paddingLeft: '6px'}}/>
+                                        </div>
+                                    </button>} 
+                                    modal nested>
+                                    {
+                                        close => (
+                                            <div className='modal popup'>
+                                                <div className='content'>
+
+                                                    <h1 class='center'>Create Team</h1>
+
+                                                    <form class='center'>
+                                                        <label for="teamName">Team Name: </label>
+                                                        <input type="text" id="teamName" name="teamName" style={{marginBottom: '24px'}}></input>
+
+                                                        <div class='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
+                                                            {/* TODO - add button action to create and save new team */}
+                                                            <button class='standardButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Save
+                                                            </button>
+
+                                                            <button class='redButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                </Popup>
+                            </div>
+                        </div>
 
                         {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
                         <div className="search">

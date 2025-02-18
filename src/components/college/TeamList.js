@@ -60,7 +60,7 @@ function TeamList(props) {
                             </div>
                             <div class='centerButton'>
                                 {/* TODO - add button action */}
-                                <button class='standardButton'>Join Team</button>
+                                <button class='secondaryButton' style={{width: '120px'}}>Join Team</button>
                             </div>
                         </div>
                         <HR />
