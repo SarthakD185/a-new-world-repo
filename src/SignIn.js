@@ -59,7 +59,7 @@ export default function SignIn() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token); // Store JWT token
-        navigate('/profile', { state: { user: data.user } });
+        navigate('/', { state: { user: data.user } });
       } else {
         setError(data.message || 'Invalid email or password.');
       }
