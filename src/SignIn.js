@@ -14,7 +14,8 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Auth } from 'aws-amplify'; // Import Auth from AWS Amplify
+import { Auth } from '@aws-amplify/auth';
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
