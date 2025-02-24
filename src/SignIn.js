@@ -14,6 +14,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Auth } from 'aws-amplify'; // Import Auth from AWS Amplify
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -49,22 +50,18 @@ export default function SignIn() {
     if (!validateInputs()) return;
 
     try {
-      const response = await fetch('https://gq7w3gp0p5.execute-api.us-east-1.amazonaws.com/prod', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      //authSignIn
+      const user = await Auth.signIn(email, password);
+      console.log('Login successful:', user);
 
-      const data = await response.json();
+      //token for session stored
+      localStorage.setItem('user', JSON.stringify(user)); //don't really need this
 
-      if (response.ok) {
-        localStorage.setItem('token', data.token); // Store JWT token
-        navigate('/', { state: { user: data.user } });
-      } else {
-        setError(data.message || 'Invalid email or password.');
-      }
+      //redirect
+      navigate('/', { state: { user: user } });
     } catch (err) {
-      setError('An error occurred during sign-in.');
+      console.error('Error signing in:', err);
+      setError(err.message || 'Invalid email or password.');
     }
   };
 
