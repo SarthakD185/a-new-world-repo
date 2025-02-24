@@ -14,8 +14,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import ForgotPassword from './components/ForgotPassword';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Auth } from '@aws-amplify/auth';
-
+import { signIn } from 'aws-amplify/auth';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -51,14 +50,11 @@ export default function SignIn() {
     if (!validateInputs()) return;
 
     try {
-      //authSignIn
-      const user = await Auth.signIn(email, password);
+      // Authenticate user
+      const user = await signIn({ username: email, password });
       console.log('Login successful:', user);
 
-      //token for session stored
-      localStorage.setItem('user', JSON.stringify(user)); //don't really need this
-
-      //redirect
+      // Redirect to homepage
       navigate('/', { state: { user: user } });
     } catch (err) {
       console.error('Error signing in:', err);
