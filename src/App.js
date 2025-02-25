@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import LandingPage from "./components/LandingPage"; // Import LandingPage
 import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import outputs from '@/amplify_outputs.json';  
@@ -19,9 +20,10 @@ function App() {
             <Authenticator>
               {({ signOut, user }) => (
                 user ? (
-                  <Navigate to="/dashboard" />
+                  // Redirect to LandingPage if user is authenticated
+                  <Navigate to="/landing" />
                 ) : (
-                  <SignIn />  //Custom SignIn comp
+                  <SignIn />  // Custom SignIn component if user is not authenticated
                 )
               )}
             </Authenticator>
@@ -29,17 +31,17 @@ function App() {
         />
         <Route path="/signup" element={<SignUp />} />
         <Route
-          path="/dashboard"
+          path="/landing" 
           element={
             <Authenticator>
               {({ signOut, user }) => (
                 user ? (
                   <div>
-                    <h1>Welcome, {user.username}!</h1>
+                    <LandingPage />
                     <button onClick={signOut}>Sign out</button>
                   </div>
                 ) : (
-                  <Navigate to="/" />
+                  <Navigate to="/" />  
                 )
               )}
             </Authenticator>

@@ -15,7 +15,6 @@ import { signIn } from '@aws-amplify/auth';
 import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports'; 
 
-
 Amplify.configure(awsExports);
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -55,7 +54,7 @@ export default function SignIn() {
     try {
       const user = await signIn({ username: email, password });
       console.log('Login successful:', user);
-      navigate('/dashboard'); 
+      navigate('/landing');  
     } catch (err) {
       console.error('Error signing in:', err);
       setError(err.message || 'Invalid email or password.');
