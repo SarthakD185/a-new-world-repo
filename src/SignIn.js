@@ -11,7 +11,8 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
+import { fetchAuthSession } from 'aws-amplify/auth'
+
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -48,7 +49,7 @@ export default function SignIn() {
     if (!validateInputs()) return;
 
     try {
-      const user = await Auth.signIn({ username: email, password });
+      const user = await fetchAuthSession({ username: email, password });
       console.log('Login successful:', user);
       navigate('/', { state: { user: user } });
     } catch (err) {
