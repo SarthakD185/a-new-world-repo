@@ -122,3 +122,43 @@ body {
 .widePopup {
   width: 80%;
 }
+
+/* Admin Landing Page */
+
+#adminUncompletedTasks {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 520px;
+  overflow: scroll;
+}
+
+#adminManageUsers {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 520px;
+  overflow: scroll;
+}
+
+/* Moderator Landing Page */
+
+#moderatorUncompletedTasks {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 520px;
+  overflow: scroll;
+}
+
+#moderatorManageUsers {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  height: 520px;
+  overflow: scroll;
+}
