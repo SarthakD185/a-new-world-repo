@@ -1,23 +1,23 @@
-import "./App.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { useAuth } from "react-oidc-context";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { Auth } from 'aws-amplify';  
 
 function App() {
-  const auth = useAuth();
+  const [user, setUser] = useState(null);
 
-  const signOutRedirect = () => {
-    const clientId = "5vbl0me462jlpafj7p2fjoktv7";
-    const logoutUri = "<logout uri>"; // Replace with your actual logout URI
-    const cognitoDomain = "https://us-east-1qpvhhpjbg.auth.us-east-1.amazoncognito.com";
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+  useEffect(() => {
+    //Check if user is authenticated on app load
+    Auth.currentAuthenticatedUser()
+      .then(setUser)
+      .catch(() => setUser(null));
+  }, []);
+
+  const signOut = async () => {
+    await Auth.signOut();
+    setUser(null);
   };
-
-  if (auth.isLoading) {
-    return <p>Loading...</p>;
-  }
 
   return (
     <Router>
@@ -25,12 +25,11 @@ function App() {
         <Route
           path="/"
           element={
-            auth.isAuthenticated ? (
+            user ? (
               <Navigate to="/dashboard" />
             ) : (
               <div>
                 <SignIn />
-                <button onClick={() => auth.signinRedirect()}>Sign in</button>
               </div>
             )
           }
@@ -39,11 +38,10 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            auth.isAuthenticated ? (
+            user ? (
               <div>
-                <h1>Welcome, {auth.user?.profile.email}!</h1>
-                <button onClick={() => auth.removeUser()}>Sign out</button>
-                <button onClick={signOutRedirect}>Sign out (Redirect)</button>
+                <h1>Welcome, {user.username}!</h1>
+                <button onClick={signOut}>Sign out</button>
               </div>
             ) : (
               <Navigate to="/" />
