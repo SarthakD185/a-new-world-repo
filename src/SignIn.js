@@ -11,7 +11,8 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { Auth } from 'aws-amplify'
+import * as Amplify from 'aws-amplify';
+const { Auth } = Amplify;
 
 
 const Card = styled(MuiCard)(({ theme }) => ({
