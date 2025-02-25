@@ -1,15 +1,15 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-anewworld-dev-ac0da-authRole",
-      "UnauthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-ac0da-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-ac0da-authRole",
+      "AuthRoleName": "amplify-anewworld-dev-8b86e-authRole",
+      "UnauthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-8b86e-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::820242905696:role/amplify-anewworld-dev-8b86e-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-anewworld-dev-ac0da-deployment",
-      "UnauthRoleName": "amplify-anewworld-dev-ac0da-unauthRole",
-      "StackName": "amplify-anewworld-dev-ac0da",
-      "StackId": "arn:aws:cloudformation:us-east-1:820242905696:stack/amplify-anewworld-dev-ac0da/8a0f1371-d828-11ef-b9e8-127cb1162fff",
-      "AmplifyAppId": "d1klxzvmxoh3ag"
+      "DeploymentBucketName": "amplify-anewworld-dev-8b86e-deployment",
+      "UnauthRoleName": "amplify-anewworld-dev-8b86e-unauthRole",
+      "StackName": "amplify-anewworld-dev-8b86e",
+      "StackId": "arn:aws:cloudformation:us-east-1:820242905696:stack/amplify-anewworld-dev-8b86e/2a1244d0-ddee-11ef-a99e-12cafb6e945b",
+      "AmplifyAppId": "d3159rux9329vg"
     },
     "categories": {
       "function": {
@@ -20,6 +20,15 @@
       },
       "api": {
         "connect": {}
+      },
+      "auth": {
+        "anewworldcdb9decc": {},
+        "anewworld": {
+          "nativeClientId": "5vbl0me462jlpafj7p2fjoktv7",
+          "userPoolId": "us-east-1_QPVHHPJbg",
+          "userPoolName": "User pool - t4r9f0",
+          "webClientId": "5vbl0me462jlpafj7p2fjoktv7"
+        }
       }
     }
   }

@@ -1,29 +1,46 @@
 {
-  "api": {
-    "connect": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn"
-          ],
-          "category": "function",
-          "resourceName": "anwUserConnect"
-        }
-      ],
-      "providerPlugin": "awscloudformation",
-      "service": "API Gateway"
-    }
-  },
-  "function": {
-    "anwUserConnect": {
-      "build": true,
+  "auth": {
+    "anewworld": {
+      "customAuth": false,
       "dependsOn": [],
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Cognito",
+      "serviceType": "imported"
     }
   },
   "parameters": {
+    "AMPLIFY_auth_anewworld_nativeClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "anewworld"
+        }
+      ]
+    },
+    "AMPLIFY_auth_anewworld_userPoolId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "anewworld"
+        }
+      ]
+    },
+    "AMPLIFY_auth_anewworld_userPoolName": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "anewworld"
+        }
+      ]
+    },
+    "AMPLIFY_auth_anewworld_webClientId": {
+      "usedBy": [
+        {
+          "category": "auth",
+          "resourceName": "anewworld"
+        }
+      ]
+    },
     "AMPLIFY_function_anwUserConnect_deploymentBucketName": {
       "usedBy": [
         {

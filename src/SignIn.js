@@ -5,18 +5,17 @@ import Checkbox from '@mui/material/Checkbox';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Divider from '@mui/material/Divider';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import ForgotPassword from './components/ForgotPassword';
-import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
-import Link from '@mui/material/Link'; // MUI Link
-import { Link as RouterLink, useNavigate } from 'react-router-dom'; // React Router Link
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { signIn } from '@aws-amplify/auth'; 
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports'; 
 
+Amplify.configure(awsExports);
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -26,135 +25,61 @@ const Card = styled(MuiCard)(({ theme }) => ({
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
+  [theme.breakpoints.up('sm')]: { maxWidth: '450px' },
   boxShadow:
     'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
 }));
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
   padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
-  },
-  '&::before': {
-    content: '""',
-    display: 'block',
-    position: 'absolute',
-    zIndex: -1,
-    inset: 0,
-    backgroundImage:
-      'radial-gradient(ellipse at 50% 50%, hsl(210, 100%, 97%), hsl(0, 0%, 100%))',
-    backgroundRepeat: 'no-repeat',
-    ...theme.applyStyles('dark', {
-      backgroundImage:
-        'radial-gradient(at 50% 50%, hsla(210, 100%, 16%, 0.5), hsl(220, 30%, 5%))',
-    }),
-  },
+  [theme.breakpoints.up('sm')]: { padding: theme.spacing(4) },
 }));
 
-export default function SignIn(props) {
+export default function SignIn() {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [error, setError] = React.useState('');
   const [emailError, setEmailError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [error, setError] = React.useState('');  // To display errors like invalid credentials
-  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
+    setError('');
 
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-
-    if (!validateInputs()) return;  // Check if inputs are valid before making the API call
+    if (!validateInputs()) return;
 
     try {
-      const response = await fetch('https://njy3t6rrh1.execute-api.us-east-1.amazonaws.com/production/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.status === 200) {
-        console.log('Login successful:', data);
-        
-      } else {
-        setError(data.message || 'Login failed'); // Update error state to show message
-      }
+      const user = await signIn({ username: email, password });
+      console.log('Login successful:', user);
+      navigate('/landing');  
     } catch (err) {
-      setError('An error occurred during sign-in.');
-      console.error('Error:', err);
+      console.error('Error signing in:', err);
+      setError(err.message || 'Invalid email or password.');
     }
   };
 
   const validateInputs = () => {
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
+    let valid = true;
+    const emailValid = /\S+@\S+\.\S+/.test(email);
+    const passwordValid = password.length >= 6;
 
-    let isValid = true;
+    setEmailError(!emailValid);
+    setPasswordError(!passwordValid);
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
-      setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
-      isValid = false;
-    } else {
-      setEmailError(false);
-      setEmailErrorMessage('');
-    }
-
-    if (!password.value || password.value.length < 6) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
-      isValid = false;
-    } else {
-      setPasswordError(false);
-      setPasswordErrorMessage('');
-    }
-
-    return isValid;
-  };
-
-  const handleBypass = () => {
-    //mock data
-    const mockData = {
-      id: "test-id",
-      name: "Test User Profile",
-      image: "AardvarkLogoClearHorizontal.png" 
-    };
-    navigate('/profile', { state: mockData });
+    if (!emailValid || !passwordValid) valid = false;
+    return valid;
   };
 
   return (
     <>
       <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
+      <SignInContainer direction="column" justifyContent="center">
         <Card variant="outlined">
-          A New World
-          <Typography
-            component="h1"
-            variant="h4"
-            sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
-          >
-            Sign in THIS IS A PLACEHOLDER
+          <Typography component="h1" variant="h4">
+            Sign in
           </Typography>
           <Box
             component="form"
@@ -167,85 +92,38 @@ export default function SignIn(props) {
               gap: 2,
             }}
           >
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <TextField
-                error={emailError}
-                helperText={emailErrorMessage}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="your@email.com"
-                autoComplete="email"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <TextField
-                error={passwordError}
-                helperText={passwordErrorMessage}
-                name="password"
-                placeholder="••••••"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                autoFocus
-                required
-                fullWidth
-                variant="outlined"
-                color={passwordError ? 'error' : 'primary'}
-              />
-            </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <ForgotPassword open={open} handleClose={handleClose} />
-            <Button
-              type="submit"
+            <TextField
+              label="Email"
+              error={emailError}
+              helperText={emailError ? 'Enter a valid email.' : ''}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               fullWidth
-              variant="contained"
-            >
+            />
+
+            <TextField
+              label="Password"
+              error={passwordError}
+              helperText={passwordError ? 'Password must be at least 6 characters.' : ''}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              fullWidth
+            />
+
+            <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
+            {error && <Typography color="error" variant="body2">{error}</Typography>}
+            <Button type="submit" fullWidth variant="contained">
               Sign in
             </Button>
-            {error && <Typography color="error" variant="body2">{error}</Typography>}
-            <Link
-              component="button"
-              type="button"
-              onClick={handleClickOpen}
-              variant="body2"
-              sx={{ alignSelf: 'center' }}
-            >
-              Forgot your password?
-            </Link>
           </Box>
           <Divider>or</Divider>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Typography sx={{ textAlign: 'center' }}>
-              Don&apos;t have an account?{' '}
-              <Link
-                component={RouterLink}
-                to="/SignUp"
-                variant="body2"
-                sx={{ alignSelf: 'center' }}
-              >
-                Sign up
-              </Link>
-            </Typography>
-            <Button
-              onClick={handleBypass}
-              variant="outlined"
-              size="small"
-              sx={{ alignSelf: 'center' }}
-            >
-              Bypass to Profile Page
-            </Button>
-          </Box>
+          <Typography sx={{ textAlign: 'center' }}>
+            Don't have an account? <RouterLink to="/SignUp">Sign up</RouterLink>
+          </Typography>
         </Card>
       </SignInContainer>
     </>
