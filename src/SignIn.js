@@ -51,7 +51,8 @@ export default function SignIn() {
     try {
       const user = await Auth.signIn({ username: email, password });
       console.log('Login successful:', user);
-      navigate('/', { state: { user: user } });
+      
+      navigate('/dashboard'); 
     } catch (err) {
       console.error('Error signing in:', err);
       setError(err.message || 'Invalid email or password.');

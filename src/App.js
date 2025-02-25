@@ -1,51 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-import { Auth } from 'aws-amplify';  
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+import outputs from '@/amplify_outputs.json';  
+import '@aws-amplify/ui-react/styles.css';  
+
+Amplify.configure(outputs);
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    //Check if user is authenticated on app load
-    Auth.currentAuthenticatedUser()
-      .then(setUser)
-      .catch(() => setUser(null));
-  }, []);
-
-  const signOut = async () => {
-    await Auth.signOut();
-    setUser(null);
-  };
-
   return (
     <Router>
       <Routes>
         <Route
           path="/"
           element={
-            user ? (
-              <Navigate to="/dashboard" />
-            ) : (
-              <div>
-                <SignIn />
-              </div>
-            )
+            <Authenticator>
+              {({ signOut, user }) => (
+                user ? (
+                  <Navigate to="/dashboard" />
+                ) : (
+                  <SignIn />  //Custom SignIn comp
+                )
+              )}
+            </Authenticator>
           }
         />
         <Route path="/signup" element={<SignUp />} />
         <Route
           path="/dashboard"
           element={
-            user ? (
-              <div>
-                <h1>Welcome, {user.username}!</h1>
-                <button onClick={signOut}>Sign out</button>
-              </div>
-            ) : (
-              <Navigate to="/" />
-            )
+            <Authenticator>
+              {({ signOut, user }) => (
+                user ? (
+                  <div>
+                    <h1>Welcome, {user.username}!</h1>
+                    <button onClick={signOut}>Sign out</button>
+                  </div>
+                ) : (
+                  <Navigate to="/" />
+                )
+              )}
+            </Authenticator>
           }
         />
       </Routes>
