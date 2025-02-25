@@ -11,9 +11,11 @@ import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import * as Amplify from 'aws-amplify';
-const { Auth } = Amplify;
+import { signIn } from '@aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
 
+Amplify.configure(awsExports); 
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -50,9 +52,8 @@ export default function SignIn() {
     if (!validateInputs()) return;
 
     try {
-      const user = await Auth.signIn({ username: email, password });
+      const user = await signIn(email, password);
       console.log('Login successful:', user);
-      
       navigate('/dashboard'); 
     } catch (err) {
       console.error('Error signing in:', err);
@@ -62,11 +63,13 @@ export default function SignIn() {
 
   const validateInputs = () => {
     let valid = true;
+    const emailValid = /\S+@\S+\.\S+/.test(email);
+    const passwordValid = password.length >= 6;
 
-    setEmailError(!email || !/\S+@\S+\.\S+/.test(email));
-    setPasswordError(!password || password.length < 6);
+    setEmailError(!emailValid);
+    setPasswordError(!passwordValid);
 
-    if (emailError || passwordError) valid = false;
+    if (!emailValid || !passwordValid) valid = false;
     return valid;
   };
 
