@@ -1,8 +1,10 @@
 import * as React from 'react';
 import logo from '../assets/images/ANewWorldTitleTextWhiteOnClear.png';
 //import logo from '../assets/images/ANewWorldTitleTextClearBackground.png';
+
 import '../App.css';
 import '../assets/css/Landing.css';
+
 import SlideShow from './SlideShow';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -14,7 +16,7 @@ function LandingPage() {
         <div>
 
             <div id="heroText">
-                <img src={logo}></img>
+                <img src={logo} className='smallLogo'></img>
                 <div id='heroTextSmall'>
                     <h3>Introducing Aardvark’s newest board game, A New World, with a global collegiate competition!</h3>
                     <h3>Can your University’s team bring home the prize?</h3>
@@ -159,9 +161,9 @@ function LandingPage() {
 
                     </div>
 
-                    <div id='gameplaySlideshow'>
+                    {/* <div id='gameplaySlideshow'>
                         <SlideShow />
-                    </div>
+                    </div> */}
 
 
                 </div>
