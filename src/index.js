@@ -18,10 +18,14 @@ import IndividualTournamentPage from './components/tournament/IndividualTourname
 import TeamPage from './components/TeamPage';
 import AdminLandingPage from './components/admin/AdminLandingPage';
 import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
+import { Account } from "./Account";
+import Status from './Status';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <Account>
+      
 
     <NavBar />
 
@@ -45,6 +49,7 @@ root.render(
         <Route path="/moderatorLanding" element={<ModeratorLandingPage />} />
       </Routes>
     </BrowserRouter>
+    </Account>
   </React.StrictMode>
 );
 

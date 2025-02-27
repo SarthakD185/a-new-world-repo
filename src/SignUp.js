@@ -17,6 +17,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import UserPool from './UserPool';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -168,6 +169,18 @@ export default function SignUp(props) {
     } catch (error) {
       console.error('Request failed:', error);
     }
+
+
+    const email = formData.email; // Get email from formData
+    const password = formData.password; // Get password from formData
+
+    UserPool.signUp(email, password, [], null, (err, data) => {
+      if (err){
+        console.error(err);
+      }
+      console.log(data); 
+    });
+
   };
 
   return (

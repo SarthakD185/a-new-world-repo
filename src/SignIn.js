@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';  // <-- Import useContext here
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,10 +11,14 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';  // <-- Updated import for Link
 import { signIn } from '@aws-amplify/auth'; 
 import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports'; 
+import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
+import UserPool from './UserPool';
+import { AccountContext } from "./Account";
+import LandingPage from './components/LandingPage';
 
 Amplify.configure(awsExports);
 
@@ -45,6 +50,8 @@ export default function SignIn() {
   const [passwordError, setPasswordError] = React.useState(false);
   const navigate = useNavigate();
 
+  const { authenticate } = useContext(AccountContext);
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError('');
@@ -54,11 +61,19 @@ export default function SignIn() {
     try {
       const user = await signIn({ username: email, password });
       console.log('Login successful:', user);
-      navigate('/landing');  
+      navigate('/');  
     } catch (err) {
       console.error('Error signing in:', err);
       setError(err.message || 'Invalid email or password.');
     }
+
+    authenticate(email, password)
+      .then(data => {
+        console.log("Logged in!", data);
+      })
+      .catch(err => {
+        console.error("Failed to login" + err);
+      })
   };
 
   const validateInputs = () => {
@@ -122,7 +137,7 @@ export default function SignIn() {
           </Box>
           <Divider>or</Divider>
           <Typography sx={{ textAlign: 'center' }}>
-            Don't have an account? <RouterLink to="/SignUp">Sign up</RouterLink>
+            Don't have an account? <Link to="/SignUp">Sign up</Link>
           </Typography>
         </Card>
       </SignInContainer>
