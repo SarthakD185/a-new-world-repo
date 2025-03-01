@@ -11,12 +11,20 @@ import 'reactjs-popup/dist/index.css';
 
 function LandingPage() {
 
+    //grab the heroLogo img and add smallLogo class @ max-width less than 768px
+    var heroLogo = document.querySelector('#heroLogo');
+    window.onResize = function() {
+        if (window.innerWidth <= 768) heroLogo.classList.add('smallLogo');
+        else heroLogo.classList.remove('smallLogo');
+    };
+
     return (
     
         <div>
 
+{/* className={window.innerWidth < 768 ? 'smallLogo' : ''} */}
             <div id="heroText">
-                <img src={logo} className='smallLogo'></img>
+                <img src={logo} id='heroLogo' ></img>
                 <div id='heroTextSmall'>
                     <h3>Introducing Aardvark’s newest board game, A New World, with a global collegiate competition!</h3>
                     <h3>Can your University’s team bring home the prize?</h3>
