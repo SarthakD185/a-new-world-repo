@@ -8,6 +8,10 @@ import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import outputs from '@/amplify_outputs.json';
 import '@aws-amplify/ui-react/styles.css';
 import { Account } from "./Account";
+import awsExports from './aws-exports';
+
+Amplify.configure(awsExports);
+
 
 Amplify.configure(outputs);
 

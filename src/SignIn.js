@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';  // <-- Import useContext here
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -11,16 +11,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom';  // <-- Updated import for Link
-import { signIn } from '@aws-amplify/auth'; 
-import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports'; 
-import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
-import UserPool from './UserPool';
-import { AccountContext } from "./Account";
-import LandingPage from './components/LandingPage';
-
-Amplify.configure(awsExports);
+import { Link, useNavigate } from 'react-router-dom';
+import { AccountContext } from './Account';  
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -50,30 +42,27 @@ export default function SignIn() {
   const [passwordError, setPasswordError] = React.useState(false);
   const navigate = useNavigate();
 
+  //authenticate from accContext
   const { authenticate } = useContext(AccountContext);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     setError('');
 
+    //val
     if (!validateInputs()) return;
 
     try {
-      const user = await signIn({ username: email, password });
-      console.log('Login successful:', user);
+      //custom auth
+      const user = await authenticate(email, password);
+      console.log('Logged in successfully:', user);
+
+      //redirect
       navigate('/');  
     } catch (err) {
       console.error('Error signing in:', err);
-      setError(err.message || 'Invalid email or password.');
+      setError('Invalid email or password.');  
     }
-
-    authenticate(email, password)
-      .then(data => {
-        console.log("Logged in!", data);
-      })
-      .catch(err => {
-        console.error("Failed to login" + err);
-      })
   };
 
   const validateInputs = () => {

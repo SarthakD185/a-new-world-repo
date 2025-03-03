@@ -20,6 +20,11 @@ import AdminLandingPage from './components/admin/AdminLandingPage';
 import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
 import { Account } from "./Account";
 import Status from './Status';
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
+
+Amplify.configure(awsExports);
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

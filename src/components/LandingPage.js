@@ -19,21 +19,20 @@ function LandingPage() {
     };
 
     return (
-    
         <div>
 
 {/* className={window.innerWidth < 768 ? 'smallLogo' : ''} */}
             <div id="heroText">
-                <img src={logo} id='heroLogo' ></img>
+                <img src={logo} id='heroLogo' alt="A New World Logo" />
                 <div id='heroTextSmall'>
                     <h3>Introducing Aardvark’s newest board game, A New World, with a global collegiate competition!</h3>
                     <h3>Can your University’s team bring home the prize?</h3>
                 </div>
-                <button class='heroButton' onClick={() => window.location.replace("/signup")}><h4>Register Now</h4></button>
+                <button className='heroButton' onClick={() => window.location.replace("/signup")}><h4>Register Now</h4></button>
             </div>
 
-            <div class='container'>
-                <div id='landingPageSection1' class='box'>
+            <div className='container'>
+                <div id='landingPageSection1' className='box'>
                     <h2>How Does it Work?</h2>
                     <p>
                     Gather a team and sign up to play, first for the honor of being your University’s championship 
@@ -47,7 +46,7 @@ function LandingPage() {
                     </p>
                 </div>
 
-                <div id='landingPageSection2' class='box'>
+                <div id='landingPageSection2' className='box'>
                     <h2>Why Play?</h2>
                     <p>
                     All players who complete at least one round of tournament play will receive a <i><b>complimentary 
@@ -58,36 +57,36 @@ function LandingPage() {
                     <p>
                     Join us for some great gaming fun! Join us for some awesome tournament prizes!
                     </p>
-                    <div class='centerButton'>
+                    <div className='centerButton'>
                         <Popup trigger=
-                            {<button class='standardButton'>Frequently Asked Questions</button>} 
+                            {<button className='standardButton'>Frequently Asked Questions</button>} 
                             modal nested>
                             {
                                 close => (
                                     <div className='modal popup'>
                                         <div className='content'>
 
-                                            <h1 class='center'>Frequently Asked Questions</h1>
+                                            <h1 className='center'>Frequently Asked Questions</h1>
 
-                                            <h3 class='popupHeader'>Can I buy the game now?</h3>
+                                            <h3 className='popupHeader'>Can I buy the game now?</h3>
                                             {/* TODO - add link */}
                                             <p>You can sign up for our pre-order list on the Game page. <i>[link]</i></p>
 
-                                            <h3 class='popupHeader'>I don’t see my university listed. Can I still play?</h3>
+                                            <h3 className='popupHeader'>I don’t see my university listed. Can I still play?</h3>
                                             <p>Yes! When we see a new school listed, we contact them to initiate tournament activity. Please do sign up and get your friends involved ASAP!</p>
 
-                                            <h3 class='popupHeader'>Do I get my money back if my college doesn’t have playoff rounds?</h3>
+                                            <h3 className='popupHeader'>Do I get my money back if my college doesn’t have playoff rounds?</h3>
                                             <p>Yes, those fees are refundable. However, if there are competitions played at nearby schools, you will first be invited to join a team there.</p>
 
-                                            <h3 class='popupHeader'>What if our team can’t afford to travel to the final playoff location?</h3>
+                                            <h3 className='popupHeader'>What if our team can’t afford to travel to the final playoff location?</h3>
                                             <p>Aardvark games will be paying all travel costs.</p>
 
-                                            <h3 class='popupHeader'>I’m taking a break from college, can I play?</h3>
+                                            <h3 className='popupHeader'>I’m taking a break from college, can I play?</h3>
                                             <p>No, only current students may enter.</p>
 
                                         </div>
-                                        <div class='centerButton'>
-                                            <button class='standardButton' onClick=
+                                        <div className='centerButton'>
+                                            <button className='standardButton' onClick=
                                                 {() => close()}>
                                                     Close
                                             </button>
@@ -99,7 +98,7 @@ function LandingPage() {
                     </div>
                 </div>
 
-                <div id='landingPageSection3' class='box'>
+                <div id='landingPageSection3' className='box'>
 
                     <h2 id='gameplayHeader'>Gameplay</h2>
 
@@ -123,20 +122,20 @@ function LandingPage() {
                         it is possible to enjoy striving to beat your own prior scores.
                         </p>
 
-                        <div class='centerButton'>
+                        <div className='centerButton'>
                             <Popup contentStyle={{ width: '90%' }} trigger=
-                                {<button class='standardButton'>View Player Roles</button>} 
+                                {<button className='standardButton'>View Player Roles</button>} 
                                 modal nested>
                                 {
                                     close => (
                                         <div className='popup'>
                                             <div className='content'>
 
-                                                <h1 class='center'>Player Roles</h1>
+                                                <h1 className='center'>Player Roles</h1>
 
                                                 <p>Every team must designate the roles for each player prior to beginning play. If a team has fewer than seven players, team members may assume more than one role.</p>
 
-                                                <div class='twoColumnGrid'>
+                                                <div className='twoColumnGrid'>
 
                                                     <p><b>Expedition Leader: </b>This team member will make decisions on when and how action cards are played. They facilitate the team’s joint strategic planning and manage the expedition budget.</p>
 
@@ -155,8 +154,8 @@ function LandingPage() {
                                                 <p><b>Physician: </b>This team member is responsible for the physical and mental health of expedition members, treating injuries and illness when determined by cards for encounters with native wildlife, hostile forces, space adaptation syndrome, etc.</p>
 
                                             </div>
-                                            <div class='centerButton'>
-                                                <button class='standardButton' onClick=
+                                            <div className='centerButton'>
+                                                <button className='standardButton' onClick=
                                                     {() => close()}>
                                                         Close
                                                 </button>
