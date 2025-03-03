@@ -1,0 +1,66 @@
+/* some material referenced from: 
+https://www.w3schools.com/howto/howto_js_topnav_expanded.asp
+
+hamburger icon from: 
+<a href="https://www.flaticon.com/free-icons/hamburger" title="hamburger icons">Hamburger icons created by Lizel Arina - Flaticon</a>
+*/
+
+#navHamburger {
+   height: 40px;
+   margin: 10px 30px 10px 20px;
+}
+
+/* hide the hamburger menu icon on desktop */
+@media screen and (min-width: 768px) {
+    #navHamburger {
+        display: none;
+    }
+}  
+
+
+/* show the hamburger menu icon on mobile and hide all nav links */
+@media screen and (max-width: 768px) {
+    .navBar {
+        justify-content: flex-end;
+        position: relative;
+    }
+
+    /* makes the links columns instead of rows, take this out once the hamburger menu works */
+    .navGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #navHamburger {
+        display: block;
+        float: right;
+    }
+
+    .navGroup div {display: none;}
+
+
+
+    /* Expanded class */
+
+    .navGroup.expanded {
+        position: absolute;
+        top: 60px; /* Adjust this value based on your navbar height */
+        left: 0;
+        width: 100%;
+        background-color:  #13505b;
+        z-index: 1000; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+    }
+    
+    .navGroup.expanded div {
+        display: block;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+        /* reverses the order of the navGroups, working on this, is it needed for good UX? */
+        .navbar.navGroup .expanded {
+            flex-direction: column-reverse;
+        }
+
+}
