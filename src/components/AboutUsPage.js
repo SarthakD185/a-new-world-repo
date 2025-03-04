@@ -24,7 +24,7 @@ function AboutUs() {
         <div>
 
             <p class='center'>
-                <img class='centerImagePadding' src={logo}></img>
+                <img class='centerImagePadding' src={logo} alt='Aardvark Games logo'></img>
             </p>
 
             <div class="wideColumnContainer">

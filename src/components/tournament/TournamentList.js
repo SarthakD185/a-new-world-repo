@@ -3,9 +3,8 @@ import data from '../../assets/data/colleges.json';
 import { HR } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
 function TournamentList(props) {
-
+    //https://dev.to/salehmubashar/search-bar-in-react-js-545l
     const navigate = useNavigate();
 
     function handleClick(collegeInfo) {
@@ -50,15 +49,15 @@ function TournamentList(props) {
                 {/* https://flowbite-react.com/docs/typography/hr */}
                 <HR />
                 
-                {filteredData.map((college) => (
-                    <div key={college.id}>
+                {filteredData.map((tournament) => (
+                    <div key={tournament.id}>
                         <div class='horizontalFlex spaceBetween'>
                             <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${college.image}`)} class='smallLogo'></img>
-                                <h3>{college.name}</h3>
+                                <img src={require(`../../assets/images/${tournament.image}`)} class='smallLogo' alt={require(`${tournament.name} logo`)}></img>
+                                <h3 id='tournamentName'>{tournament.name}</h3>
                             </div>
                             <div class='centerButton'>
-                                <button class='standardButton' onClick={()=>handleClick(college)}>View Tournament</button>
+                                <button class='standardButton' onClick={()=>handleClick(tournament)}>View Tournament</button>
                             </div>
                         </div>
                         <HR />
