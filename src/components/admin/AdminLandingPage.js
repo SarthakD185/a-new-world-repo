@@ -39,13 +39,12 @@ function AdminLandingPage() {
     
         <div>
 
+            <img src={logo} className='centerImagePadding' alt="logo"/>
 
-            <img src={logo} class='centerImagePadding'></img>
-
-            <div class='container' style={{marginTop: '0px'}}>
-                <div class='box' id='adminUncompletedTasks' style={{marginTop: '0px'}}>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Uncompleted Tasks</h2>
+            <div className='container' style={{marginTop: '0px'}}>
+                <div className='box' id='adminUncompletedTasks' style={{marginTop: '0px'}}>
+                    <div className='horizontalFlex spaceBetween'>
+                        <h2 className='noPadding noMargin'>Uncompleted Tasks</h2>
                         
                         {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
                         <div className="search">
@@ -63,9 +62,9 @@ function AdminLandingPage() {
 
                 </div>
 
-                <div class='box' id='adminManageUsers' style={{marginTop: '0px'}}>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Manage Users</h2>
+                <div className='box' id='adminManageUsers' style={{marginTop: '0px'}}>
+                    <div className='horizontalFlex spaceBetween'>
+                        <h2 className='noPadding noMargin'>Manage Users</h2>
                         
                         {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
                         <div className="search">
@@ -81,9 +80,9 @@ function AdminLandingPage() {
                     
                     <AdminManageUsersList input={usersInputText}/>
 
-                    <div class='centerButton' style={{marginTop: '24px'}}>
+                    <div className='centerButton' style={{marginTop: '24px'}}>
                         <Popup trigger=
-                            {<button class='standardButton'>
+                            {<button className='standardButton'>
                                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
                                     Create New User <FaPlusCircle size='14px' style={{paddingLeft: '6px'}}/>
                                 </div>
@@ -94,20 +93,20 @@ function AdminLandingPage() {
                                     <div className='modal popup'>
                                         <div className='content'>
 
-                                            <h1 class='center'>Create New User</h1>
+                                            <h1 className='center'>Create New User</h1>
 
-                                            <form class='center'>
-                                                <label for="email">Email: </label>
-                                                <input type="text" id="email" name="email" style={{marginBottom: '24px'}}></input>
+                                            <form className='center'>
+                                                <label htmlFor="email">Email: </label>
+                                                <input type="text" id="email" name="email" style={{marginBottom: '24px'}}/>
 
-                                                <div class='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
+                                                <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
                                                     {/* TODO - add button action to create and save new user */}
-                                                    <button class='standardButton fullWidth' onClick=
+                                                    <button className='standardButton fullWidth' onClick=
                                                         {() => close()}>
                                                             Save
                                                     </button>
 
-                                                    <button class='redButton fullWidth' onClick=
+                                                    <button className='redButton fullWidth' onClick=
                                                         {() => close()}>
                                                             Close
                                                     </button>

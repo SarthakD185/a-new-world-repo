@@ -53,12 +53,18 @@ export default function SignIn() {
     if (!validateInputs()) return;
 
     try {
-      //custom auth
+      //Custom auth
       const user = await authenticate(email, password);
       console.log('Logged in successfully:', user);
 
-      //redirect
-      navigate('/');  
+      //determine role
+      if (user.role === 'Admin') {
+        navigate('/adminLanding');  //redirect
+      } else if (user.role === 'Moderator') {
+        navigate('/moderatorLanding');  //redirect
+      } else {
+        navigate('/');  //default redirect
+      }
     } catch (err) {
       console.error('Error signing in:', err);
       setError('Invalid email or password.');  

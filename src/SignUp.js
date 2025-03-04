@@ -13,7 +13,7 @@ import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import { GoogleIcon, FacebookIcon, SitemarkIcon } from './components/CustomIcons';
 import Link from '@mui/material/Link';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';  // Use useNavigate instead of useHistory
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -68,6 +68,7 @@ export default function SignUp(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const navigate = useNavigate();  // Initialize the useNavigate hook for redirection
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -170,7 +171,6 @@ export default function SignUp(props) {
       console.error('Request failed:', error);
     }
 
-
     const email = formData.email; // Get email from formData
     const password = formData.password; // Get password from formData
 
@@ -179,8 +179,10 @@ export default function SignUp(props) {
         console.error(err);
       }
       console.log(data); 
-    });
 
+      // Redirect to sign-in page after successful sign-up
+      navigate('/signin'); // Use navigate to redirect to /signin
+    });
   };
 
   return (
@@ -263,6 +265,7 @@ export default function SignUp(props) {
                   name="password"
                   type="password"
                   id="password"
+                  placeholder="●●●●●"
                   autoComplete="new-password"
                   variant="outlined"
                   error={passwordError}
@@ -278,6 +281,7 @@ export default function SignUp(props) {
                   name="confirmPassword"
                   type="password"
                   id="confirmPassword"
+                  placeholder="●●●●●"
                   autoComplete="new-password"
                   variant="outlined"
                   error={passwordError}
