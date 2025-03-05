@@ -7,8 +7,8 @@ function TournamentList(props) {
     //https://dev.to/salehmubashar/search-bar-in-react-js-545l
     const navigate = useNavigate();
 
-    function handleClick(collegeInfo) {
-        navigate('/individualTournament', { state:{id: collegeInfo.id, name: collegeInfo.name, image: collegeInfo.image} });
+    function handleClick(tournamentInfo) {
+        navigate('/individualTournament', { state:{id: tournamentInfo.id, name: tournamentInfo.name, image: tournamentInfo.image} });
     }
 
     //create a new array by filtering the original array
@@ -53,7 +53,7 @@ function TournamentList(props) {
                     <div key={tournament.id}>
                         <div class='horizontalFlex spaceBetween'>
                             <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${tournament.image}`)} class='smallLogo' alt={require(`${tournament.name} logo`)}></img>
+                                <img src={require(`../../assets/images/${tournament.image}`)} class='smallLogo' alt={`${tournament.name} logo`}></img>
                                 <h3 id='tournamentName'>{tournament.name}</h3>
                             </div>
                             <div class='centerButton'>

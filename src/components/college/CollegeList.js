@@ -54,7 +54,7 @@ function CollegeList(props) {
                     <div key={college.id}>
                         <div class='horizontalFlex spaceBetween'>
                             <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${college.image}`)} class='smallLogo' alt={require(`${college.name} logo`)}></img>
+                                <img src={require(`../../assets/images/${college.image}`)} class='smallLogo' alt={`${college.name} logo`}></img>
                                 <h3>{college.name}</h3>
                             </div>
                             <div class='centerButton'>
