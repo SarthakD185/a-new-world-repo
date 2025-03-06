@@ -30,4 +30,14 @@
     #tournamentName {
         size: 10px;
     }
+
+    .borderPadding {
+        margin: 0px;
+    }
+    
+    .box {
+        /* box-shadow: none; */
+        border-radius: 0px;
+    }
+
 }

@@ -47,7 +47,7 @@ function TournamentList(props) {
 
             <div>
                 {/* https://flowbite-react.com/docs/typography/hr */}
-                <HR />
+                {/* <HR /> */}
                 
                 {filteredData.map((tournament) => (
                     <div key={tournament.id}>

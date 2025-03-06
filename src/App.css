@@ -106,6 +106,7 @@ body, html {
   cursor: pointer;
   border-radius: 48px;
   width: initial;
+  text-wrap: nowrap;
 }
 
 .secondaryButton {
@@ -307,6 +308,9 @@ https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b
 
 @media only screen and (max-width: 480px) {
   .standardButton {
+      width: 100px;
       padding: 5px 12px;
+      text-wrap: wrap;
   }
+
 }
