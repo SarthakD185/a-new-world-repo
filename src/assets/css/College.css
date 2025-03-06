@@ -43,4 +43,14 @@
     .smallMobileButton > button {
         font-size: 8px;
     }
+
+    .borderPadding {
+        margin: 0px;
+    }
+    
+    .box {
+        /* box-shadow: none; */
+        border-radius: 0px;
+    }
+
 }
