@@ -54,9 +54,9 @@ function TournamentList(props) {
                         <div class='horizontalFlex spaceBetween'>
                             <div class='horizontalFlex'>
                                 <img src={require(`../../assets/images/${tournament.image}`)} class='smallLogo' alt={`${tournament.name} logo`}></img>
-                                <h3 id='tournamentName'>{tournament.name}</h3>
+                                <h3 class='listTitle'>{tournament.name}</h3>
                             </div>
-                            <div class='centerButton'>
+                            <div class='centerButton smallMobileButton'>
                                 <button class='standardButton' onClick={()=>handleClick(tournament)}>View Tournament</button>
                             </div>
                         </div>

@@ -82,6 +82,7 @@ function NavBar() {
             
 
             {/* Profile and Logout */}
+            {/* <div onClick={() => navigate("/profile", { profile:{collegeId: profileCollegeId, collegeAffiliation: profileCollegeAffiliation, name: profileName, fullName: profileFullName, username: profileUsername, email: profileEmail, image: profileImage} })} className='navItem'> */}
             <div onClick={() => navigate("/profile")} className='navItem'>
               <span>Profile</span>
             </div>

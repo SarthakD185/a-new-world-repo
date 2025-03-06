@@ -307,6 +307,28 @@ https://coolors.co/f47a60-f1a271-edca82-7fb493-119da4-13505b
 
 @media only screen and (max-width: 480px) {
   .standardButton {
-      padding: 5px 12px;
+      padding: 8px 16px;
+  }
+
+  .container {
+    margin: 12px;
+  }
+  
+  .wideColumnContainer {
+    margin: 12px;
+  }
+  
+  .threeColumnContainer {
+    margin: 12px;
+  }
+  
+  .box {
+    padding: 20px;
+    margin: 12px;
+  }
+
+  .extraWideColumnContainer {
+    grid-template-columns: 100%;
+    margin: 12px;
   }
 }

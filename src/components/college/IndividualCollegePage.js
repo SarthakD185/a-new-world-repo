@@ -39,7 +39,7 @@ function IndividualCollegePage() {
 
             <div class='horizontalFlex centerButton paddingTop'>
                 <img src={require(`../../assets/images/${data.image}`)} class='smallLogo'></img>
-                <h1>{data.name}</h1>
+                <h1 class='collegeTitle'>{data.name}</h1>
             </div>
 
             <div class='extraWideColumnContainer'>

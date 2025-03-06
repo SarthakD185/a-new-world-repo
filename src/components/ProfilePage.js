@@ -11,19 +11,7 @@ import UpcomingEventComponent from './profile/upcomingEventComponent';
 function ProfilePage() {
 
     const location = useLocation();
-    const data = location.state;
-
-    const [inputText, setInputText] = useState("");
-
-    let inputHandler = (e) => {
-
-        //convert input text to lower case
-
-        var lowerCase = e.target.value.toLowerCase();
-
-        setInputText(lowerCase);
-
-    };
+    const data = location.profile;
 
     return (
     

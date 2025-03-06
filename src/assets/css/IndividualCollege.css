@@ -89,3 +89,29 @@
 .swiper {
     height: 272px;
 }
+
+
+@media only screen and (max-width: 480px) {
+    .collegeTitle {
+        font-size: 24px;
+    }
+
+    #individualCollegeGallery {
+        grid-row-start: 3;
+        grid-row-end: 4;
+    }
+
+    #individualCollegeRegisteredTeams {
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    #individualCollegeAnnouncements {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height: 400px;
+        overflow: scroll;
+    }
+}

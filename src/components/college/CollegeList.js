@@ -55,7 +55,7 @@ function CollegeList(props) {
                         <div class='horizontalFlex spaceBetween'>
                             <div class='horizontalFlex'>
                                 <img src={require(`../../assets/images/${college.image}`)} class='smallLogo' alt={`${college.name} logo`}></img>
-                                <h3>{college.name}</h3>
+                                <h3 class='listTitle'>{college.name}</h3>
                             </div>
                             <div class='centerButton'>
                                 <button class='standardButton' onClick={()=>handleClick(college)}>View College</button>
