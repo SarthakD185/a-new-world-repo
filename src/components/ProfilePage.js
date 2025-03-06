@@ -8,10 +8,14 @@ import TeamList from './college/TeamList';
 import AnnouncementsList from './college/AnnouncementsList';
 import GalleryList from './college/GalleryList';
 import UpcomingEventComponent from './profile/upcomingEventComponent';
+import data from '../assets/data/users.json';
+
 function ProfilePage() {
 
-    const location = useLocation();
-    const data = location.profile;
+    // const location = useLocation();
+
+    const user = data[0];
+;
 
     return (
     
@@ -19,8 +23,8 @@ function ProfilePage() {
 
             {/* the header section */}
             <div class='horizontalFlex centerButton paddingTop'>
-                <img src={require(`../assets/images/${data.image}`)} class='smallLogo'></img>
-                <h1>{data.name}</h1>
+                {/* <img src={require(`../assets/images/${user.image}`)} class='smallLogo'></img> */}
+                <h1>{user.name}</h1>
             </div>
 
             <div class='pageGrid'>
@@ -37,10 +41,10 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
-                        <p>College Affiliation: {data.collegeAffiliation || "University of Nebraska Lincoln"}</p>
-                        <p>Username: {data.username || "user_name2024"}</p>
-                        <p>Full Name: {data.fullName || "Jane Smith"}</p>
-                        <p>Email Address: {data.email || "jsmith@unl.edu"}</p>
+                        <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
+                        <p>Username: {user.username || "user_name2024"}</p>
+                        <p>Full Name: {user.fullName || "Jane Smith"}</p>
+                        <p>Email Address: {user.email || "jsmith@unl.edu"}</p>
                     </div>
                 </div>
 
@@ -50,7 +54,7 @@ function ProfilePage() {
                     </div>
                     <div class='horizontalFlex spaceBetween'>
                         <div>
-                            <p>Team Name:</p>
+                            <p>Team Name: </p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
                         </div>
 
@@ -59,7 +63,7 @@ function ProfilePage() {
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
                         </div>
 
-                        <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button>
+                        {/* <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button> */}
                         
                     </div>
                 </div>
@@ -114,7 +118,7 @@ function ProfilePage() {
                         <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>
                     <div>
-                        <GalleryList collegeID={data.id} />
+                        {/* <GalleryList collegeID={data.id} /> */}
                     </div>
                 </div>
                
