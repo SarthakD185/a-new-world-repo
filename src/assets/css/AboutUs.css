@@ -22,3 +22,26 @@ p {
 .wideColumnContainer > div {
     margin: 18px;
 }
+
+@media only screen and (max-width: 768px) {
+    .wideColumnContainer {
+        grid-template-columns: 40% 60%;
+    }
+
+    .wideColumnContainer > div {
+        margin: 10px;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    #aboutUsGridMobile {
+        grid-template-columns: 100%;
+    }
+
+    /* this is for the logo so it squishes to fit smaller screens 
+    except it doesnt work yet*/
+    #aboutUsLogo {
+        width: 80%;
+    }
+}

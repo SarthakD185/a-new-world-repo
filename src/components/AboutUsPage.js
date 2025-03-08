@@ -24,10 +24,10 @@ function AboutUs() {
         <div>
 
             <p class='center'>
-                <img class='centerImagePadding' src={logo} alt='Aardvark Games logo'></img>
+                <img class='centerImagePadding' id='aboutUsLogo' src={logo} alt='Aardvark Games logo'></img>
             </p>
 
-            <div class="wideColumnContainer">
+            <div class="wideColumnContainer" id="aboutUsGridMobile">
 
                 <div class='box'>
 
