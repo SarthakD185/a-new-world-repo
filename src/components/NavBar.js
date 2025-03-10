@@ -80,7 +80,7 @@ function NavBar() {
             )}
 
             
-
+            {/* USER DIV MISSING. page wont redirect because the user == is not here.*/}
             {/* Profile and Logout */}
             {/* <div onClick={() => navigate("/profile", { profile:{collegeId: profileCollegeId, collegeAffiliation: profileCollegeAffiliation, name: profileName, fullName: profileFullName, username: profileUsername, email: profileEmail, image: profileImage} })} className='navItem'> */}
             <div onClick={() => navigate("/profile")} className='navItem'>
