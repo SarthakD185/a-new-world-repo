@@ -105,7 +105,7 @@ function TeamPage() {
             
 
 
-            <div class='pageGrid'>
+            <div class='teamPageGrid'>
                 
 
                 {/* teams profile picture */}
@@ -121,7 +121,7 @@ function TeamPage() {
                 </div>
 
 
-                <div class='box' id='upcomingEvents'>
+                <div class='box' id='teamUpcomingEvents'>
                     <h2>Team Members</h2>
                     {/* divide into three columns/divs*/}
                     <div class='horizontalFlex' style={{justifyContent: 'space-around'}}>
@@ -158,7 +158,7 @@ function TeamPage() {
                 </div>
 
 
-                <div class='box' id='bioInformation'>
+                <div class='box' id='teamBioInformation'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2>Team Bio</h2>
                     </div>
@@ -176,7 +176,7 @@ function TeamPage() {
                     </div>
                 </div>
 
-                <div class='box' id='accountInformation'>
+                <div class='box' id='teamAccountInformation'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2>Team Information</h2>
                     </div>
@@ -187,7 +187,7 @@ function TeamPage() {
                     </div>
                 </div>
 
-                <div class='box' id='registrationInformation'>
+                <div class='box' id='teamRegistrationInformation'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2>Registration Information</h2>
                     </div>

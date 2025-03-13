@@ -1,4 +1,4 @@
-.pageGrid {
+.teamPageGrid {
     display: grid;
     grid-template-columns: 1.5fr 1.5fr 1fr;
     grid-template-rows: auto;
@@ -32,7 +32,7 @@
     height: auto;
 }
 
-#accountInformation {
+#teamAccountInformation {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 5;
@@ -40,7 +40,7 @@
     height: auto;
 }
 
-#registrationInformation {
+#teamRegistrationInformation {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 5;
@@ -64,7 +64,7 @@
 /* add override for the upcomingeventscomponents */
 
 
-#bioInformation {
+#teamBioInformation {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 5;
@@ -72,14 +72,13 @@
     height: auto;
 }
 
-#upcomingEvents {
+#teamUpcomingEvents {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 5;
     height: auto;
     overflow: scroll;
-
 }
 
 #teamGallery {
@@ -152,3 +151,57 @@
 }
 
 
+
+
+@media only screen and (max-width: 768px) {
+
+    .teamPageGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 18px;
+    }
+    
+    #teamAccountInformation {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        height: auto;
+    }
+    
+    #teamRegistrationInformation {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        height: auto;
+    }
+    
+    #teamBioInformation {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height: auto;
+    }
+    
+    #teamUpcomingEvents {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        height: auto;
+        overflow: scroll;
+    }
+    
+    #teamGalleryOnProfile {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height: auto;
+    }
+    
+    
+    
+}
