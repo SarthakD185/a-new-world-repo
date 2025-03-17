@@ -41,6 +41,9 @@ function NavBar() {
         <div onClick={() => navigate("/colleges")} className='navItem'>
           <span>Colleges</span>
         </div>
+        <div onClick={() => navigate("/team")} className='navItem'>
+          <span>Sample Team Page</span>
+        </div>
         <div onClick={() => navigate("/aboutus")} className='navItem'>
           <span>About Us</span>
         </div>

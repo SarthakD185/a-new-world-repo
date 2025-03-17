@@ -14,7 +14,7 @@ function ProfilePage() {
 
     // const location = useLocation();
 
-    const user = data[0];
+    const user = data[1];
 ;
 
     return (
@@ -27,14 +27,14 @@ function ProfilePage() {
                 <h1>{user.name}</h1>
             </div>
 
-            <div class='pageGrid'>
-                    
-   
-                    <div id='teamActionButtons'>
-                        <button class='heroButton'>Leave Team</button>
-                        <button class='heroButton'>Deactivate Account</button>
-                    </div>
 
+                <div id='teamActionButtons'>
+                    <button class='heroButton'>Leave Team</button>
+                    <button class='heroButton'>Deactivate Account</button>
+                </div>
+
+
+            <div class='pageGrid'>
 
                 <div class='box' id='accountInformation'>
                     <div class='horizontalFlex spaceBetween'>
@@ -52,7 +52,7 @@ function ProfilePage() {
                     <div class='horizontalFlex spaceBetween'>
                         <h2>Registration Information</h2>
                     </div>
-                    <div class='horizontalFlex spaceBetween'>
+                    <div class='verticalFlexMobile480 horizontalFlex spaceBetween'>
                         <div>
                             <p>Team Name: </p>
                             <img src={"https://placehold.co/100"} class='smallLogo'></img>
@@ -113,7 +113,7 @@ function ProfilePage() {
                     </div>
                 </div>
 
-                <div class='box' id='teamGalleryOnProfile'>
+                <div class='box' id='GalleryOnProfile'>
                     <div class='horizontalFlex spaceBetween'>
                         <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>
