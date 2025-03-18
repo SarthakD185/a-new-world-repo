@@ -57,7 +57,7 @@
     overflow: scroll;
 }
 
-#teamGalleryOnProfile {
+#GalleryOnProfile {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
@@ -146,4 +146,96 @@
 
 .swiper {
     height: 272px;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .pageGrid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin: 18px;
+    }
+    
+    #accountInformation {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        height: auto;
+    }
+    
+    #registrationInformation {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        height: auto;
+    }
+    
+    #bioInformation {
+        grid-column-start: 1;
+        grid-column-end: 2;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height: auto;
+    }
+    
+    #upcomingEvents {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 3;
+        grid-row-end: 4;
+        height: auto;
+        overflow: scroll;
+    }
+    
+    #GalleryOnProfile {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        grid-row-start: 2;
+        grid-row-end: 3;
+        height: auto;
+    }
+
+    
+    
+}
+
+
+
+@media only screen and (max-width: 480px ) {
+    
+    .pageGrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        margin: 10px;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    p {
+        font-size: 0.8rem;
+    }
+
+    /* .verticalFlexMobile480 {
+        flex-direction: column;
+    } */
+
+    #accountInformation {
+        height: auto;
+    }
+
+    #registrationInformation {
+        height: auto;
+    }
+
+    #bioInformation {
+        height: auto;
+    }
+
+    #GalleryOnProfile {
+        height: auto;
+    }
 }
