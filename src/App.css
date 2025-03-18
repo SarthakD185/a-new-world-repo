@@ -152,6 +152,15 @@ body, html {
   color: white;
 }
 
+/* image of a pencil */
+.editButton {
+  height: 1.5rem;
+  width: auto;
+  border: none;
+  outline: 0;
+  background-color: transparent;
+}
+
 .container {
   display: grid;
   grid-template-columns: 50% 50%;

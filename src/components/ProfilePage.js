@@ -102,10 +102,13 @@ function ProfilePage() {
                     />
                 </div>
 
-
+{/* ICON FROM <a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">Pencil icons created by Pixel perfect - Flaticon</a> */}
                 <div class='box' id='bioInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+                    <div class='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>Your Bio</h2>
+                        <button class='editButton'>
+                            <img src={require('../assets/images/pencil.png')} class='editButton'></img>
+                        </button>
                     </div>
                     <div>
                         <p>loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
