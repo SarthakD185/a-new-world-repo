@@ -168,9 +168,9 @@ function LandingPage() {
 
                     </div>
 
-                    {/* <div id='gameplaySlideshow'>
+                    <div id='gameplaySlideshow'>
                         <SlideShow />
-                    </div> */}
+                    </div>
 
 
                 </div>

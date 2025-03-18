@@ -9,11 +9,20 @@ import AdminUncompletedTasksList from './AdminUncompletedTasksList';
 import AdminManageUsersList from './AdminManageUsersList';
 import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
+import { FaFilter } from "react-icons/fa";
+import data from '../../assets/data/colleges.json';
 
 function AdminLandingPage() {
 
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
+
+    const [teamMemberFilter, setTeamMemberFilter] = useState(true);
+    const [teamCaptainFilter, setTeamCaptainFilter] = useState(true);
+    const [marketerFilter, setMarketerFilter] = useState(true);
+    const [moderatorFilter, setModeratorFilter] = useState(true);
+    const [adminFilter, setAdminFilter] = useState(true);
+    const [collegeFilter, setCollegeFilter] = useState(null);
 
     let tasksInputHandler = (e) => {
 
@@ -65,9 +74,10 @@ function AdminLandingPage() {
                 <div className='box' id='adminManageUsers' style={{marginTop: '0px'}}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>Manage Users</h2>
+
                         
                         {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
-                        <div className="search">
+                        <div className="search horizontalFlex">
                             <TextField
                             id="outlined-basic"
                             onChange={usersInputHandler}
@@ -75,10 +85,72 @@ function AdminLandingPage() {
                             fullWidth
                             label="Search"
                             />
+
+                            <div className='centerButton' style={{marginLeft: '12px'}}>
+                                <Popup trigger=
+                                    {<button className='secondaryButton' style={{padding: '8px 8px 6px 8px'}}>
+                                        <FaFilter />
+                                    </button>} 
+                                    modal nested>
+                                    {
+                                        close => (
+                                            <div className='modal popup'>
+                                                <div className='content'>
+
+                                                    <h1 className='center'>Filter Users</h1>
+
+                                                    <form>
+
+                                                        <div style={{marginBottom: '24px'}}>
+                                                            <p style={{marginBottom: '0px'}}>User Type: </p>
+
+                                                            <input type="checkbox" id="userTypeFilterTeamMember" name="userTypeFilterTeamMember" value="Team Member" checked={teamMemberFilter} onClick={() => setTeamMemberFilter(teamMemberFilter => !teamMemberFilter)}/>
+                                                            <label htmlFor="userTypeFilterTeamMember">Team Member</label><br/>
+
+                                                            <input type="checkbox" id="userTypeFilterTeamCaptain" name="userTypeFilterTeamCaptain" value="Team Captain" checked={teamCaptainFilter} onClick={() => setTeamCaptainFilter(teamCaptainFilter => !teamCaptainFilter)}/>
+                                                            <label htmlFor="userTypeFilterTeamCaptain">Team Captain</label><br/>
+
+                                                            <input type="checkbox" id="userTypeFilterMarketer" name="userTypeFilterMarketer" value="Marketer" checked={marketerFilter} onClick={() => setMarketerFilter(marketerFilter => !marketerFilter)}/>
+                                                            <label htmlFor="userTypeFilterMarketer">Marketer</label><br/>
+
+                                                            <input type="checkbox" id="userTypeFilterModerator" name="userTypeFilterModerator" value="Moderator" checked={moderatorFilter} onClick={() => setModeratorFilter(moderatorFilter => !moderatorFilter)}/>
+                                                            <label htmlFor="userTypeFilterModerator">Moderator</label><br/>
+
+                                                            <input type="checkbox" id="userTypeFilterAdmin" name="userTypeFilterAdmin" value="Admin" checked={adminFilter} onClick={() => setAdminFilter(adminFilter => !adminFilter)}/>
+                                                            <label htmlFor="userTypeFilterAdmin">Admin</label><br/>
+                                                        </div>
+
+                                                        <div style={{marginBottom: '24px'}}>
+                                                            <p style={{marginBottom: '0px'}}>College: </p>
+
+                                                            <select name="collegeFilter" id="collegeFilter">
+                                                                <option value="All Colleges" onClick={setCollegeFilter(null)}>All Colleges</option>
+                                                                {data.map((college) => (
+                                                                    <option value={college.name} onClick={setCollegeFilter(college.id)}>{college.name}</option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+
+                                                        <div className='centerButton' style={{gap: '24px'}}>
+                                                            <button className='standardButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Close
+                                                            </button>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                </Popup>
+                            </div>
+
                         </div>
                     </div>
                     
-                    <AdminManageUsersList input={usersInputText}/>
+                    <AdminManageUsersList input={usersInputText} tMFilter={teamMemberFilter} tCFilter={teamCaptainFilter} marFilter={marketerFilter} modFilter={moderatorFilter} aFilter={adminFilter} cFilter={collegeFilter}/>
 
                     <div className='centerButton' style={{marginTop: '24px'}}>
                         <Popup trigger=

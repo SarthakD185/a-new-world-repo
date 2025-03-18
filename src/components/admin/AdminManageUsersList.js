@@ -9,17 +9,40 @@ import '../../assets/css/Landing.css';
 function AdminManageUsersList(props) {
 
     // Create a new array by filtering the original array
+    // eslint-disable-next-line
     const filteredData = data.filter((el) => {
 
         // If no input, return the original
-        if (props.input === '') {
-            return el;
-        }
 
-        // Return the item which contains the user input
-        else {
-            return el.name.toLowerCase().includes(props.input);
-        }
+            if (props.input === '') {
+                if(props.tMFilter === true && el.userType === "Team Member"){
+                    return el;
+                } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                    return el;
+                } else if(props.marFilter === true && el.userType === "Marketer"){
+                    return el;
+                } else if(props.modFilter === true && el.userType === "Moderator"){
+                    return el;
+                } else if(props.aFilter === true && el.userType === "Admin"){
+                    return el;
+                }
+            }
+
+            // Return the item which contains the user input
+            else {
+                if(props.tMFilter === true && el.userType === "Team Member"){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.marFilter === true && el.userType === "Marketer"){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.modFilter === true && el.userType === "Moderator"){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.aFilter === true && el.userType === "Admin"){
+                    return el.name.toLowerCase().includes(props.input);
+                }
+            }
+        
 
     });
 
