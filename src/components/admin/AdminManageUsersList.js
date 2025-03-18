@@ -1,6 +1,9 @@
 import { React } from 'react';
 import data from '../../assets/data/users.json';
 import { HR } from "flowbite-react";
+import Popup from 'reactjs-popup';
+import '../../App.css';
+import '../../assets/css/Landing.css';
 
 // https://dev.to/salehmubashar/search-bar-in-react-js-545l
 function AdminManageUsersList(props) {
@@ -40,8 +43,72 @@ function AdminManageUsersList(props) {
                                 <p>{users.teamRole}</p>
                             </div>
                             <div className='centerButton'>
-                                {/* TODO - add button action */}
-                                <button className='secondaryButton'>View Profile</button>
+                                <Popup trigger=
+                                    {<button className='secondaryButton'>View Profile</button>} 
+                                    modal nested>
+                                    {
+                                        close => (
+                                            <div className='modal popup'>
+                                                <div className='content'>
+
+                                                    <h1 class='center'>Manage User</h1>
+
+                                                    <form>
+                                                        <div class='twoColumnGrid'>
+                                                            
+                                                            <div id='manageUserProfileImage' class='horizontalFlex' style={{marginBottom: '24px'}}>
+                                                                <img src={require(`../../assets/images/${users.profileImage}`)} class='smallLogo' alt={`${users.name} logo`}></img>
+                                                                {/* TODO - add button action to delete user profile image */}
+                                                                <button className='redButton'>Delete Image</button>
+                                                            </div>
+                                                            
+                                                            <div id='manageUserProfileName'>
+                                                                <label htmlFor="name">Name: </label>
+                                                                <input type="text" id="name" name="name" style={{marginBottom: '24px'}} value={users.name}/>
+                                                            </div>
+
+                                                            <div id='manageUserProfileUserType' style={{marginBottom: '24px'}}>
+                                                                <label for="userType">User Type:</label>
+
+                                                                <select name="userType" id="userType" defaultValue={users.userType}>
+                                                                    <option value="Team Member">Team Member</option>
+                                                                    <option value="Team Captain">Team Captain</option>
+                                                                    <option value="Moderator">Moderator</option>
+                                                                    <option value="Marketer">Marketer</option>
+                                                                    <option value="Admin">Admin</option>
+                                                                </select>
+                                                            </div>
+                                                            
+                                                            <div id='manageUserProfileTeamRole'>
+                                                                <label htmlFor="teamRole">Team Role: </label>
+                                                                <input type="text" id="teamRole" name="teamRole" style={{marginBottom: '24px'}} value={users.teamRole}/>
+                                                            </div>
+
+                                                            <label htmlFor="manageUserProfileBioInput" id='manageUserProfileBioLabel'>Bio: </label>
+                                                            <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={users.userBio} class='messageInputField'/>
+
+                                                        </div>
+
+                                                        <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
+                                                            {/* TODO - add button action to save user profile changes */}
+                                                            <button className='standardButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Save
+                                                            </button>
+
+                                                            <button className='redButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+
+                                                </div>
+
+                                            </div>
+                                        )
+                                    }
+                                </Popup>
                             </div>
                         </div>
                         <HR />

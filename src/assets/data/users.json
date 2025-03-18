@@ -5,7 +5,8 @@
         "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit.",
         "teamRole": "Expedition Leader", 
         "profileImage": "teamLogo.jpg",
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Member"
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Resource Specialist",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Member"
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Technician",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Member"
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Weapons Specialist",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Captain"
     },
     {
         "id": 5,
@@ -37,7 +41,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Scientist",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 2
+        "collegeID": 2,
+        "userType": "Team Member"
     },
     {
         "id": 6,
@@ -45,7 +50,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Chronicler",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Member"
     },
     {
         "id": 7,
@@ -53,7 +59,8 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Technician",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 1
+        "collegeID": 1,
+        "userType": "Team Member"
     },
     {
         "id": 8,
@@ -61,6 +68,7 @@
         "userBio": "Passionate about outdoor adventures and team building.",
         "teamRole": "Technician",
         "profileImage": "teamLogo.jpg", 
-        "collegeID": 2
+        "collegeID": 2,
+        "userType": "Team Member"
     }
 ]
