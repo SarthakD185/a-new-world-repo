@@ -1,8 +1,18 @@
 .teamPageGrid {
     display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1fr;
+    grid-template-columns: 1fr 1fr fr;
     grid-template-rows: auto;
     margin: 18px;
+    max-width: 100%;
+}
+
+#teamProfilePicture {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: auto;
+    width: 100px;
 }
 
 #teamActionButtons{
@@ -22,14 +32,6 @@
     button {
         font-size: 1.2rem;
     }
-}
-
-#teamProfilePicture {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 1;
-    grid-row-end: 2;
-    height: auto;
 }
 
 #teamAccountInformation {
@@ -72,7 +74,7 @@
     height: auto;
 }
 
-#teamUpcomingEvents {
+#teamMembers {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
@@ -161,47 +163,61 @@
         margin: 18px;
     }
     
-    #teamAccountInformation {
-        grid-column-start: 1;
-        grid-column-end: 2;
-        grid-row-start: 1;
-        grid-row-end: 2;
-        height: auto;
-    }
-    
-    #teamRegistrationInformation {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 2;
-        height: auto;
-    }
     
     #teamBioInformation {
         grid-column-start: 1;
-        grid-column-end: 2;
+        grid-column-end: 4;
         grid-row-start: 2;
         grid-row-end: 3;
         height: auto;
     }
     
-    #teamUpcomingEvents {
+    #teamMembers  {
         grid-column-start: 1;
-        grid-column-end: 3;
+        grid-column-end: 4;
         grid-row-start: 3;
         grid-row-end: 4;
         height: auto;
         overflow: scroll;
     }
+        
+    #teamEvents {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 4;
+        grid-row-end: 5;
+        height: auto;
     
-    #teamGalleryOnProfile {
-        grid-column-start: 2;
+        /* hide imgs */
+        img {
+            display: none;
+        }
+    }
+
+    #teamGallery {
+        grid-column-start: 1;
+        grid-column-end: 4;
+        grid-row-start: 4;
+        grid-row-end: 5;
+        height: auto;
+    }
+
+    #teamAccountInformation {
+        grid-column-start: 1;
         grid-column-end: 3;
-        grid-row-start: 2;
-        grid-row-end: 3;
+        grid-row-start: 5;
+        grid-row-end: 6;
         height: auto;
     }
     
+    #teamRegistrationInformation {
+        grid-column-start: 3;
+        grid-column-end: 4;
+        grid-row-start: 5;
+        grid-row-end: 6;
+        height: auto;
+    }
+
     
     
 }

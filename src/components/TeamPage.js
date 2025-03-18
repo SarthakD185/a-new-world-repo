@@ -19,75 +19,6 @@ function TeamPage() {
     const teamID = 3;
 
 
-    // const users = [
-
-
-    //     {
-    //         "id": 1,
-    //         "name": "Emma",
-    //         "userBio": "Lorem ipsum odor amet, consectetuer adipiscing elit.",
-    //         "teamRole": "Expedition Leader", 
-    //         "profileImage": "teamLogo.jpg",
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 2,
-    //         "name": "Alison",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Resource Specialist",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 3,
-    //         "name": "Tristan",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Technician",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 4,
-    //         "name": "Caleb",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Weapons Specialist",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 5,
-    //         "name": "Gabe",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Scientist",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 2
-    //     },
-    //     {
-    //         "id": 6,
-    //         "name": "Sarthak",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Chronicler",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 7,
-    //         "name": "Gavin",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Technician",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 1
-    //     },
-    //     {
-    //         "id": 8,
-    //         "name": "Jane",
-    //         "userBio": "Passionate about outdoor adventures and team building.",
-    //         "teamRole": "Technician",
-    //         "profileImage": "teamLogo.jpg", 
-    //         "collegeID": 2
-    //     },
-    // ]
-
     // logs the join/leave button click to the console. Doesn't actually do anything yet.
    
     const handleTeamAction = (action) => {
@@ -109,7 +40,7 @@ function TeamPage() {
                 
 
                 {/* teams profile picture */}
-                <div class='box' id='Team'>
+                <div class='box' id='teamProfilePicture'>
                     <img src={teamData[teamID].image} class='smallLogo'></img>
                 </div>
 
@@ -121,9 +52,9 @@ function TeamPage() {
                 </div>
 
 
-                <div class='box' id='teamUpcomingEvents'>
+                <div class='box' id='teamMembers'>
                     <h2>Team Members</h2>
-                    {/* divide into three columns/divs*/}
+                    {/* divide into three columns/divs for desktop view*/}
                     <div class='horizontalFlex' style={{justifyContent: 'space-around'}}>
                         {/* column 1 */}
                         <TeamMemberCard user={users[0]} />
@@ -172,7 +103,7 @@ function TeamPage() {
                         <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>
                     <div>
-                        <GalleryList collegeID={TeamList.id} />
+                        {/* <GalleryList collegeID={TeamList.id} /> */}
                     </div>
                 </div>
 
