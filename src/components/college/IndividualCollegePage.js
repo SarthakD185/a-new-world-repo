@@ -16,17 +16,19 @@ function IndividualCollegePage() {
     const data = location.state;
     const navigate = useNavigate();
 
+    //store inputs
     const [inputText, setInputText] = useState("");
-    const [teamName, setTeamName] = useState(""); // Store the team name
+    const [teamName, setTeamName] = useState(""); 
+    const [email, setEmail] = useState(""); 
 
     let inputHandler = (e) => {
-        // Convert input text to lower case
+        //lower case
         var lowerCase = e.target.value.toLowerCase();
         setInputText(lowerCase);
     };
 
     const handleCreateTeam = async (e) => {
-        e.preventDefault(); // Prevent form submission
+        e.preventDefault(); 
 
         console.log("Creating team...");
 
@@ -35,11 +37,17 @@ function IndividualCollegePage() {
             return;
         }
 
+        if (!email.trim()) {
+            alert("Please enter your email.");
+            return;
+        }
+
         try {
             console.log("Making API request...");
 
-            // You can set a fixed user ID or get it from elsewhere, depending on your use case
-            const userEmail = "user@rit.edu"; // Replace with static or dynamic email
+            //email val check
+            const userEmail = email;
+
             if (!userEmail) {
                 alert("Unable to retrieve user email.");
                 return;
@@ -50,9 +58,8 @@ function IndividualCollegePage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     teamName: teamName,
-                    collegeID: data.id, // Pass the college ID from props
-                    userID: "USER_ID", // Replace with actual user ID if necessary
-                    email: userEmail, // Include the email in the request
+                    collegeID: data.id, 
+                    email: userEmail, 
                 }),
             });
 
@@ -61,7 +68,7 @@ function IndividualCollegePage() {
 
             if (response.status === 201) {
                 alert("Team created successfully!");
-                window.location.reload(); // Refresh to show the new team
+                window.location.reload(); //refresh shows new team needs work
             } else {
                 console.error(result);
                 alert("Error creating team: " + result.body);
@@ -123,6 +130,15 @@ function IndividualCollegePage() {
                                                             name="teamName"
                                                             value={teamName}
                                                             onChange={(e) => setTeamName(e.target.value)}
+                                                            style={{ marginBottom: '24px' }}
+                                                        />
+                                                        <label htmlFor="email">Email: </label>
+                                                        <input
+                                                            type="email"
+                                                            id="email"
+                                                            name="email"
+                                                            value={email}
+                                                            onChange={(e) => setEmail(e.target.value)}
                                                             style={{ marginBottom: '24px' }}
                                                         />
                                                         <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
