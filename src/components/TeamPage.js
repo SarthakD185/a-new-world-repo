@@ -9,6 +9,8 @@ import TeamMemberCard from './team/TeamMemberCard';
 
 import teamData from '../assets/data/teams.json';
 import users from '../assets/data/users.json';
+import TeamMembersPanelDESKTOP from './team/TeamMembersPanelDESKTOP';
+import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 
 // add a join team button. view team on indiv colleg epage leads to this page. and theres a join team on this page
@@ -52,28 +54,13 @@ function TeamPage() {
                 </div>
 
 
-                <div class='box' id='teamMembers'>
-                    <h2>Team Members</h2>
-                    {/* divide into three columns/divs for desktop view*/}
-                    <div class='horizontalFlex' style={{justifyContent: 'space-around'}}>
-                        {/* column 1 */}
-                        <TeamMemberCard user={users[0]} />
-
-                        {/* column 2 */}
-                        <div class='verticalFlex' style={{justifyContent: 'space-around'}}>
-                            <TeamMemberCard user={users[1]} />
-                            <TeamMemberCard user={users[2]} />
-                            <TeamMemberCard user={users[3]} />
-                        </div>
-                        
-                        {/* column 3 */}
-                        <div class='verticalFlex' style={{justifyContent: 'space-around'}}>
-                            <TeamMemberCard user={users[4]} />
-                            <TeamMemberCard user={users[5]} />
-                            <TeamMemberCard user={users[6]} />
-                        </div>
-                    </div>
+                <div class='box' id='teamMembersDESKTOP'>                   
+                    <TeamMembersPanelDESKTOP/>
                 </div>
+                <div class='box' id='teamMembersMOBILE'>                   
+                    <TeamMembersPanelMOBILE/>
+                </div>
+
 
                 <div class='box' id='teamEvents'>
                     <h2>Next Event</h2>

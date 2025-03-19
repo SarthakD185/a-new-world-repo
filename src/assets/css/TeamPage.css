@@ -74,13 +74,18 @@
     height: auto;
 }
 
-#teamMembers {
+/* in desktop view, hide the mobile version and show the desktop version*/
+#teamMembersDESKTOP {
     grid-column-start: 1;
     grid-column-end: 3;
     grid-row-start: 2;
     grid-row-end: 5;
     height: auto;
     overflow: scroll;
+}
+
+#teamMembersMOBILE {
+    display: none;
 }
 
 #teamGallery {
@@ -118,7 +123,7 @@
     text-align: center;
 }
 
-.fixedWidthBox {
+.fixedWidthBox300px {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -172,15 +177,28 @@
         height: auto;
     }
     
-    #teamMembers  {
+    /* in mobile view, hide the desktop version and show the mobile version*/
+    #teamMembersDESKTOP  {
+        display: none;
+    }
+
+    #teamMembersMOBILE {
+        display: block;
         grid-column-start: 1;
         grid-column-end: 4;
         grid-row-start: 3;
         grid-row-end: 4;
         height: auto;
-        overflow: scroll;
+        background-color: rgba(255, 0, 251, 0.576);
+        overflow:hidden;
     }
-        
+
+    /* .teamMemberMobileCard {
+        display: block;
+        padding: 10px;
+        width: 100px;
+    } */
+
     #teamEvents {
         grid-column-start: 1;
         grid-column-end: 4;

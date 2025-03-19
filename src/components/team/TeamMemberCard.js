@@ -2,12 +2,15 @@ import * as React from 'react';
 import '../../App.css';
 import '../../assets/css/TeamPage.css';
 
-function TeamMemberCard({ user }) {
-
+function TeamMemberCard({ 
+    user,
+    className
+ }) {
+    
 
     return (
         <>
-            <div class='box fixedWidthBox'>
+            <div class={`box fixedWidthBox300px ${className}`}>
                 <img src={"https://placehold.co/150"} class='smallLogo'></img>
                 <div style={{padding: '10px', textAlign: 'left'}}>
                     <h3>{user.name}</h3>
