@@ -1,76 +1,42 @@
 import { React } from 'react';
-import data from '../../assets/data/colleges.json';
 import { HR } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 
-function CollegeList(props) {
-    //https://dev.to/salehmubashar/search-bar-in-react-js-545l
-
+function CollegeList({ colleges }) {
     const navigate = useNavigate();
 
     function handleClick(collegeInfo) {
-        navigate('/individualCollege', { state:{id: collegeInfo.id, name: collegeInfo.name, image: collegeInfo.image} });
+        navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, image: collegeInfo.image } });
     }
 
-    //create a new array by filtering the original array
-
-    const filteredData = data.filter((el) => {
-
-        //if no input the return the original
-
-        if (props.input === '') {
-
-            return el;
-
-        }
-
-        //return the item which contains the user input
-
-        else {
-
-            return el.name.toLowerCase().includes(props.input)
-
-        }
-
-    })
-
-    if(filteredData.length === 0){
-
-        return(
-            <div class='fullHeight'>
-                <p class='center'>No Colleges to Display</p>
-            </div>
-        )
-
-    } else {
-
+    if (colleges.length === 0) {
         return (
-
+            <div className="fullHeight">
+                <p className="center">No Colleges to Display</p>
+            </div>
+        );
+    } else {
+        return (
             <div>
-                {/* https://flowbite-react.com/docs/typography/hr */}
                 <HR />
-                
-                {filteredData.map((college) => (
-                    <div key={college.id}>
-                        <div class='horizontalFlex spaceBetween'>
-                            <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${college.image}`)} class='smallLogo' alt={`${college.name} logo`}></img>
-                                <h3 class='listTitle'>{college.name}</h3>
+                {colleges.map((college) => (
+                    <div key={college.CollegeID}>
+                        <div className="horizontalFlex spaceBetween">
+                            <div className="horizontalFlex">
+                                {/* Update this to match your image setup */}
+                                <img src={`../../assets/images/${college.image}`} className="smallLogo" alt={`${college.COLLEGE_NAME} logo`} />
+                                <h3 className="listTitle">{college.COLLEGE_NAME}</h3>
                             </div>
-                            <div class='centerButton'>
-                                <button class='standardButton' onClick={()=>handleClick(college)}>View College</button>
+                            <div className="centerButton">
+                                <button className="standardButton" onClick={() => handleClick(college)}>View College</button>
                             </div>
                         </div>
                         <HR />
                     </div>
                 ))}
             </div>
-
-        )
+        );
     }
-
 }
-
-
 
 export default CollegeList;

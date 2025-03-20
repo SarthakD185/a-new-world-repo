@@ -2,7 +2,7 @@ import * as React from 'react';
 import '../../App.css';
 import '../../assets/css/IndividualCollege.css';
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import TeamList from './TeamList';
 import AnnouncementsList from './AnnouncementsList';
@@ -13,175 +13,134 @@ import Popup from 'reactjs-popup';
 
 function IndividualCollegePage() {
     const location = useLocation();
-    const data = location.state;
     const navigate = useNavigate();
-
-    //store inputs
+    const data = location.state || {}; 
+    
+    //State for team data
+    const [teams, setTeams] = useState([]);
     const [inputText, setInputText] = useState("");
     const [teamName, setTeamName] = useState(""); 
-    const [email, setEmail] = useState(""); 
 
-    let inputHandler = (e) => {
-        //lower case
-        var lowerCase = e.target.value.toLowerCase();
-        setInputText(lowerCase);
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeams?collegeID=${data.id}`);
+                const result = await response.json();
+                if (response.ok) {
+                    const filteredTeams = result.filter(team => team.CollegeID === parseInt(data.id));
+                    setTeams(filteredTeams);  
+                } else {
+                    console.error('Failed to fetch teams:', result);
+                    setTeams([]);  
+                }
+            } catch (error) {
+                console.error("Error fetching teams:", error);
+                setTeams([]); 
+            }
+        };
+
+        if (data.id) {
+            fetchTeams(); //fetch
+        }
+    }, [data.id]);  
+
+    const inputHandler = (e) => {
+        setInputText(e.target.value.toLowerCase());
     };
 
     const handleCreateTeam = async (e) => {
-        e.preventDefault(); 
-
-        console.log("Creating team...");
-
+        e.preventDefault();
         if (!teamName.trim()) {
             alert("Please enter a valid team name.");
             return;
         }
-
-        if (!email.trim()) {
-            alert("Please enter your email.");
-            return;
-        }
-
         try {
-            console.log("Making API request...");
-
-            //email val check
-            const userEmail = email;
-
-            if (!userEmail) {
-                alert("Unable to retrieve user email.");
-                return;
-            }
-
             const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTeam', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     teamName: teamName,
-                    collegeID: data.id, 
-                    email: userEmail, 
+                    collegeID: data.id || "",
                 }),
             });
-
+            
+            if (response.status === 405) {
+                console.error("405 Method Not Allowed. Check if the API endpoint allows POST requests.");
+                alert("Error: Method Not Allowed. Please check with the server administrator.");
+                return;
+            }
+    
             const result = await response.json();
-            console.log(result);
-
             if (response.status === 201) {
                 alert("Team created successfully!");
-                window.location.reload(); //refresh shows new team needs work
+                window.location.reload();
             } else {
-                console.error(result);
-                alert("Error creating team: " + result.body);
+                console.error("Error response:", result);
+                alert("Error creating team: " + (result.body || "Unknown error"));
             }
         } catch (error) {
             console.error("Error:", error);
-            alert("An error occurred.");
+            alert("An error occurred while creating the team.");
         }
     };
 
-    function handleClickGallery(collegeInfo) {
+    const handleClickGallery = () => {
         navigate('/gallery');
-    }
+    };
 
     return (
         <div>
             <div className='horizontalFlex centerButton paddingTop'>
-                <img src={require(`../../assets/images/${data.image}`)} className='smallLogo' alt="College Logo" />
-                <h1 className='collegeTitle'>{data.name}</h1>
+                {data.image && <img src={require(`../../assets/images/${data.image}`)} className='smallLogo' alt="College Logo" />}
+                <h1 className='collegeTitle'>{data.name || "Unknown College"}</h1>
             </div>
 
             <div className='extraWideColumnContainer'>
-                
                 <div className='box' id='individualCollegeGallery'>
                     <div className='horizontalFlex spaceBetween stickyHeader smallBottomMargin'>
                         <h2 className='noPadding noMargin'>Gallery</h2>
-                        <div className='centerButton'>
-                            <button className='standardButton' onClick={() => handleClickGallery(data.id)}>View More</button>
-                        </div>
+                        <button className='standardButton' onClick={handleClickGallery}>View More</button>
                     </div>
-
-                    <GalleryList collegeID={data.id} />
+                    <GalleryList collegeID={data.id || ""} />
                 </div>
 
                 <div className='box' id='individualCollegeRegisteredTeams'>
                     <div className='horizontalFlex spaceBetween stickyHeader'>
                         <div className='horizontalFlex'>
                             <h2 className='noPadding noMargin'>Registered Teams</h2>
-
-                            <div className='centerButton' style={{ marginLeft: '24px' }}>
-                                <Popup trigger={
-                                    <button className='standardButton'>
-                                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                                            Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
-                                        </div>
-                                    </button>}
-                                    modal nested>
-                                    {
-                                        close => (
-                                            <div className='modal popup'>
-                                                <div className='content'>
-                                                    <h1 className='center'>Create Team</h1>
-
-                                                    <form className='center' onSubmit={handleCreateTeam}>
-                                                        <label htmlFor="teamName">Team Name: </label>
-                                                        <input
-                                                            type="text"
-                                                            id="teamName"
-                                                            name="teamName"
-                                                            value={teamName}
-                                                            onChange={(e) => setTeamName(e.target.value)}
-                                                            style={{ marginBottom: '24px' }}
-                                                        />
-                                                        <label htmlFor="email">Email: </label>
-                                                        <input
-                                                            type="email"
-                                                            id="email"
-                                                            name="email"
-                                                            value={email}
-                                                            onChange={(e) => setEmail(e.target.value)}
-                                                            style={{ marginBottom: '24px' }}
-                                                        />
-                                                        <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
-                                                            <button
-                                                                className='standardButton fullWidth'
-                                                                type="submit" // This triggers the form submission
-                                                            >
-                                                                Save
-                                                            </button>
-
-                                                            <button className='redButton fullWidth' onClick={() => close()}>
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                            <Popup trigger={<button className='standardButton'>
+                                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+                                        Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
+                                    </div>
+                                </button>} modal nested>
+                                {close => (
+                                    <div className='modal popup'>
+                                        <div className='content'>
+                                            <h1 className='center'>Create Team</h1>
+                                            <form className='center' onSubmit={handleCreateTeam}>
+                                                <label htmlFor="teamName">Team Name: </label>
+                                                <input type="text" id="teamName" value={teamName} onChange={(e) => setTeamName(e.target.value)} style={{ marginBottom: '24px' }} />
+                                                <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
+                                                    <button className='standardButton fullWidth' type="submit">Save</button>
+                                                    <button className='redButton fullWidth' onClick={() => close()}>Close</button>
                                                 </div>
-                                            </div>
-                                        )
-                                    }
-                                </Popup>
-                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                )}
+                            </Popup>
                         </div>
-
-                        {/* Search Bar */}
                         <div className="search">
-                            <TextField
-                                id="outlined-basic"
-                                onChange={inputHandler}
-                                variant="outlined"
-                                fullWidth
-                                label="Search"
-                            />
+                            <TextField id="outlined-basic" onChange={inputHandler} variant="outlined" fullWidth label="Search" />
                         </div>
                     </div>
-                    
-                    <TeamList input={inputText} collegeID={data.id} />
+                    <TeamList teams={teams} input={inputText} collegeID={data.id || ""} />
                 </div>
 
                 <div className='box' id='individualCollegeAnnouncements'>
                     <h2>Announcements</h2>
-                    <AnnouncementsList collegeID={data.id} />
+                    <AnnouncementsList collegeID={data.id || ""} />
                 </div>
-
             </div>
         </div>
     );

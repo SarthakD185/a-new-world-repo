@@ -1,78 +1,53 @@
-import { React } from 'react';
-import data from '../../assets/data/teams.json';
+import React from 'react';
 import { HR } from "flowbite-react";
 import '../../assets/css/IndividualCollege.css';
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
-function TeamList(props) {
+function TeamList({ teams, collegeID }) {
 
-    //create a new array by filtering the original array
-
-    const filteredData = data.filter((el) => {
-
-        if(el.collegeID == props.collegeID) {
-
-            //if no input the return the original
-
-            if (props.input === '') {
-
-                return el;
-
-            }
-
-            //return the item which contains the user input
-
-            else {
-
-                return el.name.toLowerCase().includes(props.input)
-
-            }
-
-        }
-
-    })
-
-    if(filteredData.length === 0){
-
-        return(
-            <div class='fullHeight'>
-                <p class='center'>No Teams to Display</p>
-            </div>
-        )
-
-    } else {
-
-        return (
-
-            <div>
-                {/* https://flowbite-react.com/docs/typography/hr */}
-                <HR />
-
-                {filteredData.map((team) => (
-                    <div key={team.id}>
-                        <div class='horizontalFlex spaceBetween'>
-                            <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${team.image}`)} class='smallLogo rounded'></img>
-                                <div>
-                                    <h3 class='smallBottomMargin'>{team.name}</h3>
-                                    <p class='shortBio'>{team.bio}</p>
-                                </div>
-                            </div>
-                            <div class='centerButton'>
-                                {/* TODO - add button action */}
-                                <button class='secondaryButton' style={{width: '120px'}}>Join Team</button>
-                            </div>
-                        </div>
-                        <HR />
-                    </div>
-                ))}
-            </div>
-
-        )
+    // Ensure that teams is an array and is not null or undefined
+    if (!teams || !Array.isArray(teams)) {
+        return <div>Error: Invalid teams data.</div>;
     }
 
+    // Filter teams by collegeID
+    const filteredTeams = teams.filter(team => team.CollegeID === collegeID);
+
+    if (filteredTeams.length === 0) {
+        return (
+            <div className="fullHeight">
+                <p className="center">No Teams to Display</p>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            {filteredTeams.map((team) => (
+                <div key={team.TeamID}>
+                    <div className="horizontalFlex spaceBetween">
+                        <div className="horizontalFlex">
+                            {/* Show team photo, default to a placeholder image if missing */}
+                            <img
+                                src={team.TEAM_PHOTO ? team.TEAM_PHOTO : require('../../assets/images/teamLogo.jpg')}
+                                alt="Team"
+                                className="smallLogo rounded"
+                            />
+                            <div>
+                                <h3 className="smallBottomMargin">{team.TEAM_NAME}</h3>
+                                <p className="shortBio">{team.TEAM_BLURB || "No description available."}</p>
+                            </div>
+                        </div>
+                        <div className="centerButton">
+                            <button className="secondaryButton" style={{ width: '120px' }}>
+                                Join Team
+                            </button>
+                        </div>
+                    </div>
+                    <HR />
+                </div>
+            ))}
+        </div>
+    );
 }
-
-
 
 export default TeamList;
