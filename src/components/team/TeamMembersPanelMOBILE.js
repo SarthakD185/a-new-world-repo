@@ -12,16 +12,16 @@ function TeamMembersPanelMOBILE() {
 
     return (
         <>
-           <h2>Team Members</h2>
-                <div class='horizontalFlex' style={{justifyContent: 'space-around', height: '300px'}}>
-                    <TeamMemberCard user={users[0]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[1]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[2]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[3]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[4]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[5]} className='teamMemberMobileCard' />
-                    <TeamMemberCard user={users[6]} className='teamMemberMobileCard' />
-                </div>
+            <h2>Team Members</h2>
+            <div class='horizontalFlex' style={{justifyContent: 'space-around', height: '250px', overflow: 'scroll' }}>
+                <TeamMemberCard user={users[0]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[1]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[2]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[3]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[4]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[5]} className='teamMemberMobileCard' />
+                <TeamMemberCard user={users[6]} className='teamMemberMobileCard' />
+            </div>
 
         </>
     );

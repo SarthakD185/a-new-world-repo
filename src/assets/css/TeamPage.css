@@ -123,7 +123,7 @@
     text-align: center;
 }
 
-.fixedWidthBox300px {
+.teamMemberBox {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -133,7 +133,6 @@
         margin: 5px;
     }
 }
-
 
 
 .paddingTop {
@@ -168,7 +167,6 @@
         margin: 18px;
     }
     
-    
     #teamBioInformation {
         grid-column-start: 1;
         grid-column-end: 4;
@@ -189,8 +187,6 @@
         grid-row-start: 3;
         grid-row-end: 4;
         height: auto;
-        background-color: rgba(255, 0, 251, 0.576);
-        overflow:hidden;
     }
 
     /* .teamMemberMobileCard {
@@ -234,6 +230,28 @@
         grid-row-start: 5;
         grid-row-end: 6;
         height: auto;
+    }
+
+    .teamMemberBox {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: 170px;
+        padding: 10px 10px 16px 10px;
+        
+        img {
+            margin: 5px;
+            max-height: 80px;
+            align-self: center;
+        }
+        h4 {
+            margin: 5px 0px 5px 0px;
+        }
+        p {
+            line-height: 1.2;
+            word-wrap: break-word;
+        }
     }
 
     

@@ -10,10 +10,10 @@ function TeamMemberCard({
 
     return (
         <>
-            <div class={`box fixedWidthBox300px ${className}`}>
-                <img src={"https://placehold.co/150"} class='smallLogo'></img>
+            <div class={`box teamMemberBox ${className}`}>
+                <img src={"https://placehold.co/150"} class=''></img>
                 <div style={{padding: '10px', textAlign: 'left'}}>
-                    <h3>{user.name}</h3>
+                    <h4>{user.name}</h4>
                     <p>{user.teamRole}</p>
                 </div>
             </div>
