@@ -11,6 +11,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
 import data from '../../assets/data/colleges.json';
+import "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js";
 
 function AdminLandingPage() {
 
@@ -22,7 +23,7 @@ function AdminLandingPage() {
     const [marketerFilter, setMarketerFilter] = useState(true);
     const [moderatorFilter, setModeratorFilter] = useState(true);
     const [adminFilter, setAdminFilter] = useState(true);
-    const [collegeFilter, setCollegeFilter] = useState(null);
+    const [collegeFilter, setCollegeFilter] = useState(["All Colleges", null]);
 
     let tasksInputHandler = (e) => {
 
@@ -43,6 +44,21 @@ function AdminLandingPage() {
         setUsersInputText(lowerCase);
 
     };
+
+    function handleSelect(collegeName) {
+        //let selection = document.getElementById("collegeFilterAdmin");
+        //let collegeName = selection.value;
+        if(collegeName === "All Colleges") {
+            setCollegeFilter(["All Colleges", null]);
+        } else {
+            data.forEach(college => {
+                if(college.name === collegeName){
+                    setCollegeFilter([collegeName, college.id]);
+                    //console.log(selection.options[selection.selectedIndex]);
+                }
+            });
+        }
+    }
 
     return (
     
@@ -123,10 +139,10 @@ function AdminLandingPage() {
                                                         <div style={{marginBottom: '24px'}}>
                                                             <p style={{marginBottom: '0px'}}>College: </p>
 
-                                                            <select name="collegeFilter" id="collegeFilter">
-                                                                <option value="All Colleges" onClick={setCollegeFilter(null)}>All Colleges</option>
+                                                            <select name="collegeFilter" id="collegeFilterAdmin" onChange={() => handleSelect(document.getElementById("collegeFilterAdmin").value)} value={collegeFilter[0]}>
+                                                                <option value="All Colleges" id={'collegeFilterAdminAllColleges'}>All Colleges</option>
                                                                 {data.map((college) => (
-                                                                    <option value={college.name} onClick={setCollegeFilter(college.id)}>{college.name}</option>
+                                                                    <option value={college.name} id={'collegeFilterAdmin' + college.id}>{college.name}</option>
                                                                 ))}
                                                             </select>
                                                         </div>

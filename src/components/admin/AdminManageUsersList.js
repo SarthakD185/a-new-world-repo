@@ -14,6 +14,7 @@ function AdminManageUsersList(props) {
 
         // If no input, return the original
 
+        if(props.cFilter[0] === "All Colleges"){
             if (props.input === '') {
                 if(props.tMFilter === true && el.userType === "Team Member"){
                     return el;
@@ -42,7 +43,36 @@ function AdminManageUsersList(props) {
                     return el.name.toLowerCase().includes(props.input);
                 }
             }
-        
+        } else {
+            if (props.input === '') {
+                if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
+                    return el;
+                } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
+                    return el;
+                } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
+                    return el;
+                } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
+                    return el;
+                } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
+                    return el;
+                }
+            }
+
+            // Return the item which contains the user input
+            else {
+                if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
+                    return el.name.toLowerCase().includes(props.input);
+                } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
+                    return el.name.toLowerCase().includes(props.input);
+                }
+            }
+        }
 
     });
 
