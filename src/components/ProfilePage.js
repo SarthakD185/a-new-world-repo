@@ -114,17 +114,7 @@ function ProfilePage() {
                         <p>loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         
                     </div>
-                </div>
-
-                <div class='box' id='GalleryOnProfile'>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
-                    </div>
-                    <div>
-                        {/* <GalleryList collegeID={data.id} /> */}
-                    </div>
-                </div>
-               
+                </div>   
 
 
 
