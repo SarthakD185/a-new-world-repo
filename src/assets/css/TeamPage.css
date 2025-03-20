@@ -16,21 +16,18 @@
 }
 
 #teamActionButtons{
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 2;
     height: auto;
+    width: 300px;
+
+    margin: auto;
 
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 
-    min-height: 150px;
-
-    /* button font is bigger */
     button {
         font-size: 1.2rem;
+        margin-bottom: 20px;
     }
 }
 

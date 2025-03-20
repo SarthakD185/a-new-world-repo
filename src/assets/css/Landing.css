@@ -5,8 +5,9 @@ body {
 }
 
 .heroImage {
-  width: 100%;
-  height: 32em;
+  width: 90%;
+  max-height: 32em;
+  /* margin: 10px; */
   object-fit: cover;
 }
   
@@ -111,11 +112,14 @@ body {
 @media screen and (max-width: 768px) {
 
   /* Changes from a 2 column to 1 column layout in mobile view*/
-.container {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto auto auto;
-}
+  .container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    margin: 8px;
+    width: auto;
+    max-width: 100%;
+  }
 
   #landingPageSection1 {
     display: grid;
@@ -156,6 +160,11 @@ body {
     grid-row-start: 2;
     grid-row-end: 3;
     align-content: center;
+  }
+
+  .box {
+    margin: 0;
+    padding: 16px;
   }
 }
   

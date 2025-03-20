@@ -31,6 +31,7 @@ function ProfilePage() {
                 <div id='teamActionButtons'>
                     <button class='heroButton'>Leave Team</button>
                     <button class='heroButton'>Deactivate Account</button>
+                    <button class='heroButton'>VIEW MY TEAM</button>
                 </div>
 
 
