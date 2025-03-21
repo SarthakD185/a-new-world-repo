@@ -11,7 +11,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
 import data from '../../assets/data/colleges.json';
-import "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js";
+import $ from 'jquery';
 
 function AdminLandingPage() {
 
@@ -26,52 +26,34 @@ function AdminLandingPage() {
     const [collegeFilter, setCollegeFilter] = useState(["All Colleges", null]);
 
     let tasksInputHandler = (e) => {
-
-        //convert input text to lower case
-
         var lowerCase = e.target.value.toLowerCase();
-
         setTasksInputText(lowerCase);
-
     };
 
     let usersInputHandler = (e) => {
-
-        //convert input text to lower case
-
         var lowerCase = e.target.value.toLowerCase();
-
         setUsersInputText(lowerCase);
-
     };
 
     function handleSelect(collegeName) {
-        //let selection = document.getElementById("collegeFilterAdmin");
-        //let collegeName = selection.value;
         if(collegeName === "All Colleges") {
             setCollegeFilter(["All Colleges", null]);
         } else {
             data.forEach(college => {
                 if(college.name === collegeName){
                     setCollegeFilter([collegeName, college.id]);
-                    //console.log(selection.options[selection.selectedIndex]);
                 }
             });
         }
     }
 
     return (
-    
         <div>
-
             <img src={logo} className='centerImagePadding' alt="logo"/>
-
             <div className='container' style={{marginTop: '0px'}}>
                 <div className='box' id='adminUncompletedTasks' style={{marginTop: '0px'}}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>Uncompleted Tasks</h2>
-                        
-                        {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
                         <div className="search">
                             <TextField
                             id="outlined-basic"
@@ -82,17 +64,12 @@ function AdminLandingPage() {
                             />
                         </div>
                     </div>
-
                     <AdminUncompletedTasksList input={tasksInputText} />
-
                 </div>
 
                 <div className='box' id='adminManageUsers' style={{marginTop: '0px'}}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>Manage Users</h2>
-
-                        
-                        {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
                         <div className="search horizontalFlex">
                             <TextField
                             id="outlined-basic"
@@ -101,10 +78,9 @@ function AdminLandingPage() {
                             fullWidth
                             label="Search"
                             />
-
                             <div className='centerButton' style={{marginLeft: '12px'}}>
-                                <Popup trigger=
-                                    {<button className='secondaryButton' style={{padding: '8px 8px 6px 8px'}}>
+                                <Popup trigger={
+                                    <button className='secondaryButton' style={{padding: '8px 8px 6px 8px'}}>
                                         <FaFilter />
                                     </button>} 
                                     modal nested>
@@ -112,33 +88,23 @@ function AdminLandingPage() {
                                         close => (
                                             <div className='modal popup'>
                                                 <div className='content'>
-
                                                     <h1 className='center'>Filter Users</h1>
-
                                                     <form>
-
                                                         <div style={{marginBottom: '24px'}}>
                                                             <p style={{marginBottom: '0px'}}>User Type: </p>
-
                                                             <input type="checkbox" id="userTypeFilterTeamMember" name="userTypeFilterTeamMember" value="Team Member" checked={teamMemberFilter} onClick={() => setTeamMemberFilter(teamMemberFilter => !teamMemberFilter)}/>
                                                             <label htmlFor="userTypeFilterTeamMember">Team Member</label><br/>
-
                                                             <input type="checkbox" id="userTypeFilterTeamCaptain" name="userTypeFilterTeamCaptain" value="Team Captain" checked={teamCaptainFilter} onClick={() => setTeamCaptainFilter(teamCaptainFilter => !teamCaptainFilter)}/>
                                                             <label htmlFor="userTypeFilterTeamCaptain">Team Captain</label><br/>
-
                                                             <input type="checkbox" id="userTypeFilterMarketer" name="userTypeFilterMarketer" value="Marketer" checked={marketerFilter} onClick={() => setMarketerFilter(marketerFilter => !marketerFilter)}/>
                                                             <label htmlFor="userTypeFilterMarketer">Marketer</label><br/>
-
                                                             <input type="checkbox" id="userTypeFilterModerator" name="userTypeFilterModerator" value="Moderator" checked={moderatorFilter} onClick={() => setModeratorFilter(moderatorFilter => !moderatorFilter)}/>
                                                             <label htmlFor="userTypeFilterModerator">Moderator</label><br/>
-
                                                             <input type="checkbox" id="userTypeFilterAdmin" name="userTypeFilterAdmin" value="Admin" checked={adminFilter} onClick={() => setAdminFilter(adminFilter => !adminFilter)}/>
                                                             <label htmlFor="userTypeFilterAdmin">Admin</label><br/>
                                                         </div>
-
                                                         <div style={{marginBottom: '24px'}}>
                                                             <p style={{marginBottom: '0px'}}>College: </p>
-
                                                             <select name="collegeFilter" id="collegeFilterAdmin" onChange={() => handleSelect(document.getElementById("collegeFilterAdmin").value)} value={collegeFilter[0]}>
                                                                 <option value="All Colleges" id={'collegeFilterAdminAllColleges'}>All Colleges</option>
                                                                 {data.map((college) => (
@@ -146,31 +112,24 @@ function AdminLandingPage() {
                                                                 ))}
                                                             </select>
                                                         </div>
-
                                                         <div className='centerButton' style={{gap: '24px'}}>
-                                                            <button className='standardButton fullWidth' onClick=
-                                                                {() => close()}>
-                                                                    Close
+                                                            <button className='standardButton fullWidth' onClick={() => close()}>
+                                                                Close
                                                             </button>
                                                         </div>
-
                                                     </form>
-
                                                 </div>
                                             </div>
                                         )
                                     }
                                 </Popup>
                             </div>
-
                         </div>
                     </div>
-                    
                     <AdminManageUsersList input={usersInputText} tMFilter={teamMemberFilter} tCFilter={teamCaptainFilter} marFilter={marketerFilter} modFilter={moderatorFilter} aFilter={adminFilter} cFilter={collegeFilter}/>
-
                     <div className='centerButton' style={{marginTop: '24px'}}>
-                        <Popup trigger=
-                            {<button className='standardButton'>
+                        <Popup trigger={
+                            <button className='standardButton'>
                                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
                                     Create New User <FaPlusCircle size='14px' style={{paddingLeft: '6px'}}/>
                                 </div>
@@ -180,40 +139,28 @@ function AdminLandingPage() {
                                 close => (
                                     <div className='modal popup'>
                                         <div className='content'>
-
                                             <h1 className='center'>Create New User</h1>
-
                                             <form className='center'>
                                                 <label htmlFor="email">Email: </label>
                                                 <input type="text" id="email" name="email" style={{marginBottom: '24px'}}/>
-
                                                 <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
-                                                    {/* TODO - add button action to create and save new user */}
-                                                    <button className='standardButton fullWidth' onClick=
-                                                        {() => close()}>
-                                                            Save
+                                                    <button className='standardButton fullWidth' onClick={() => close()}>
+                                                        Save
                                                     </button>
-
-                                                    <button className='redButton fullWidth' onClick=
-                                                        {() => close()}>
-                                                            Close
+                                                    <button className='redButton fullWidth' onClick={() => close()}>
+                                                        Close
                                                     </button>
                                                 </div>
                                             </form>
-
                                         </div>
                                     </div>
                                 )
                             }
                         </Popup>
                     </div>
-
                 </div>
-                
             </div>
-
         </div>
-
     );
 }
 
