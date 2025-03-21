@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HR } from "flowbite-react";
 import '../../assets/css/IndividualCollege.css';
 
-function TeamList({ teams, collegeID }) {
+function TeamList({ teams, collegeID, onJoinTeam }) {
+    const [joiningTeam, setJoiningTeam] = useState(null);
+    const [error, setError] = useState("");
 
     // Ensure that teams is an array and is not null or undefined
     if (!teams || !Array.isArray(teams)) {
@@ -19,6 +21,13 @@ function TeamList({ teams, collegeID }) {
             </div>
         );
     }
+
+    const handleJoinClick = (teamID) => {
+        setJoiningTeam(teamID); // Set the current team being joined
+        if (onJoinTeam) {
+            onJoinTeam(teamID);  // Pass the selected team ID to the parent for popup handling
+        }
+    };
 
     return (
         <div>
@@ -38,14 +47,21 @@ function TeamList({ teams, collegeID }) {
                             </div>
                         </div>
                         <div className="centerButton">
-                            <button className="secondaryButton" style={{ width: '120px' }}>
-                                Join Team
+                            <button
+                                className="secondaryButton"
+                                style={{ width: '120px' }}
+                                onClick={() => handleJoinClick(team.TeamID)}  // Trigger the parent popup handler
+                                disabled={joiningTeam === team.TeamID}
+                            >
+                                {joiningTeam === team.TeamID ? "Joining..." : "Join Team"}
                             </button>
                         </div>
                     </div>
                     <HR />
                 </div>
             ))}
+
+            {error && <p className="error">{error}</p>}
         </div>
     );
 }
