@@ -23,7 +23,7 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
     }
 
     const handleJoinClick = (teamID) => {
-        setJoiningTeam(teamID); // Set the current team being joined
+        // Instead of directly joining, call the onJoinTeam prop to trigger the popup
         if (onJoinTeam) {
             onJoinTeam(teamID);  // Pass the selected team ID to the parent for popup handling
         }

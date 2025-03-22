@@ -1,13 +1,11 @@
-import * as React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../App.css';
 import '../../assets/css/IndividualCollege.css';
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import TeamList from './TeamList';
 import AnnouncementsList from './AnnouncementsList';
 import GalleryList from './GalleryList';
-import { useNavigate } from 'react-router-dom';
 import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 
@@ -15,7 +13,8 @@ function IndividualCollegePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const data = location.state || {}; 
-    
+
+    // State management
     const [teams, setTeams] = useState([]);
     const [inputText, setInputText] = useState("");
     const [teamName, setTeamName] = useState(""); 
@@ -23,160 +22,153 @@ function IndividualCollegePage() {
     const [email, setEmail] = useState("");  
     const [showJoinPopup, setShowJoinPopup] = useState(false);  
     const [userTeamID, setUserTeamID] = useState(null);  
+    const [isEmailValid, setIsEmailValid] = useState(false); 
+    const [loading, setLoading] = useState(false);
 
+    // Ref for debounce timeout
+    const debounceTimeout = useRef(null);
+
+    // Fetch teams when the component mounts or college ID changes
     useEffect(() => {
         const fetchTeams = async () => {
+            if (!data.id) return; 
+
             try {
+                setLoading(true);
                 const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeams?collegeID=${data.id}`);
                 const result = await response.json();
+
                 if (response.ok) {
-                    const filteredTeams = result.filter(team => team.CollegeID === parseInt(data.id));
-                    setTeams(filteredTeams);  
+                    setTeams(result.filter(team => team.CollegeID === parseInt(data.id)));
                 } else {
                     console.error('Failed to fetch teams:', result);
-                    setTeams([]);  
+                    setTeams([]); 
                 }
             } catch (error) {
                 console.error("Error fetching teams:", error);
                 setTeams([]); 
+            } finally {
+                setLoading(false);
             }
         };
 
-        const checkUserTeam = async () => {
-            try {
-                // Fetch the current user's team ID
-                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserTeamID?email=' + email);
-                const result = await response.json();
-                if (response.ok && result.teamID) {
-                    setUserTeamID(result.teamID);  //set teamID
-                } else {
-                    setUserTeamID(null);//user has no team
-                }
-            } catch (error) {
-                console.error("Error fetching user team:", error);
-            }
-        };
+        if (data.id) fetchTeams();
+    }, [data.id]);
 
-        if (data.id) {
-            fetchTeams();
-            checkUserTeam(); 
-        }
-    }, [data.id, email]);  
-
+    // Debounced input handler
     const inputHandler = (e) => {
-        setInputText(e.target.value.toLowerCase());
+        const value = e.target.value.toLowerCase();
+        setInputText(value);
+
+        if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+
+        debounceTimeout.current = setTimeout(() => {
+            console.log('Search Input after debounce:', value);
+        }, 500);
     };
 
+    // Handle team creation
     const handleCreateTeam = async (e) => {
         e.preventDefault();
         if (!teamName.trim()) {
             alert("Please enter a valid team name.");
             return;
         }
+
         try {
+            setLoading(true);
             const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTeam', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    teamName: teamName,
-                    collegeID: data.id || "",
-                }),
+                body: JSON.stringify({ teamName, collegeID: data.id }),
             });
 
-            if (response.status === 405) {
-                console.error("405 Method Not Allowed. Check if the API endpoint allows POST requests.");
-                alert("Error: Method Not Allowed. Please check with the server administrator.");
-                return;
-            }
-
             const result = await response.json();
+
             if (response.status === 201) {
                 alert("Team created successfully!");
                 window.location.reload();
             } else {
-                console.error("Error response:", result);
                 alert("Error creating team: " + (result.body || "Unknown error"));
             }
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred while creating the team.");
+        } finally {
+            setLoading(false);
         }
     };
 
+    // Handle joining a team
     const handleJoinTeam = (teamID) => {
         if (userTeamID) {
             alert("You are already in a team!");
             return;
         }
-
         if (!teamID) {
             console.error('Team ID is missing');
             return;
         }
-        console.log('Team ID:', teamID); // Log the team ID instead of selectedTeamID
-        setTeamID(teamID);  // Set the team ID to join
-        setShowJoinPopup(true);  // Show the email input popup for joining team
+
+        setTeamID(teamID);
+        setShowJoinPopup(true);
     };
 
-    const handleEmailSubmit = async () => {
-        if (!email) {
-            alert("Please provide a valid email.");
-            return;
-        }
-    
-        // Basic email validation regex
+    // Handle email input
+    const handleEmailChange = (e) => {
+        const inputEmail = e.target.value;
+        setEmail(inputEmail);
+
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        if (!emailRegex.test(email)) {
+        setIsEmailValid(emailRegex.test(inputEmail));
+    };
+
+    // Handle email submission for joining a team
+    const handleEmailSubmit = async () => {
+        if (!email || !isEmailValid) {
             alert("Please provide a valid email.");
             return;
         }
-    
+
         try {
-            console.log('Email:', email);
-            console.log('Team ID:', teamID);
-            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${email}&teamID=${teamID}`);
+            setLoading(true);
+            const response = await fetch(
+                `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${encodeURIComponent(email)}&teamID=${encodeURIComponent(teamID)}`
+            );
+            
+            if (!response.ok) throw new Error('Failed to retrieve user from backend.');
+
             const result = await response.json();
-    
-            console.log('Response:', response);
-            console.log('Result:', result);
-    
-            if (response.status === 200 && result.UserID) {
-                const userID = result.UserID;
-    
-                //jointeam
+
+            if (response.status === 200 && result.data && result.data.userID) {
                 const joinResponse = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/joinTeam', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        teamID: teamID,
-                        userID: userID,
-                        email: email,
+                        teamID,
+                        email,
                     }),
                 });
-    
+
                 const joinResult = await joinResponse.json();
-                console.log("Join Response Status:", joinResponse.status);
-                console.log("Join Result:", joinResult);
-    
                 if (joinResponse.status === 200) {
                     alert("Successfully joined the team!");
                     setShowJoinPopup(false);
-                    window.location.reload();
                 } else {
-                    //logging
-                    console.error("Join Failed:", joinResult);
-                    alert("Failed to join the team. Response: " + (joinResult.body || joinResult.message || "Unknown error"));
+                    alert("Failed to join the team. Response: " + joinResult.message);
                 }
             } else {
-                console.error('User not found:', result);
                 alert("User not found or error retrieving user.");
             }
         } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred while joining the team. See console for details.");
+            console.error('Error:', error);
+            alert("An error occurred. Please try again later.");
+        } finally {
+            setLoading(false);
         }
     };
 
+    // Navigate to the gallery
     const handleClickGallery = () => {
         navigate('/gallery');
     };
@@ -202,19 +194,25 @@ function IndividualCollegePage() {
                         <div className='horizontalFlex'>
                             <h2 className='noPadding noMargin'>Registered Teams</h2>
                             <Popup trigger={<button className='standardButton'>
-                                    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-                                        Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
-                                    </div>
-                                </button>} modal nested>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
+                                </div>
+                            </button>} modal nested>
                                 {close => (
                                     <div className='modal popup'>
                                         <div className='content'>
                                             <h1 className='center'>Create Team</h1>
                                             <form className='center' onSubmit={handleCreateTeam}>
                                                 <label htmlFor="teamName">Team Name: </label>
-                                                <input type="text" id="teamName" value={teamName} onChange={(e) => setTeamName(e.target.value)} style={{ marginBottom: '24px' }} />
+                                                <input 
+                                                    type="text" 
+                                                    id="teamName" 
+                                                    value={teamName} 
+                                                    onChange={(e) => setTeamName(e.target.value)} 
+                                                    style={{ marginBottom: '24px' }} 
+                                                />
                                                 <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
-                                                    <button className='standardButton fullWidth' type="submit">Save</button>
+                                                    <button className='standardButton fullWidth' type="submit" disabled={loading}>Save</button>
                                                     <button className='redButton fullWidth' onClick={() => close()}>Close</button>
                                                 </div>
                                             </form>
@@ -224,7 +222,13 @@ function IndividualCollegePage() {
                             </Popup>
                         </div>
                         <div className="search">
-                            <TextField id="outlined-basic" onChange={inputHandler} variant="outlined" fullWidth label="Search" />
+                            <TextField 
+                                id="outlined-basic" 
+                                onChange={inputHandler} 
+                                variant="outlined" 
+                                fullWidth 
+                                label="Search" 
+                            />
                         </div>
                     </div>
                     <TeamList teams={teams} input={inputText} collegeID={data.id || ""} onJoinTeam={handleJoinTeam} /> 
@@ -236,7 +240,7 @@ function IndividualCollegePage() {
                 </div>
             </div>
 
-            {/* Popup for Join Team email input */}
+            {/* Join Team Email Popup */}
             {showJoinPopup && (
                 <Popup open={showJoinPopup} onClose={() => setShowJoinPopup(false)}>
                     <div className='popup'>
@@ -247,10 +251,10 @@ function IndividualCollegePage() {
                                 type="email"
                                 fullWidth
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={handleEmailChange}
                                 style={{ marginBottom: '20px' }}
                             />
-                            <button className="standardButton" onClick={handleEmailSubmit}>
+                            <button className="standardButton" onClick={handleEmailSubmit} disabled={loading}>
                                 Submit
                             </button>
                             <button className="redButton" onClick={() => setShowJoinPopup(false)}>
