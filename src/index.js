@@ -49,8 +49,10 @@ root.render(
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/tournament" element={<TournamentPage />} />
           <Route path="/individualTournament" element={<IndividualTournamentPage />} />
-          <Route path="/team" element={<TeamPage />} />
           
+          {/* Add dynamic route for Team Page */}
+          <Route path="/team/:id" element={<TeamPage />} />
+
           {/* Admin and Moderator Routes */}
           <Route path="/adminLanding" element={<AdminLandingPage />} />
           <Route path="/adminManageUsers" element={<AdminManageUsersList />} />

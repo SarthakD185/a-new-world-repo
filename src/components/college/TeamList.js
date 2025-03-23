@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { HR } from "flowbite-react";
+import { useNavigate } from 'react-router-dom';
 import '../../assets/css/IndividualCollege.css';
 
 function TeamList({ teams, collegeID, onJoinTeam }) {
     const [joiningTeam, setJoiningTeam] = useState(null);
     const [error, setError] = useState("");
+    const navigate = useNavigate(); // Hook for navigation
 
     // Ensure that teams is an array and is not null or undefined
     if (!teams || !Array.isArray(teams)) {
@@ -29,10 +31,15 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
         }
     };
 
+    // Function to handle team div click for navigation
+    const handleTeamClick = (teamID) => {
+        navigate(`/team/${teamID}`);  // Redirect to the team page using the teamID
+    };
+
     return (
         <div>
             {filteredTeams.map((team) => (
-                <div key={team.TeamID}>
+                <div key={team.TeamID} onClick={() => handleTeamClick(team.TeamID)} className="teamDiv">
                     <div className="horizontalFlex spaceBetween">
                         <div className="horizontalFlex">
                             {/* Show team photo, default to a placeholder image if missing */}

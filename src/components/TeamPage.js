@@ -12,90 +12,86 @@ import users from '../assets/data/users.json';
 import TeamMembersPanelDESKTOP from './team/TeamMembersPanelDESKTOP';
 import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
-
-// add a join team button. view team on indiv colleg epage leads to this page. and theres a join team on this page
-
+// Add a join team button. View team on individual college page leads to this page.
+// And there's a join team on this page
 
 function TeamPage() {
+    const teamID = 3; // Assuming we're looking at teamID 3
 
-    const teamID = 3;
-
-
-    // logs the join/leave button click to the console. Doesn't actually do anything yet.
-   
+    // Logs the join/leave button click to the console. Doesn't actually do anything yet.
     const handleTeamAction = (action) => {
         console.log(`${action} ${teamID} team...`);
+        // Handle the action logic here (e.g., send to server, update state, etc.)
     };
 
     return (
-    
         <div>
-            {/* the header section */}
-            <div class='verticalFlex centerButton paddingTop'>
+            {/* The header section */}
+            <div className='verticalFlex centerButton paddingTop'>
                 <h1>{teamData[teamID].name} - Global View</h1>
                 <h1>College Number: {teamData[teamID].id}</h1>
             </div>
-            
 
-
-            <div class='teamPageGrid'>
-                
-
-                {/* teams profile picture */}
-                <div class='box' id='teamProfilePicture'>
-                    <img src={teamData[teamID].image} class='smallLogo'></img>
+            <div className='teamPageGrid'>
+                {/* Team's profile picture */}
+                <div className='box' id='teamProfilePicture'>
+                    <img src={teamData[teamID].image} className='smallLogo' alt="Team Logo" />
                 </div>
 
-
+                {/* Action buttons */}
                 <div id='teamActionButtons'>
-                    <button class='heroButton' onClick={handleTeamAction('join')}>Join Team</button>
-                    <button class='heroButton' onClick={handleTeamAction('leave')}>Leave Team</button>
-                    
+                    <button className='heroButton' onClick={() => handleTeamAction('join')}>Join Team</button>
+                    <button className='heroButton' onClick={() => handleTeamAction('leave')}>Leave Team</button>
                 </div>
 
-
-                <div class='box' id='teamMembersDESKTOP'>                   
-                    <TeamMembersPanelDESKTOP/>
+                {/* Team Members - Desktop View */}
+                <div className='box' id='teamMembersDESKTOP'>
+                    <TeamMembersPanelDESKTOP />
                 </div>
-                <div class='box' id='teamMembersMOBILE'>                   
-                    <TeamMembersPanelMOBILE/>
+                
+                {/* Team Members - Mobile View */}
+                <div className='box' id='teamMembersMOBILE'>
+                    <TeamMembersPanelMOBILE />
                 </div>
 
-
-                <div class='box' id='teamEvents'>
+                {/* Upcoming Event */}
+                <div className='box' id='teamEvents'>
                     <h2>Next Event</h2>
-                    <UpcomingEventComponent 
-                            eventTitle="Opening Ceremonies"
-                            team1Number={teamData[teamID].name}
-                            team2Number={teamData[teamID+1].name}
-                            location="123-A"
-                            team1Logo="https://placehold.co/100"
-                            team2Logo="https://placehold.co/100"
-                            isYourTeam1={true}
+                    <UpcomingEventComponent
+                        eventTitle="Opening Ceremonies"
+                        team1Number={teamData[teamID].name}
+                        team2Number={teamData[teamID + 1].name}
+                        location="123-A"
+                        team1Logo="https://placehold.co/100"
+                        team2Logo="https://placehold.co/100"
+                        isYourTeam1={true}
                     />
                 </div>
 
-
-                <div class='box' id='teamBioInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+                {/* Team Bio */}
+                <div className='box' id='teamBioInformation'>
+                    <div className='horizontalFlex spaceBetween'>
                         <h2>Team Bio</h2>
                     </div>
                     <div>
-                        <p>{teamData[0].bio}</p>
+                        <p>{teamData[teamID].bio}</p>
                     </div>
                 </div>
 
-                <div class='box' id='teamGallery'>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Your Team's Gallery</h2>
+                {/* Team Gallery */}
+                <div className='box' id='teamGallery'>
+                    <div className='horizontalFlex spaceBetween'>
+                        <h2 className='noPadding noMargin'>Your Team's Gallery</h2>
                     </div>
                     <div>
+                        {/* Gallery List - Uncomment if needed */}
                         {/* <GalleryList collegeID={TeamList.id} /> */}
                     </div>
                 </div>
 
-                <div class='box' id='teamAccountInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+                {/* Team Information */}
+                <div className='box' id='teamAccountInformation'>
+                    <div className='horizontalFlex spaceBetween'>
                         <h2>Team Information</h2>
                     </div>
                     <div>
@@ -105,38 +101,31 @@ function TeamPage() {
                     </div>
                 </div>
 
-                <div class='box' id='teamRegistrationInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+                {/* Registration Information */}
+                <div className='box' id='teamRegistrationInformation'>
+                    <div className='horizontalFlex spaceBetween'>
                         <h2>Registration Information</h2>
                     </div>
-                    <div class='horizontalFlex spaceBetween'>
+                    <div className='horizontalFlex spaceBetween'>
                         <div>
                             <p>Team Name:</p>
-                            <img src={"https://placehold.co/100"} class='smallLogo'></img>
+                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Registration Logo" />
                         </div>
 
                         <div>
                             <p>Registration Status</p>
-                            <img src={"https://placehold.co/100"} class='smallLogo'></img>
+                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Registration Status" />
                         </div>
-                        
                     </div>
                 </div>
-               
 
-
-
-                {/* <div class='box' id='individualCollegeAnnouncements'>
+                {/* Announcements - Optional, uncomment if needed */}
+                {/* <div className='box' id='individualCollegeAnnouncements'>
                     <h2>Announcements</h2>
-
-                    <AnnouncementsList collegeID={teamteamData.id} />
-
+                    <AnnouncementsList collegeID={teamData.id} />
                 </div> */}
-
             </div>
-
         </div>
-
     );
 }
 
