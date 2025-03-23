@@ -122,6 +122,8 @@ function LandingPage() {
                         it is possible to enjoy striving to beat your own prior scores.
                         </p>
 
+                        {/* gameplay 'View Player Roles' popup below */}
+
                         <div className='centerButton'>
                             <Popup contentStyle={{ width: '90%' }} trigger=
                                 {<button className='standardButton'>View Player Roles</button>} 
@@ -165,6 +167,7 @@ function LandingPage() {
                                 }
                             </Popup>
                         </div>
+                        {/* end of View Player Roles Popup */}
 
                     </div>
 
@@ -174,7 +177,7 @@ function LandingPage() {
 
 
                 </div>
-                
+                {/* end of Gameplay Section */}
             </div>
 
         </div>

@@ -157,13 +157,13 @@ body {
 
   #gameplaySlideshow {
     grid-column: 1;
-    grid-row-start: 2;
-    grid-row-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
     align-content: center;
+    margin: 24px auto 0 auto;
   }
 
   .box {
-    margin: 0;
     padding: 16px;
   }
 }

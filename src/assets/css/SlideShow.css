@@ -32,3 +32,9 @@ caption {
   padding-top: 12px;
   color: black;
 }
+
+@media screen and (max-width: 768px) {
+  #slideContainer {
+    margin-left: 0;
+  }
+}
