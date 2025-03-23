@@ -24,11 +24,12 @@ function IndividualCollegePage() {
     const [userTeamID, setUserTeamID] = useState(null);  
     const [isEmailValid, setIsEmailValid] = useState(false); 
     const [loading, setLoading] = useState(false);
+    const [userID, setUserID] = useState(null);  
 
-    // Ref for debounce timeout
+    //debounce ref
     const debounceTimeout = useRef(null);
 
-    // Fetch teams when the component mounts or college ID changes
+    //fetch teams or college
     useEffect(() => {
         const fetchTeams = async () => {
             if (!data.id) return; 
@@ -55,7 +56,7 @@ function IndividualCollegePage() {
         if (data.id) fetchTeams();
     }, [data.id]);
 
-    // Debounced input handler
+    //slowing doubming api call
     const inputHandler = (e) => {
         const value = e.target.value.toLowerCase();
         setInputText(value);
@@ -67,7 +68,7 @@ function IndividualCollegePage() {
         }, 500);
     };
 
-    // Handle team creation
+    //create team handler
     const handleCreateTeam = async (e) => {
         e.preventDefault();
         if (!teamName.trim()) {
@@ -99,7 +100,7 @@ function IndividualCollegePage() {
         }
     };
 
-    // Handle joining a team
+    //join team handler
     const handleJoinTeam = (teamID) => {
         if (userTeamID) {
             alert("You are already in a team!");
@@ -114,43 +115,70 @@ function IndividualCollegePage() {
         setShowJoinPopup(true);
     };
 
-    // Handle email input
+    //email handler
     const handleEmailChange = (e) => {
-        const inputEmail = e.target.value;
-        setEmail(inputEmail);
+        const emailValue = e.target.value;
+        setEmail(emailValue);
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        setIsEmailValid(emailRegex.test(inputEmail));
+        //email val
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        setIsEmailValid(emailRegex.test(emailValue));
     };
 
-    // Handle email submission for joining a team
     const handleEmailSubmit = async () => {
         if (!email || !isEmailValid) {
             alert("Please provide a valid email.");
             return;
         }
-
+    
+        if (!teamID) {
+            alert("Please select a team to join.");
+            return;
+        }
+    
         try {
             setLoading(true);
+    
+            //logging for testing
+            console.log("Email:", email);
+            console.log("Selected team ID:", teamID);
+    
             const response = await fetch(
-                `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${encodeURIComponent(email)}&teamID=${encodeURIComponent(teamID)}`
+                `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${encodeURIComponent(email)}`
             );
-            
-            if (!response.ok) throw new Error('Failed to retrieve user from backend.');
-
+    
             const result = await response.json();
-
-            if (response.status === 200 && result.data && result.data.userID) {
+    
+            console.log('API Response:', result);
+    
+            if (!response.ok) {
+                throw new Error('Failed to retrieve user from backend.');
+            }
+    
+            
+            if (response.status === 200 && result.userID) {
+                
+                const userID = result.userID;  
+                setUserID(userID);  
+    
+                console.log('Attempting to join team with the following details:');
+                console.log('teamID:', teamID);
+                console.log('userID:', userID);
+    
+                //Use UserID to insert into teamMembers
                 const joinResponse = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/joinTeam', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        teamID,
+                        teamID,  
+                        userID,  
                         email,
                     }),
                 });
-
+    
                 const joinResult = await joinResponse.json();
+                console.log("Join response:", joinResult); //logging
+    
                 if (joinResponse.status === 200) {
                     alert("Successfully joined the team!");
                     setShowJoinPopup(false);
