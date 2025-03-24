@@ -1,6 +1,5 @@
 import * as React from 'react';
 import logo from '../assets/images/ANewWorldTitleTextWhiteOnClear.png';
-//import logo from '../assets/images/ANewWorldTitleTextClearBackground.png';
 
 import '../App.css';
 import '../assets/css/Landing.css';
@@ -8,7 +7,7 @@ import '../assets/css/Landing.css';
 import SlideShow from './SlideShow';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import Footer from './Footer';
+
 function LandingPage() {
 
     //grab the heroLogo img and add smallLogo class @ max-width less than 768px
@@ -179,8 +178,6 @@ function LandingPage() {
                 </div>
                 {/* end of Gameplay Section */}
             </div>
-
-            <Footer />
 
         </div>
 

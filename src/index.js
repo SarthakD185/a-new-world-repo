@@ -26,6 +26,8 @@ import { Account } from "./Account";
 import Status from './Status';
 import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
+import Footer from './components/Footer';
+import PrivacyPolicy from './components/PrivacyPolicyPage';
   
 Amplify.configure(awsExports);
 
@@ -35,8 +37,10 @@ root.render(
     <BrowserRouter>
       
       <Account>
+        
         <NavBar />
         <ScrollToTop />
+        
         <Routes>
           {/* Set the default route for '/' */}
           <Route path="/" element={<LandingPage />} />
@@ -49,6 +53,7 @@ root.render(
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/tournament" element={<TournamentPage />} />
           <Route path="/individualTournament" element={<IndividualTournamentPage />} />
+          <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           
           {/* Add dynamic route for Team Page */}
           <Route path="/team/:id" element={<TeamPage />} />
@@ -61,6 +66,9 @@ root.render(
           <Route path="/moderatorUsers" element={<ModeratorManageUsers />} />
           <Route path="/moderatorTasks" element={<ModeratorTasks />} />
         </Routes>
+
+        <Footer />
+
       </Account>
     </BrowserRouter>
   </React.StrictMode>

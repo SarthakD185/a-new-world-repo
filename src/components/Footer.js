@@ -1,34 +1,37 @@
 import "../assets/css/Footer.css";
 import logo from "../assets/images/ANewWorldTitleTextWhiteOnClear.png";
+import { useNavigate } from 'react-router-dom';
 
+function Footer() {
 
-function Component() {
-  return (
-    <div id="footer">
+    const navigate = useNavigate();
 
-        <div id="footerLinks">
-            <button id="footerBrandBtn" onClick={() => window.location.replace("/#home")}>
-                <img src={logo} alt="A New World Logo" />
-                {/* <h1>A New World</h1> */}
-            </button>
+    return (
+        <div id="footer">
 
-            <div id="footerTextLinksContainer">
-                <a href="#">About</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Licensing</a>
-                <a href="#">Contact</a>
+            <div id="footerLinks">
+                
+                <div id='footerBrandBtn'>
+                    <img src={logo} alt="A New World Logo" onClick={() => navigate("/")}/>
+                </div>
+
+                <div id="footerTextLinksContainer">
+                    <span onClick={() => navigate("/aboutus")}>About Us</span>
+                    <span onClick={() => navigate("/privacyPolicy")}>Privacy Policy</span>
+                    <span onClick={() => navigate("/privacyPolicy")}>Licensing</span>
+                    <span onClick={() => navigate("/aboutus")}>Contact</span>
+                </div>
             </div>
+
+            
+
+            <div id="footerCopyright">
+                <hr/>
+                <p>Copyright © 2025 Debug Frogs</p>
+            </div>
+
         </div>
-
-        
-
-        <div id="footerCopyright">
-            <hr/>
-            <p>Copyright © 2025 Debugging Frogs</p>
-        </div>
-
-    </div>
-  );
+    );
 }
 
-export default Component;
+export default Footer;
