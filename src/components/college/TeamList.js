@@ -6,14 +6,14 @@ import '../../assets/css/IndividualCollege.css';
 function TeamList({ teams, collegeID, onJoinTeam }) {
     const [joiningTeam, setJoiningTeam] = useState(null);
     const [error, setError] = useState("");
-    const navigate = useNavigate(); // Hook for navigation
+    const navigate = useNavigate(); 
 
-    // Ensure that teams is an array and is not null or undefined
+    //Ensure that teams is an array and is not null or undefined
     if (!teams || !Array.isArray(teams)) {
         return <div>Error: Invalid teams data.</div>;
     }
 
-    // Filter teams by collegeID
+    //Filter teams by collegeID
     const filteredTeams = teams.filter(team => team.CollegeID === collegeID);
 
     if (filteredTeams.length === 0) {
@@ -24,16 +24,19 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
         );
     }
 
-    const handleJoinClick = (teamID) => {
-        // Instead of directly joining, call the onJoinTeam prop to trigger the popup
+    const handleJoinClick = (event, teamID) => {
+        //Prevent the default behavior of the click event
+        event.stopPropagation(); //This prevents the click from triggering the team div click event
+
+        //Instead of directly joining, call the onJoinTeam prop to trigger the popup
         if (onJoinTeam) {
-            onJoinTeam(teamID);  // Pass the selected team ID to the parent for popup handling
+            onJoinTeam(teamID);  //Pass the selected team ID to the parent for popup handling
         }
     };
 
-    // Function to handle team div click for navigation
+    //div click navigation function
     const handleTeamClick = (teamID) => {
-        navigate(`/team/${teamID}`);  // Redirect to the team page using the teamID
+        navigate(`/team/${teamID}`);  //redirect to the correct team page
     };
 
     return (
@@ -57,7 +60,7 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
                             <button
                                 className="secondaryButton"
                                 style={{ width: '120px' }}
-                                onClick={() => handleJoinClick(team.TeamID)}  // Trigger the parent popup handler
+                                onClick={(event) => handleJoinClick(event, team.TeamID)}  // Pass event and teamID to prevent redirection
                                 disabled={joiningTeam === team.TeamID}
                             >
                                 {joiningTeam === team.TeamID ? "Joining..." : "Join Team"}

@@ -1,138 +1,162 @@
 [
-    {
-        "id": 1,
-        "name": "Debug Frogs",
-        "members": 4,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 1
-    },
-    {
-        "id": 2,
-        "name": "Bored Gamers",
-        "members": 6,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 1
-    },
-    {
-        "id": 3,
-        "name": "New Worlders",
-        "members": 7,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 1
-    },
-    {
-        "id": 4,
-        "name": "The Explorers",
-        "members": 4,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 1
-    },
-    {
-        "id": 5,
-        "name": "The Pros",
-        "members": 1,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 1
-    },
-    {
-        "id": 6,
-        "name": "Dice Rollers",
-        "members": 3,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 2
-    },
-    {
-        "id": 7,
-        "name": "The Crew",
-        "members": 4,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 2
-    },
-    {
-        "id": 8,
-        "name": "The Seven Amigos",
-        "members": 4,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 2
-    },
-    {
-        "id": 9,
-        "name": "The Terrible Teammates",
-        "members": 6,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 3
-    },
-    {
-        "id": 10,
-        "name": "Scaredy Cats",
-        "members": 7,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 3
-    },
-    {
-        "id": 11,
-        "name": "Bagel Buddies",
-        "members": 2,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 3
-    },
-    {
-        "id": 12,
-        "name": "Bubble Bursters",
-        "members": 6,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 4
-    },
-    {
-        "id": 13,
-        "name": "GOATs",
-        "members": 7,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 4
-    },
-    {
-        "id": 14,
-        "name": "Troublemakers",
-        "members": 4,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 5
-    },
-    {
-        "id": 15,
-        "name": "Team Name",
-        "members": 3,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 5
-    },
-    {
-        "id": 16,
-        "name": "Here To Win",
-        "members": 7,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 5
-    },
-    {
-        "id": 17,
-        "name": "No Sleep",
-        "members": 5,
-        "bio": "Lorem ipsum odor amet, consectetuer adipiscing elit. Tempus aptent lorem venenatis, taciti metus inceptos. Tincidunt torquent pulvinar himenaeos; lacus dui maecenas. Consequat ullamcorper neque aenean quisque est convallis.",
-        "image": "teamLogo.jpg",
-        "collegeID": 5
-    }
+	{
+		"TeamID" : 1,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 2,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test2",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 3,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test3",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 4,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test4",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 5,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test5",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 6,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test5",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 7,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "test7",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 8,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "CornellTEST",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 9,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "teamteam",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 10,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "teamtesting",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 11,
+		"CollegeID" : 2,
+		"TEAM_NAME" : "morestestingtesting",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 12,
+		"CollegeID" : 3,
+		"TEAM_NAME" : "team3",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 13,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "testtest",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 14,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "CornellOne",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 15,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "Cornell2",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 16,
+		"CollegeID" : 2,
+		"TEAM_NAME" : "IITONe",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 17,
+		"CollegeID" : 3,
+		"TEAM_NAME" : "test team",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 18,
+		"CollegeID" : 1,
+		"TEAM_NAME" : "testing2",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 19,
+		"CollegeID" : 4,
+		"TEAM_NAME" : "UCDTEST",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	},
+	{
+		"TeamID" : 20,
+		"CollegeID" : 6,
+		"TEAM_NAME" : "done",
+		"APPROVED" : 0,
+		"TEAM_BLURB" : null,
+		"TEAM_PHOTO" : null
+	}
 ]
