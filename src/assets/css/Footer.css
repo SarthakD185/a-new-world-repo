@@ -1,0 +1,61 @@
+#footer {
+    /* display: flex;
+    flex-direction: col;
+    justify-content: space-between;
+    align-items: start; */
+
+    padding: 20px;
+
+    background-color:#13505b;
+
+    a {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+}
+
+#footerLinks {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+#footerTextLinksContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    a {
+        margin: 10px;
+        padding: 0;
+    }
+}
+
+#footerCopyright {
+   width: 90%;
+}
+
+#footerBrandBtn {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+
+    img {
+        width: 80%;
+        cursor: pointer;
+        align-self: start;
+    }
+}
+
+
+
+@media screen and (max-width: 768px) {
+    #footerLinks {
+        flex-direction: column;
+    }
+}

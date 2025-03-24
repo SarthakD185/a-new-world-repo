@@ -8,7 +8,7 @@ import '../assets/css/Landing.css';
 import SlideShow from './SlideShow';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-
+import Footer from './Footer';
 function LandingPage() {
 
     //grab the heroLogo img and add smallLogo class @ max-width less than 768px
@@ -179,6 +179,8 @@ function LandingPage() {
                 </div>
                 {/* end of Gameplay Section */}
             </div>
+
+            <Footer />
 
         </div>
 
