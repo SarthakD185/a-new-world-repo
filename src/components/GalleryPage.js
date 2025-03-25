@@ -22,10 +22,6 @@ function GalleryPage() {
             </p>
 
             <div>
-                <FileUploader />
-            </div>
-
-            <div>
                 {/* tester until the one inside the gallery grid is working */}
                 {/* <div className='box'>
                     <Filter />
@@ -33,6 +29,10 @@ function GalleryPage() {
                 <div>
                     <GalleryGrid />
                 </div>
+            </div>
+
+            <div>
+                <FileUploader />
             </div>
 
         </div>

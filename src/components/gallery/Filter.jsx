@@ -2,39 +2,13 @@
 // A filter component that allows the user to search for items and filter them by status, 
 // used to filter and search images in the gallery grid
 
-
 import React, { useState } from 'react';
 import "./GalleryGrid.css";
 import galleryData from "../../assets/data/gallery.json";
 
-function Filter() {
+function Filter({ onClick }) {
     const [inputValue, setInputValue] = useState("");
     const [activeFilter, setActiveFilter] = useState("");
-
-    // // Mock data
-    // const items = [
-    //     {
-    //         "id": 1,
-    //         "teamName": "Debug Frogs",
-    //         "src": "https://images.unsplash.com/photo-1682695796954-bad0d0f59ff1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxw~aG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    //         "description": "Slide Description One\n\nthis is new line"
-            
-    //     },
-    //     {
-    //         "id": 2,
-    //         "teamName": "Board Gamers",
-    //         "src": "https://images.unsplash.com/photo-1682686581551-867e0b208bd1?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    //         "description": "Slide Description Two"
-    //     },
-    //     {
-    //         "id": 3,
-    //         "teamName": "New Worlders",
-    //         "src": "https://images.unsplash.com/photo-1682695797221-8164ff1fafc9?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    //         "description": "Slide Description Three"
-    //     }
-    // ];
-
-
     const filters = [...new Set(galleryData.map(item => item.teamName))];
 
     const handleFilterClick = (filter) => {
@@ -50,6 +24,15 @@ function Filter() {
         setInputValue(e.target.value.toLowerCase());
     };
 
+    // Handle image click to open lightbox
+    const handleClickImage = (item) => {
+        // Find the index of the clicked image in the galleryData array
+        const index = galleryData.findIndex(data => data.id === item.id);
+        if (index !== -1) {
+            onClick(index);
+        }
+    };
+
     return (
         <div className="filter-container">
             {/* Search Bar */}
@@ -57,13 +40,14 @@ function Filter() {
                 <input
                     type="text"
                     onChange={handleSearch}
-                    placeholder="Search by title..."
+                    placeholder="Search by team name..."
                     className="search-input"
                 />
             </div>
  
             {/* Filter Buttons */}
             <div className="filter-buttons">
+                
                 {filters.map((filter) => (
                     <button
                         key={filter} 
@@ -108,7 +92,11 @@ function Filter() {
                     // .map() creates a new array by applying a function to each element of the original array
                     // For each element, it returns a new value that replaces the original element
                     .map(item => (
-                        <div key={item.id} className="item-card">
+                        <div 
+                            key={item.id} 
+                            className="item-card"
+                            onClick={() => handleClickImage(item)}
+                        >
                             <div className="item-card-img-container">
                                 <img src={item.src} alt={item.description} style={{ width: '100%', height: '100%' }} />
                             </div>
