@@ -1,75 +1,88 @@
-import { React } from 'react';
-import data from '../../assets/data/colleges.json';
+import React, { useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 
 function TournamentList(props) {
-    //https://dev.to/salehmubashar/search-bar-in-react-js-545l
     const navigate = useNavigate();
+    const [tournaments, setTournaments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchTournaments() {
+            try {
+                const response = await fetch("https://jy7rxs047b.execute-api.us-east-1.amazonaws.com/prod/tournaments", {
+                    headers: {
+                        "x-api-key": "YOUR_API_KEY_HERE" // If required
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                setTournaments(data);
+            } catch (error) {
+                console.error("Error fetching tournaments:", error);
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchTournaments();
+    }, []);
 
     function handleClick(tournamentInfo) {
-        navigate('/individualTournament', { state:{id: tournamentInfo.id, name: tournamentInfo.name, image: tournamentInfo.image} });
+        // Check if tournament data exists
+        const tournamentData = tournamentInfo ? {
+            id: tournamentInfo.CollegeID || 'new',  // Use 'new' for a new tournament
+            name: tournamentInfo.COLLEGE_NAME || 'New Tournament',  // Default name for a new tournament
+            image: tournamentInfo.image || 'default_image.png'  // Default image
+        } : {
+            id: 'new',
+            name: 'New Tournament',
+            image: 'default_image.png'
+        };
+    
+        navigate('/individualTournament', { state: tournamentData });
     }
 
-    //create a new array by filtering the original array
+    if (loading) return <p className="center">Loading tournaments...</p>;
+    if (error) return <p className="center">Error: {error}</p>;
 
-    const filteredData = data.filter((el) => {
+    // Ensure el.COLLEGE_NAME is defined before calling toLowerCase
+    const filteredData = tournaments.filter((el) => {
+        return props.input === '' || (el.COLLEGE_NAME && typeof el.COLLEGE_NAME === 'string' && el.COLLEGE_NAME.toLowerCase().includes(props.input.toLowerCase()));
+    });
 
-        //if no input the return the original
-
-        if (props.input === '') {
-
-            return el;
-
-        }
-
-        //return the item which contains the user input
-
-        else {
-
-            return el.name.toLowerCase().includes(props.input)
-
-        }
-
-    })
-
-    if(filteredData.length === 0){
-
-        return(
-            <div class='fullHeight'>
-                <p class='center'>No Tournaments to Display</p>
-            </div>
-        )
-
-    } else {
-
+    if (filteredData.length === 0) {
         return (
-
+            <div className="fullHeight">
+                <p className="center">No Tournaments to Display</p>
+            </div>
+        );
+    } else {
+        return (
             <div>
-                {/* https://flowbite-react.com/docs/typography/hr */}
                 <HR />
-                
                 {filteredData.map((tournament) => (
-                    <div key={tournament.id}>
-                        <div class='horizontalFlex spaceBetween'>
-                            <div class='horizontalFlex'>
-                                <img src={require(`../../assets/images/${tournament.image}`)} class='smallLogo' alt={`${tournament.name} logo`}></img>
-                                <h3 class='listTitle'>{tournament.name}</h3>
+                    <div key={tournament.CollegeID}>
+                        <div className="horizontalFlex spaceBetween">
+                            <div className="horizontalFlex">
+                                <h3 className="listTitle">{tournament.COLLEGE_NAME}</h3>
                             </div>
-                            <div class='centerButton smallMobileButton'>
-                                <button class='standardButton' onClick={()=>handleClick(tournament)}>View Tournament</button>
+                            <div className="centerButton smallMobileButton">
+                                <button className="standardButton" onClick={() => handleClick(tournament)}>View Tournament</button>
                             </div>
                         </div>
                         <HR />
                     </div>
                 ))}
             </div>
-
-        )
+        );
     }
-
 }
-
-
 
 export default TournamentList;

@@ -1,70 +1,108 @@
-import { React } from 'react';
-import data from '../../assets/data/users.json';
+import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
 function ModeratorManageUsersList(props) {
+    const [users, setUsers] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-    //create a new array by filtering the original array
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/${props.moderatorCollegeID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const data = await response.json();
+                console.log("API response data:", data); //log
+                setUsers(data); 
+            } catch (err) {
+                setError(err.message); 
+            } finally {
+                setLoading(false); 
+            }
+        };
 
-    const filteredData = data.filter((el) => {
+        fetchUsers();
+    }, [props.moderatorCollegeID]);//refetch 
 
-        //if no input the return the original
+    
+    if (loading) {
+        return <div className="center">Loading...</div>;
+    }
 
+    if (error) {
+        return <div className="center">Error: {error}</div>;
+    }
+
+    //delete function
+    const handleDeleteUser = async (userID) => {
+        try {
+            //query
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            //update display list
+            setUsers(users.filter(user => user.UserID !== userID));
+
+            //success or failure message
+            alert("User deleted successfully!");
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            alert('Failed to delete user');
+        }
+    };
+
+    //If there's no input, display all users
+    const filteredData = users.filter((el) => {
         if (props.input === '') {
-
-            return el;
-
+            return true; 
+        } else {
+            return (
+                el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+            );
         }
+    });
 
-        //return the item which contains the user input
-
-        else {
-
-            return el.name.toLowerCase().includes(props.input)
-
-        }
-
-    })
-
-    if(filteredData.length === 0){
-
-        return(
-            <div class='fullHeight'>
-                <p class='center'>No Users to Display</p>
-            </div>
-        )
-
-    } else {
-
+    if (filteredData.length === 0) {
         return (
-
-            <div> 
-                {/* https://flowbite-react.com/docs/typography/hr */}
+            <div className="fullHeight">
+                <p className="center">No Users to Display</p>
+            </div>
+        );
+    } else {
+        return (
+            <div>
                 <HR />
-                
-                {filteredData.map((users) => (
-                    <div key={users.id}>
-                        <div class='horizontalFlex spaceBetween'>
+                {filteredData.map((user) => (
+                    <div key={user.UserID}>
+                        <div className="horizontalFlex spaceBetween">
                             <div>
-                                <h3>{users.name}</h3>
-                                <p>{users.teamRole}</p>
+                                <h3>{user.username}</h3>
+                                <p>{user.teamRole || 'No Role Assigned'}</p> {/* Adjust if teamRole is available */}
                             </div>
-                            <div class='centerButton'>
-                                {/* TODO - add button action */}
-                                <button class='secondaryButton'>View Profile</button>
+                            <div className="centerButton">
+                                <button
+                                    className="deleteButton"
+                                    onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
+                                >
+                                    <span style={{ color: 'red', fontSize: '20px' }}>X</span> {/* Red X button */}
+                                </button>
                             </div>
                         </div>
                         <HR />
                     </div>
                 ))}
             </div>
-
-        )
+        );
     }
-
 }
-
-
 
 export default ModeratorManageUsersList;

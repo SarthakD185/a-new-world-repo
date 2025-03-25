@@ -11,6 +11,7 @@ function NavBar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const { isAuthenticated, role, logout } = useContext(AccountContext);//role access
   const navigate = useNavigate();
+  const menuRef = React.useRef(null);
 
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
@@ -21,30 +22,51 @@ function NavBar() {
     navigate('/'); 
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target) && 
+          event.target.id !== 'navHamburger') {
+        setIsExpanded(false);
+      }
+    }
+
+    // Add event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
+  // Close menu when navigation occurs
+  const handleNavigation = (path) => {
+    setIsExpanded(false);
+    navigate(path);
+  };
+
   //re render when context is available
   useEffect(() => {
     //render
   }, [isAuthenticated, role]);
 
   return (
-    <div className='sticky navBar'>
-      <div className={`navGroup ${isExpanded ? 'expanded' : ''}`}>
-        <span onClick={() => navigate("/")} className='navItem'>
+    <div className={`sticky navBar ${isExpanded ? 'expanded' : ''}`} ref={menuRef}>
+      <div className={`navGroup firstGroupInExpandedHamburger ${isExpanded ? 'expanded' : ''}`}>
+        <span onClick={() => handleNavigation("/")} className='navItem logoItem'>
           <img src={logo} alt="Logo" className='navItem' />
         </span>
-        <div onClick={() => navigate("/tournament")} className='navItem'>
+        <div onClick={() => handleNavigation("/tournament")} className='navItem'>
           <span>Tournament</span>
         </div>
-        <div onClick={() => navigate("/gallery")} className='navItem'>
+        <div onClick={() => handleNavigation("/gallery")} className='navItem'>
           <span>Gallery</span>
         </div>
-        <div onClick={() => navigate("/colleges")} className='navItem'>
+        <div onClick={() => handleNavigation("/colleges")} className='navItem'>
           <span>Colleges</span>
         </div>
-        <div onClick={() => navigate("/team")} className='navItem'>
-          <span>Sample Team Page</span>
-        </div>
-        <div onClick={() => navigate("/aboutus")} className='navItem'>
+        <div onClick={() => handleNavigation("/aboutus")} className='navItem'>
           <span>About Us</span>
         </div>
       </div>
@@ -55,14 +77,8 @@ function NavBar() {
             {/* Admin Links */}
             {role === 'Admin' && (
               <>
-                <div onClick={() => navigate("/adminLanding")} className='navItem'>
+                <div onClick={() => handleNavigation("/adminLanding")} className='navItem'>
                   <span>Admin Landing</span>
-                </div>
-                <div onClick={() => navigate("/adminManageUsers")} className='navItem'>
-                  <span>Manage Users</span>
-                </div>
-                <div onClick={() => navigate("/adminTasks")} className='navItem'>
-                  <span>Uncompleted Tasks</span>
                 </div>
               </>
             )}
@@ -70,35 +86,29 @@ function NavBar() {
             {/* Moderator Links */}
             {role === 'Moderator' && (
               <>
-                <div onClick={() => navigate("/moderatorLanding")} className='navItem'>
+                <div onClick={() => handleNavigation("/moderatorLanding")} className='navItem'>
                   <span>Moderator Landing</span>
-                </div>
-                <div onClick={() => navigate("/moderatorUsers")} className='navItem'>
-                  <span>Manage Users</span>
-                </div>
-                <div onClick={() => navigate("/moderatorTasks")} className='navItem'>
-                  <span>Uncompleted Tasks</span>
                 </div>
               </>
             )}
 
-            
-            {/* USER DIV MISSING. page wont redirect because the user == is not here.*/}
             {/* Profile and Logout */}
-            {/* <div onClick={() => navigate("/profile", { profile:{collegeId: profileCollegeId, collegeAffiliation: profileCollegeAffiliation, name: profileName, fullName: profileFullName, username: profileUsername, email: profileEmail, image: profileImage} })} className='navItem'> */}
-            <div onClick={() => navigate("/profile")} className='navItem'>
+            <div onClick={() => handleNavigation("/profile")} className='navItem'>
               <span>Profile</span>
             </div>
-            <div onClick={handleSignOut} className='navItem'>
+            <div onClick={() => {
+              setIsExpanded(false);
+              handleSignOut();
+            }} className='navItem'>
               <span>Log Out</span>
             </div>
           </>
         ) : (
           <>
-            <div onClick={() => navigate("/signin")} className='navItem'>
+            <div onClick={() => handleNavigation("/signin")} className='navItem'>
               <span>Login</span>
             </div>
-            <div onClick={() => navigate("/signup")} className='navItem'>
+            <div onClick={() => handleNavigation("/signup")} className='navItem'>
               <span>Sign Up</span>
             </div>
           </>

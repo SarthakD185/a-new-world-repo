@@ -9,82 +9,63 @@ import ModeratorUncompletedTasksList from './ModeratorUncompletedTasksList';
 import ModeratorManageUsersList from './ModeratorManageUsersList';
 
 function AdminLandingPage() {
-
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
 
+    // Assume the moderator's CollegeID is 6 (this should come from the session or user profile)
+    const moderatorCollegeID = 6;
+
     let tasksInputHandler = (e) => {
-
-        //convert input text to lower case
-
         var lowerCase = e.target.value.toLowerCase();
-
         setTasksInputText(lowerCase);
-
     };
 
     let usersInputHandler = (e) => {
-
-        //convert input text to lower case
-
         var lowerCase = e.target.value.toLowerCase();
-
         setUsersInputText(lowerCase);
-
     };
 
     return (
-    
         <div>
+            <img src={logo} className='centerImagePadding' alt="logo" />
 
-
-            <img src={logo} class='centerImagePadding'></img>
-
-            <div class='container' style={{marginTop: '0px'}}>
-                <div class='box' id='moderatorUncompletedTasks' style={{marginTop: '0px'}}>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Uncompleted Tasks</h2>
-                        
-                        {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+            <div className='container' style={{ marginTop: '0px' }}>
+                <div className='box' id='moderatorUncompletedTasks' style={{ marginTop: '0px' }}>
+                    <div className='horizontalFlex spaceBetween'>
+                        <h2 className='noPadding noMargin'>Uncompleted Tasks</h2>
                         <div className="search">
                             <TextField
-                            id="outlined-basic"
-                            onChange={tasksInputHandler}
-                            variant="outlined"
-                            fullWidth
-                            label="Search"
+                                id="outlined-basic"
+                                onChange={tasksInputHandler}
+                                variant="outlined"
+                                fullWidth
+                                label="Search"
                             />
                         </div>
                     </div>
 
                     <ModeratorUncompletedTasksList input={tasksInputText} />
-
                 </div>
 
-                <div class='box' id='moderatorManageUsers' style={{marginTop: '0px'}}>
-                    <div class='horizontalFlex spaceBetween'>
-                        <h2 class='noPadding noMargin'>Manage Users</h2>
-                        
-                        {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+                <div className='box' id='moderatorManageUsers' style={{ marginTop: '0px' }}>
+                    <div className='horizontalFlex spaceBetween'>
+                        <h2 className='noPadding noMargin'>Manage Users</h2>
                         <div className="search">
                             <TextField
-                            id="outlined-basic"
-                            onChange={usersInputHandler}
-                            variant="outlined"
-                            fullWidth
-                            label="Search"
+                                id="outlined-basic"
+                                onChange={usersInputHandler}
+                                variant="outlined"
+                                fullWidth
+                                label="Search"
                             />
                         </div>
                     </div>
-                    
-                    <ModeratorManageUsersList input={usersInputText}/>
 
+                    {/* Pass CollegeID of the moderator to the ModeratorManageUsersList component */}
+                    <ModeratorManageUsersList input={usersInputText} moderatorCollegeID={moderatorCollegeID} />
                 </div>
-                
             </div>
-
         </div>
-
     );
 }
 
