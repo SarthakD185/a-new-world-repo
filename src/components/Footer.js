@@ -18,7 +18,7 @@ function Footer() {
                 <div id="footerTextLinksContainer">
                     <span onClick={() => {navigate("/aboutus"); window.scrollTo(0, 0);}}>About Us</span>
                     <span onClick={() => {navigate("/privacyPolicy"); window.scrollTo(0, 0);}}>Privacy Policy</span>
-                    <span onClick={() => {navigate("/privacyPolicy"); window.scrollTo(0, 0);}}>Licensing</span>
+                    <span onClick={() => {navigate("/security"); window.scrollTo(0, 0);}}>Security</span>
                     <span onClick={() => {navigate("/aboutus"); window.scrollTo(0, 0);}}>Contact</span>
                 </div>
             </div>

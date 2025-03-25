@@ -28,6 +28,7 @@ import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
 import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicyPage';
+import Security from './components/SecurityPage';
   
 Amplify.configure(awsExports);
 
@@ -54,6 +55,7 @@ root.render(
           <Route path="/tournament" element={<TournamentPage />} />
           <Route path="/individualTournament" element={<IndividualTournamentPage />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
+          <Route path="/security" element={<Security />} />
           
           {/* Add dynamic route for Team Page */}
           <Route path="/team/:id" element={<TeamPage />} />
