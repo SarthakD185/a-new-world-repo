@@ -12,14 +12,14 @@ function Footer() {
             <div id="footerLinks">
                 
                 <div id='footerBrandBtn'>
-                    <img src={logo} alt="A New World Logo" onClick={() => navigate("/")}/>
+                    <img src={logo} alt="A New World Logo" onClick={() => {navigate("/"); window.scrollTo(0, 0);}}/>
                 </div>
 
                 <div id="footerTextLinksContainer">
-                    <span onClick={() => navigate("/aboutus")}>About Us</span>
-                    <span onClick={() => navigate("/privacyPolicy")}>Privacy Policy</span>
-                    <span onClick={() => navigate("/privacyPolicy")}>Licensing</span>
-                    <span onClick={() => navigate("/aboutus")}>Contact</span>
+                    <span onClick={() => {navigate("/aboutus"); window.scrollTo(0, 0);}}>About Us</span>
+                    <span onClick={() => {navigate("/privacyPolicy"); window.scrollTo(0, 0);}}>Privacy Policy</span>
+                    <span onClick={() => {navigate("/privacyPolicy"); window.scrollTo(0, 0);}}>Licensing</span>
+                    <span onClick={() => {navigate("/aboutus"); window.scrollTo(0, 0);}}>Contact</span>
                 </div>
             </div>
 
