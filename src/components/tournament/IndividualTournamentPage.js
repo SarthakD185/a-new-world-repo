@@ -82,9 +82,9 @@ function IndividualTournamentPage() {
 
     return (
         <div>
-            <div className='verticalFlexMobile480 horizontalFlex paddingTop'>
-                <h1>{data.name}</h1>
-                <h2>Tournament Information</h2>
+            <div className='verticalFlexMobile480 horizontalFlex paddingTop' style={{justifyContent: 'center'}}>
+                <h1>{data.name} Tournament Information</h1>
+
             </div>
 
             <div className='threeColumnContainerMobile480 threeColumnContainer'>
