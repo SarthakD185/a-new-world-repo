@@ -6,7 +6,8 @@
         "teamRole": "Expedition Leader", 
         "profileImage": "teamLogo.jpg",
         "collegeID": 1,
-        "userType": "Team Member"
+        "userType": "Team Member",
+        "tournamentSignedUp": true
     },
     {
         "id": 2,
