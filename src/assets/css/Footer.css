@@ -5,8 +5,9 @@
     align-items: start; */
 
     padding: 20px;
-
     background-color:#13505b;
+    position: relative;
+    bottom: 0;
 }
 
 #footerLinks {

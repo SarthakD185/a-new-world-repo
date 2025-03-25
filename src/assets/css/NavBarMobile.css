@@ -8,6 +8,8 @@ hamburger icon from:
 #navHamburger {
    height: 40px;
    margin: 10px 30px 10px 20px;
+   position: relative;
+   align-self: flex-end;
 }
 
 /* hide the hamburger menu icon on desktop */
@@ -19,13 +21,15 @@ hamburger icon from:
 
 
 /* show the hamburger menu icon on mobile and hide all nav links */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
     .navBar {
         justify-content: flex-end;
         position: relative;
+        /* cancels out a style in the app.css 'sticky' class so the logo looks better */
+        text-align: left;
     }
 
-    /* makes the links columns instead of rows, take this out once the hamburger menu works */
+    /* makes the links into columns instead of rows, take this out once the hamburger menu works */
     .navGroup {
         flex-direction: column;
         width: 100%;
@@ -36,15 +40,29 @@ hamburger icon from:
         float: right;
     }
 
+    /* hide all the links because there is a hamburger menu */
+    /* except the logo which is a span */
     .navGroup div {display: none;}
 
 
 
     /* Expanded class */
 
-    .navGroup.expanded {
+    /* changes order of the two groups of links in the entire navbar EXCEPT THE HAMBURGER MENU AND LOGO*/
+    .navBar.expanded {
+        flex-direction: column-reverse;
         position: absolute;
-        top: 60px; /* Adjust this value based on your navbar height */
+        width: 100%;
+    }
+
+    .firstGroupInExpandedHamburger {
+        align-self: flex-end;
+    }
+
+    /* positions the two groups of links */
+    .navGroup.expanded {
+        /* position: absolute; */
+        top: 60px;
         left: 0;
         width: 100%;
         background-color:  #13505b;
@@ -52,15 +70,24 @@ hamburger icon from:
         box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
     }
     
+    /* shows the links when expanded(which are in divs) */
     .navGroup.expanded div {
         display: block;
         padding: 15px;
         border-bottom: 1px solid #eee;
     }
 
-        /* reverses the order of the navGroups, working on this, is it needed for good UX? */
-        .navbar.navGroup .expanded {
-            flex-direction: column-reverse;
-        }
+    /* Ensure logo stays visible in mobile view regardless of expanded state */
+    .navGroup.expanded .logoItem {
+        border-bottom: none;
+        /* so the logo appears outside the expanded menu */
+        position: absolute;
+        top: 0; 
+        z-index: 1001;
+    }
 
+}
+
+.logoItem {
+    display: block !important; /* Always display the logo */
 }
