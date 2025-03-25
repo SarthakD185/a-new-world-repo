@@ -13,8 +13,32 @@ import data from '../assets/data/users.json';
 function ProfilePage() {
 
     // const location = useLocation();
+    const { id: userID } = useParams(); 
+    const [user, setUser] = useState(null);
+    
+    useEffect(() => {
+            const fetchUser = async () => {
+                try {
+                    const response = await fetch(`prod/getUserById?userID=${userID}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    setUser(data); 
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                    setError("Failed to load user data. Please try again.");
+                }
+            };
+    
+            fetchUserData();
+        }, [userID]); //refetch when userId is different
+    
+        if (!team) {
+            return <div className="error">⚠️ {error || "User not found"}</div>;
+        }
 
-    const user = data[1];
+    user = data[1];
 ;
 
     return (
