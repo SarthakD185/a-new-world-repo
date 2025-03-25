@@ -20,16 +20,22 @@
 }
 
 #teamActionButtons {
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 2;
+
     height: auto;
     width: 300px;
-    margin: 0 auto;
+    margin: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    position: absolute; 
-    top: 50%; 
-    right: 10px; 
-    transform: translateY(-50%); 
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-end;
+    align-items: center;
+    
+    position: static;
+    transform: none;
     
     button {
         font-size: 1.2rem;
@@ -281,6 +287,19 @@
             margin: 5px;
             max-height: 80px;
             align-self: center;
+        }
+    }
+
+    #teamActionButtons {
+        grid-column-start: 2;
+        grid-column-end: 3;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        
+        button {
+            font-size: 1rem;
+            padding: 8px 16px;
         }
     }
 }

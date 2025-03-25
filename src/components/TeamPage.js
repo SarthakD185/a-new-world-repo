@@ -84,8 +84,8 @@ function TeamPage() {
         <div>
             {/* Header */}
             <div className='verticalFlex centerButton paddingTop'>
-                <h1>{team.name} - Global View</h1>
-                <h1>College Number: {team.id}</h1>
+                <h1>{team.name} Team Page</h1>
+                {/* <h1>From college number: {team.id}</h1> */}
             </div>
 
             <div className='teamPageGrid'>
