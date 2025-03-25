@@ -61,13 +61,53 @@ function ModeratorManageUsersList(props) {
     //If there's no input, display all users
     const filteredData = users.filter((el) => {
         if (props.input === '') {
-            return true; 
+            return el;
+            //Need user type in user table to be able to filter list by user type
+            {/*
+            if(props.tMFilter === true && el.userType === "Team Member"){
+                return el;
+            } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                return el;
+            } else if(props.marFilter === true && el.userType === "Marketer"){
+                return el;
+            } else if(props.modFilter === true && el.userType === "Moderator"){
+                return el;
+            }
+            */}
         } else {
             return (
                 el.username.toLowerCase().includes(props.input.toLowerCase()) || 
                 el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
                 el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
             );
+            //Need user type in user table to be able to filter list by user type
+            {/*
+            if(props.tMFilter === true && el.userType === "Team Member"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+                );
+            } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+                );
+            } else if(props.marFilter === true && el.userType === "Marketer"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+                );
+            } else if(props.modFilter === true && el.userType === "Moderator"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+                );
+            }
+            */}
         }
     });
 
