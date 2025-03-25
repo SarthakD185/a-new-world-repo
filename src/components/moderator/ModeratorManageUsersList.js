@@ -2,11 +2,10 @@ import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 
 function ModeratorManageUsersList(props) {
-    const [users, setUsers] = useState([]); // state to store fetched users
-    const [loading, setLoading] = useState(true); // state to manage loading state
-    const [error, setError] = useState(null); // state to manage errors
+    const [users, setUsers] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-    // Fetch users when the component mounts or when the moderatorCollegeID changes
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -15,19 +14,19 @@ function ModeratorManageUsersList(props) {
                     throw new Error('Failed to fetch users');
                 }
                 const data = await response.json();
-                console.log("API response data:", data); // Log data to check the response
-                setUsers(data); // store the fetched data in state
+                console.log("API response data:", data); //log
+                setUsers(data); 
             } catch (err) {
-                setError(err.message); // set error state
+                setError(err.message); 
             } finally {
-                setLoading(false); // stop loading
+                setLoading(false); 
             }
         };
 
         fetchUsers();
-    }, [props.moderatorCollegeID]); // refetch if the college ID changes 
+    }, [props.moderatorCollegeID]);//refetch 
 
-    // Handle loading, error, and data rendering
+    
     if (loading) {
         return <div className="center">Loading...</div>;
     }
@@ -36,15 +35,38 @@ function ModeratorManageUsersList(props) {
         return <div className="center">Error: {error}</div>;
     }
 
-    // If there's no input, display all users
+    //delete function
+    const handleDeleteUser = async (userID) => {
+        try {
+            //query
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            //update display list
+            setUsers(users.filter(user => user.UserID !== userID));
+
+            //success or failure message
+            alert("User deleted successfully!");
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            alert('Failed to delete user');
+        }
+    };
+
+    //If there's no input, display all users
     const filteredData = users.filter((el) => {
         if (props.input === '') {
-            return true; // Display all users
+            return true; 
         } else {
             return (
                 el.username.toLowerCase().includes(props.input.toLowerCase()) || 
                 el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.lastname.toLowerCase().includes(props.input.toLowerCase()) // Filter by username, first name, or last name
+                el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
             );
         }
     });
@@ -67,7 +89,12 @@ function ModeratorManageUsersList(props) {
                                 <p>{user.teamRole || 'No Role Assigned'}</p> {/* Adjust if teamRole is available */}
                             </div>
                             <div className="centerButton">
-                                <button className="secondaryButton">View Profile</button>
+                                <button
+                                    className="deleteButton"
+                                    onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
+                                >
+                                    <span style={{ color: 'red', fontSize: '20px' }}>X</span> {/* Red X button */}
+                                </button>
                             </div>
                         </div>
                         <HR />
