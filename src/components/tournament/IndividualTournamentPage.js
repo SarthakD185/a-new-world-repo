@@ -6,39 +6,37 @@ import AnnouncementsList from '../college/AnnouncementsList';
 import CurrentGameList from './CurrentGameList';
 import NextGameModule from './NextGameModule';
 import { useNavigate } from 'react-router-dom';
-import { AccountContext } from '../../Account'; // Import AccountContext to check role
-import axios from 'axios'; // Import Axios for making HTTP requests
+import { AccountContext } from '../../Account';
+import axios from 'axios'; 
 
 function IndividualTournamentPage() {
     const location = useLocation();
     const data = location.state;
 
     const navigate = useNavigate();
-    const { isAuthenticated, role } = React.useContext(AccountContext); // Access role from context
+    const { isAuthenticated, role } = React.useContext(AccountContext); 
 
-    // State for loading and response
     const [loading, setLoading] = React.useState(false);
     const [errorMessage, setErrorMessage] = React.useState('');
     const [successMessage, setSuccessMessage] = React.useState('');
-    const [teams, setTeams] = React.useState([]); // Store teams here
+    const [teams, setTeams] = React.useState([]); 
 
-    // Function to navigate to the sign-up page
+    //navigate to sign up
     function handleClick() {
         navigate('/signup');
     }
 
-    // Fetch teams and log them
+    //fetch and log teams
     const fetchTeams = async () => {
         try {
             const response = await axios.get('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamsTournament'); // Example API endpoint
             if (response.status === 200) {
-                const fetchedTeams = response.data.teams; // Assuming response contains the teams
-                console.log('Fetched teams:', fetchedTeams); // Debug: log fetched teams
+                const fetchedTeams = response.data.teams; 
+                console.log('Fetched teams:', fetchedTeams); //log
                 setTeams(fetchedTeams);
 
-                // Now randomize teams and log after randomization
-                const randomizedTeams = shuffleTeams(fetchedTeams); // Assuming you have a shuffle function
-                console.log('Randomized teams:', randomizedTeams); // Debug: log randomized teams
+                const randomizedTeams = shuffleTeams(fetchedTeams); //shuffle
+                console.log('Randomized teams:', randomizedTeams); //log
             } else {
                 console.error('Failed to fetch teams. Status:', response.status);
             }
@@ -48,16 +46,16 @@ function IndividualTournamentPage() {
         }
     };
 
-    // Shuffle teams function (randomization)
+    //shuffle/randomizing
     const shuffleTeams = (teams) => {
         return teams.sort(() => Math.random() - 0.5);
     };
 
     React.useEffect(() => {
-        fetchTeams(); // Fetch teams when the component mounts
-    }, []); // Empty dependency array to run once on mount
+        fetchTeams(); //fetch team on mount
+    }, []); //array has to be empty before mount
 
-    // Function to handle Create Tournament action
+    //create tourney
     const handleCreateTournament = async () => {
         setLoading(true);
         setErrorMessage('');
@@ -65,7 +63,7 @@ function IndividualTournamentPage() {
     
         try {
             const response = await axios.post('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTournament', {
-                collegeID: data.id,  // Make sure data.id and data.name are available
+                collegeID: data.id,  //data.id and data.name are absolutely needed here
                 tournamentName: data.name
             });
     
@@ -99,7 +97,7 @@ function IndividualTournamentPage() {
                 <div className='box' id='individualTournamentCurrentGames'>
                     <h2 className='noPadding noMargin'>Current Games</h2>
                     {teams.length > 0 ? (
-                        <CurrentGameList collegeID={data.id} teams={teams} />  // Pass teams as a prop
+                        <CurrentGameList collegeID={data.id} teams={teams} />  //passing team as prop
                     ) : (
                         <p>Loading games...</p>
                     )}

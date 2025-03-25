@@ -2,12 +2,22 @@ import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 import '../../assets/css/IndividualTournament.css';
 
-function CurrentGameList(props) {
+function CurrentGameList({ collegeID }) {
     const [games, setGames] = useState([]);
+    const [filteredGames, setFilteredGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    //teamMap
+    const teamToCollegeMap = {
+        1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6, 7: 6, 20: 6,
+        8: 1, 9: 1, 10: 1, 11: 2, 12: 3, 13: 1, 14: 1, 15: 1, 
+        16: 2, 17: 3, 18: 1, 19: 4
+    };
+
     useEffect(() => {
+        console.log('collegeID:', collegeID); //log
+
         const fetchGames = async () => {
             try {
                 const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
@@ -15,8 +25,7 @@ function CurrentGameList(props) {
                     throw new Error('Failed to fetch games');
                 }
                 const data = await response.json();
-                
-                console.log('Fetched data:', data);
+                console.log('Fetched data:', data); //log
 
                 if (data.matches && Array.isArray(data.matches)) {
                     setGames(data.matches);
@@ -33,20 +42,33 @@ function CurrentGameList(props) {
         };
 
         fetchGames();
-    }, []);
+    }, []); //only on mount
 
-    // Filter games using TeamOneID and TeamTwoID, without status check
-    const filteredGames = games.filter((game) => {
-        const team1CollegeID = game.TeamOneID; // Assuming TeamOneID is the collegeID for team1
-        const team2CollegeID = game.TeamTwoID; // Assuming TeamTwoID is the collegeID for team2
+    //filter
+    useEffect(() => {
+        if (games.length > 0 && collegeID) {
+            console.log('Filtering games for collegeID:', collegeID);
 
-        // Log values of TeamOneID, TeamTwoID, and props.collegeID for debugging
-        console.log('Filtering:', team1CollegeID, team2CollegeID, props.collegeID);
+            //filter
+            const filtered = games.filter((game) => {
+                const team1CollegeID = teamToCollegeMap[game.TeamOneID];
+                const team2CollegeID = teamToCollegeMap[game.TeamTwoID];
 
-        // Now the filter only checks for TeamOneID or TeamTwoID match with props.collegeID
-        return team1CollegeID === props.collegeID || team2CollegeID === props.collegeID;
-    });
+                console.log('Checking game:', game.MatchID);
+                console.log('Team1 CollegeID:', team1CollegeID, 'vs Team2 CollegeID:', team2CollegeID, 'vs collegeID:', collegeID);
 
+                //logging
+                const isMatch = team1CollegeID === collegeID || team2CollegeID === collegeID;
+                console.log('Does this game match? ', isMatch);
+                return isMatch;
+            });
+
+            console.log('Filtered games:', filtered); //logging
+            setFilteredGames(filtered);
+        }
+    }, [games, collegeID]); //rerun with collegeID changes
+
+    //time formats might not use this
     const formatOptions = {
         timeStyle: "short"
     };
@@ -74,6 +96,8 @@ function CurrentGameList(props) {
             </div>
         );
     } else {
+        console.log('Rendering games:', filteredGames); //more logging
+
         return (
             <div>
                 <HR />
@@ -81,16 +105,14 @@ function CurrentGameList(props) {
                     <div key={game.MatchID}>
                         <div className='horizontalFlex spaceBetween'>
                             <div>
-                                <h4 className='noMargin'>{game.TeamOneID} vs {game.TeamTwoID}</h4> {/* Assuming you want to display IDs */}
+                                <h4 className='noMargin'>{game.TeamOneID} vs {game.TeamTwoID}</h4>
                                 <p className='smallFont'>Location: {game.Location}</p>
                             </div>
 
                             <div>
                                 <p className='smallFont lightFont'>
-                                    {/* Check if Date is a valid date string */}
                                     Start Time: {game.Date ? 
                                         (() => {
-                                            // Ensure Date is a valid date string
                                             const date = new Date(game.Date);
                                             if (isNaN(date.getTime())) {
                                                 return 'Invalid Date';
