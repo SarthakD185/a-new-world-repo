@@ -23,7 +23,7 @@ import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
 import ModeratorManageUsers from './components/moderator/ModeratorManageUsersList';
 import ModeratorTasks from './components/moderator/ModeratorUncompletedTasksList';
 import { Account } from "./Account";
-import Status from './Status';
+//import Status from './Status';
 import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
 import Footer from './components/Footer';
