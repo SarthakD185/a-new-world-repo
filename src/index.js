@@ -29,6 +29,7 @@ import awsExports from './aws-exports';
 import Footer from './components/Footer';
 import PrivacyPolicy from './components/PrivacyPolicyPage';
 import Security from './components/SecurityPage';
+import ReportsPage from './components/ReportsPage';
   
 Amplify.configure(awsExports);
 
@@ -67,6 +68,7 @@ root.render(
           <Route path="/moderatorLanding" element={<ModeratorLandingPage />} />
           <Route path="/moderatorUsers" element={<ModeratorManageUsers />} />
           <Route path="/moderatorTasks" element={<ModeratorTasks />} />
+          <Route path="/reports" element={<ReportsPage />} />
         </Routes>
 
         <Footer />

@@ -57,3 +57,25 @@ li {
     grid-row-start: 3;
     grid-row-end: 4;
 }
+
+@media only screen and (max-width: 768px) {
+    #privacyPolicyCollectInfo {
+        grid-column-end: 3;
+    }
+    
+    #privacyPolicyWhyRequired {
+        grid-column-start: 1;
+        grid-row-start: 4;
+        grid-row-end: 5;
+    }
+
+    #securityCookies {
+        grid-column-end: 3;
+    }
+    
+    #securityPersonalInfo {
+        grid-column-start: 1;
+        grid-row-start: 4;
+        grid-row-end: 5;
+    }
+}
