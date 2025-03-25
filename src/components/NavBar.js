@@ -80,6 +80,9 @@ function NavBar() {
                 <div onClick={() => handleNavigation("/adminLanding")} className='navItem'>
                   <span>Admin Landing</span>
                 </div>
+                <div onClick={() => handleNavigation("/reports")} className='navItem'>
+                  <span>Reports</span>
+                </div>
               </>
             )}
 
