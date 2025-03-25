@@ -31,7 +31,7 @@ function ProfilePage() {
                 }
             };
     
-            fetchUserData();
+            fetchUser();
         }, [userID]); //refetch when userId is different
     
         if (!team) {
