@@ -19,7 +19,7 @@ function ProfilePage() {
     useEffect(() => {
             const fetchUser = async () => {
                 try {
-                    const response = await fetch(`prod/getUserById?userID=${userID}`);
+                    const response = await fetch(`arn:aws:apigateway:us-east-1::/apis/zjz8rqzudc/routes/kvriiep?userID=${userID}`);
                     if (!response.ok) {
                         throw new Error(`HTTP error! Status: ${response.status}`);
                     }
