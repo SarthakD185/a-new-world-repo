@@ -89,12 +89,6 @@ function NavBar() {
                 <div onClick={() => handleNavigation("/moderatorLanding")} className='navItem'>
                   <span>Moderator Landing</span>
                 </div>
-                <div onClick={() => handleNavigation("/moderatorUsers")} className='navItem'>
-                  <span>Manage Users</span>
-                </div>
-                <div onClick={() => handleNavigation("/moderatorTasks")} className='navItem'>
-                  <span>Uncompleted Tasks</span>
-                </div>
               </>
             )}
 
