@@ -63,7 +63,7 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
-                        {user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>}
+                    {/*user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>*/}
                         <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
                         <p>Username: {user.username || "user_name2024"}</p>
                         <p>Full Name: {user.fullName || "Jane Smith"}</p>
