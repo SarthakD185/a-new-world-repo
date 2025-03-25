@@ -39,6 +39,64 @@
     font-weight: 500;
 }
 
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it is above other content */
+}
+
+/* Modal Container */
+.modal-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    z-index: 1100; /* Higher z-index for the modal itself */
+}
+
+/* Form Group Styling */
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    font-weight: bold;
+    display: block;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button Styling inside the modal */
+.formActions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.formActions button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 
 @media only screen and (max-width: 480px) {
     .box {
@@ -50,6 +108,16 @@
         grid-template-columns: 100%;
         margin: 5px;
    }
+
+   .modal-container {
+    padding: 15px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.formActions button {
+    padding: 12px 20px;
+}
 
     #individualTournamentAnnouncements {
         grid-column-start: 1;

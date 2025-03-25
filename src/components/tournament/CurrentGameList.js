@@ -1,65 +1,112 @@
-import { React } from 'react';
-import games from '../../assets/data/games.json';
+import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 import '../../assets/css/IndividualTournament.css';
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
 function CurrentGameList(props) {
+    const [games, setGames] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
-    //create a new array by filtering the original array
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch games');
+                }
+                const data = await response.json();
+                
+                console.log('Fetched data:', data);
 
-    const filteredGames = games.filter((el) => {
+                if (data.matches && Array.isArray(data.matches)) {
+                    setGames(data.matches);
+                } else {
+                    throw new Error('Fetched data is not in expected format');
+                }
 
-        if((el.collegeID === props.collegeID) && (el.status === "active")) {
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching games:', error);
+                setError('Error fetching games. Please try again later.');
+                setLoading(false);
+            }
+        };
 
-            return el;
+        fetchGames();
+    }, []);
 
-        }
+    // Filter games using TeamOneID and TeamTwoID, without status check
+    const filteredGames = games.filter((game) => {
+        const team1CollegeID = game.TeamOneID; // Assuming TeamOneID is the collegeID for team1
+        const team2CollegeID = game.TeamTwoID; // Assuming TeamTwoID is the collegeID for team2
 
-    })
+        // Log values of TeamOneID, TeamTwoID, and props.collegeID for debugging
+        console.log('Filtering:', team1CollegeID, team2CollegeID, props.collegeID);
+
+        // Now the filter only checks for TeamOneID or TeamTwoID match with props.collegeID
+        return team1CollegeID === props.collegeID || team2CollegeID === props.collegeID;
+    });
 
     const formatOptions = {
         timeStyle: "short"
     };
 
-    if(filteredGames.length === 0){
-
-        return(
-            <div class='fullHeight'>
-                <p class='center'>No Games to Display</p>
-            </div>
-        )
-
-    } else {
-
+    if (loading) {
         return (
-
-            <div>
-                        {/* https://flowbite-react.com/docs/typography/hr */}
-                        <HR />
-                        
-                        {filteredGames.map((game) => (
-                            <div key={game.id}>
-                                <div class='horizontalFlex spaceBetween'>
-                                    <div>
-                                        <h4 class='noMargin'>{game.team1} vs {game.team2}</h4>
-                                        <p class='smallFont'>Location: {game.location}</p>
-                                    </div>
-
-                                    <div>
-                                        <p class='smallFont lightFont'>Start Time: {Intl.DateTimeFormat('en-US', formatOptions).format(new Date(game.startTime))}</p>
-                                    </div>
-                                </div>
-                                <HR />
-                            </div>
-                        ))}
-                    </div>
-
-        )
+            <div className='fullHeight'>
+                <p className='center'>Loading games...</p>
+            </div>
+        );
     }
 
+    if (error) {
+        return (
+            <div className='fullHeight'>
+                <p className='center'>{error}</p>
+            </div>
+        );
+    }
+
+    if (filteredGames.length === 0) {
+        return (
+            <div className='fullHeight'>
+                <p className='center'>No Games to Display</p>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <HR />
+                {filteredGames.map((game) => (
+                    <div key={game.MatchID}>
+                        <div className='horizontalFlex spaceBetween'>
+                            <div>
+                                <h4 className='noMargin'>{game.TeamOneID} vs {game.TeamTwoID}</h4> {/* Assuming you want to display IDs */}
+                                <p className='smallFont'>Location: {game.Location}</p>
+                            </div>
+
+                            <div>
+                                <p className='smallFont lightFont'>
+                                    {/* Check if Date is a valid date string */}
+                                    Start Time: {game.Date ? 
+                                        (() => {
+                                            // Ensure Date is a valid date string
+                                            const date = new Date(game.Date);
+                                            if (isNaN(date.getTime())) {
+                                                return 'Invalid Date';
+                                            }
+                                            return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
+                                        })()
+                                    : 'N/A'}
+                                </p>
+                            </div>
+                        </div>
+                        <HR />
+                    </div>
+                ))}
+            </div>
+        );
+    }
 }
-
-
 
 export default CurrentGameList;

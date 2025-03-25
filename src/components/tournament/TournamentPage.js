@@ -1,50 +1,58 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../App.css';
 import '../../assets/css/College.css';
-import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import TournamentList from './TournamentList';
 
 function TournamentPage() {
-
     const [inputText, setInputText] = useState("");
+    const [tournaments, setTournaments] = useState([]);
+    const [filteredTournaments, setFilteredTournaments] = useState([]);
 
-    let inputHandler = (e) => {
+    // Fetch tournament data from API
+    useEffect(() => {
+        const fetchTournaments = async () => {
+            try {
+                const response = await fetch("https://jy7rxs047b.execute-api.us-east-1.amazonaws.com/prod/tournaments");
+                const data = await response.json();
+                setTournaments(data);
+                setFilteredTournaments(data); // Initialize filtered list with all tournaments
+            } catch (error) {
+                console.error("Error fetching tournaments:", error);
+            }
+        };
+        fetchTournaments();
+    }, []);
 
-        //convert input text to lower case
-
-        var lowerCase = e.target.value.toLowerCase();
-
+    // Handle search input
+    const inputHandler = (e) => {
+        const lowerCase = e.target.value.toLowerCase();
         setInputText(lowerCase);
 
+        const filtered = tournaments.filter(tournament =>
+            tournament.TOURNAMENT_NAME.toLowerCase().includes(lowerCase) // Ensure search matches the tournament name
+        );
+        setFilteredTournaments(filtered);
     };
 
     return (
-    
-        <div class='blockContainer'>
-
-            <h1 class='center'>Tournament List</h1>
-
-            <div class='box borderPadding'>
-
-
-                {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+        <div className='blockContainer'>
+            <h1 className='center'>Tournament List</h1>
+            <div className='box borderPadding'>
                 <div className="search">
                     <TextField
-                    id="outlined-basic"
-                    onChange={inputHandler}
-                    variant="outlined"
-                    fullWidth
-                    label="Search"
+                        id="outlined-basic"
+                        onChange={inputHandler}
+                        variant="outlined"
+                        fullWidth
+                        label="Search"
+                        value={inputText} // Keep the search input value controlled
                     />
                 </div>
-                    
-                <TournamentList input={inputText} />
-                    
+                {/* Passing filteredTournaments as prop to TournamentList */}
+                <TournamentList tournaments={filteredTournaments} input={inputText} />
             </div>
-
         </div>
-
     );
 }
 

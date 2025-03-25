@@ -1,8 +1,8 @@
 import * as React from 'react';
 import '../App.css';
 import '../assets/css/ProfilePage.css';
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import TeamList from './college/TeamList';
 import AnnouncementsList from './college/AnnouncementsList';
@@ -11,58 +11,48 @@ import UpcomingEventComponent from './profile/upcomingEventComponent';
 import data from '../assets/data/users.json';
 
 function ProfilePage() {
-
-    // const location = useLocation();
     const { id: userID } = useParams(); 
     const [user, setUser] = useState(null);
-    
-    useEffect(() => {
-            const fetchUser = async () => {
-                try {
-                    const response = await fetch(`prod/getUserById?userID=${userID}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    setUser(data); 
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                    setError("Failed to load user data. Please try again.");
-                }
-            };
-    
-            fetchUser();
-        }, [userID]); //refetch when userId is different
-    
-        if (!team) {
-            return <div className="error">⚠️ {error || "User not found"}</div>;
-        }
+    const [error, setError] = useState(null);
 
-    user = data[1];
-;
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`prod/getUserById?userID=${userID}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                setUser(data); 
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setError("Failed to load user data. Please try again.");
+            }
+        };
+
+        fetchUser();
+    }, [userID]); //refetch when userId is different
+
+    if (!user || !user.team) {
+        return <div className="error">⚠️ {error || "User not found"}</div>;
+    }
 
     return (
-    
         <div>
-
             {/* the header section */}
-            <div class='horizontalFlex centerButton paddingTop'>
-                {/* <img src={require(`../assets/images/${user.image}`)} class='smallLogo'></img> */}
+            <div className='horizontalFlex centerButton paddingTop'>
                 <h1>{user.name}</h1>
             </div>
 
+            <div id='teamActionButtons'>
+                <button className='heroButton'>Leave Team</button>
+                <button className='heroButton'>Deactivate Account</button>
+                <button className='heroButton'>VIEW MY TEAM</button>
+            </div>
 
-                <div id='teamActionButtons'>
-                    <button class='heroButton'>Leave Team</button>
-                    <button class='heroButton'>Deactivate Account</button>
-                    <button class='heroButton'>VIEW MY TEAM</button>
-                </div>
-
-
-            <div class='pageGrid'>
-
-                <div class='box' id='accountInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+            <div className='pageGrid'>
+                <div className='box' id='accountInformation'>
+                    <div className='horizontalFlex spaceBetween'>
                         <h2>Account Information</h2>
                     </div>
                     <div>
@@ -73,27 +63,24 @@ function ProfilePage() {
                     </div>
                 </div>
 
-                <div class='box' id='registrationInformation'>
-                    <div class='horizontalFlex spaceBetween'>
+                <div className='box' id='registrationInformation'>
+                    <div className='horizontalFlex spaceBetween'>
                         <h2>Registration Information</h2>
                     </div>
-                    <div class='verticalFlexMobile480 horizontalFlex spaceBetween'>
+                    <div className='verticalFlexMobile480 horizontalFlex spaceBetween'>
                         <div>
                             <p>Team Name: </p>
-                            <img src={"https://placehold.co/100"} class='smallLogo'></img>
+                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Team Logo" />
                         </div>
 
                         <div>
                             <p>Registration Status</p>
-                            <img src={"https://placehold.co/100"} class='smallLogo'></img>
+                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Registration Status" />
                         </div>
-
-                        {/* <button class='heroButton' onClick={() => window.location.replace("/team")}>View Team</button> */}
-                        
                     </div>
                 </div>
 
-                <div class='box' id='upcomingEvents'>
+                <div className='box' id='upcomingEvents'>
                     <h2>Upcoming Events</h2>
                     
                     <UpcomingEventComponent 
@@ -127,33 +114,19 @@ function ProfilePage() {
                     />
                 </div>
 
-{/* ICON FROM <a href="https://www.flaticon.com/free-icons/pencil" title="pencil icons">Pencil icons created by Pixel perfect - Flaticon</a> */}
-                <div class='box' id='bioInformation'>
-                    <div class='horizontalFlex spaceBetween bioInformationHeader'>
+                <div className='box' id='bioInformation'>
+                    <div className='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>Your Bio</h2>
-                        <button class='editButton'>
-                            <img src={require('../assets/images/pencil.png')} class='editButton'></img>
+                        <button className='editButton'>
+                            <img src={require('../assets/images/pencil.png')} className='editButton' alt="Edit Bio" />
                         </button>
                     </div>
                     <div>
                         <p>loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        
                     </div>
                 </div>   
-
-
-
-                {/* <div class='box' id='individualCollegeAnnouncements'>
-                    <h2>Announcements</h2>
-
-                    <AnnouncementsList collegeID={data.id} />
-
-                </div> */}
-
             </div>
-
         </div>
-
     );
 }
 
