@@ -9,33 +9,37 @@ import AnnouncementsList from './college/AnnouncementsList';
 import GalleryList from './college/GalleryList';
 import UpcomingEventComponent from './profile/upcomingEventComponent';
 import data from '../assets/data/users.json';
+import { IoIosCheckmarkCircle } from "react-icons/io";
+import { GoXCircleFill } from "react-icons/go";
+
 
 function ProfilePage() {
     const { id: userID } = useParams(); 
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
+    
     useEffect(() => {
-            const fetchUser = async () => {
-                try {
-                    const response = await fetch(`arn:aws:apigateway:us-east-1::/apis/zjz8rqzudc/routes/kvriiep?userID=${userID}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
-                    }
-                    const data = await response.json();
-                    setUser(data); 
-                } catch (error) {
-                    console.error("Error fetching user data:", error);
-                    setError("Failed to load user data. Please try again.");
+        const fetchUser = async () => {
+            try {
+                const response = await fetch(`arn:aws:apigateway:us-east-1::/apis/zjz8rqzudc/routes/kvriiep?userID=${userID}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-            };
-    
-            fetchUser();
-        }, [userID]); //refetch when userId is different
-    
-        if (!team) {
-            return <div className="error">⚠️ {error || "User not found"}</div>;
-        }
+                const data = await response.json();
+                setUser(data); 
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setError("Failed to load user data. Please try again.");
+            }
+        };
+
+        fetchUser();
+    }, [userID]); //refetch when userId is different
+
+    if (!team) {
+        return <div className="error">⚠️ {error || "User not found"}</div>;
+    }
 
     user = data[1];
 ;
@@ -59,6 +63,7 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
+                        {user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>}
                         <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
                         <p>Username: {user.username || "user_name2024"}</p>
                         <p>Full Name: {user.fullName || "Jane Smith"}</p>
