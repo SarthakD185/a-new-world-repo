@@ -24,9 +24,8 @@ function ModeratorManageUsersList(props) {
         };
 
         fetchUsers();
-    }, [props.moderatorCollegeID]);//refetch 
+    }, [props.moderatorCollegeID]);
 
-    
     if (loading) {
         return <div className="center">Loading...</div>;
     }
@@ -35,10 +34,38 @@ function ModeratorManageUsersList(props) {
         return <div className="center">Error: {error}</div>;
     }
 
-    //delete function
+    // Approve function
+    const handleApproveUser = async (userID) => {
+        try {
+            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userID,
+                    approve: true,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to approve user');
+            }
+
+            //Update the UI after approval: either remove or mark the user as approved
+            setUsers(users.filter(user => user.UserID !== userID));
+
+            //Success message
+            alert("User approved successfully!");
+        } catch (err) {
+            console.error('Error approving user:', err);
+            alert('Failed to approve user');
+        }
+    };
+
+    // Delete function
     const handleDeleteUser = async (userID) => {
         try {
-            //query
             const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
                 method: 'DELETE',
             });
@@ -47,10 +74,7 @@ function ModeratorManageUsersList(props) {
                 throw new Error('Failed to delete user');
             }
 
-            //update display list
-            setUsers(users.filter(user => user.UserID !== userID));
-
-            //success or failure message
+            setUsers(users.filter(user => user.UserID !== userID)); //Update the user list after deletion
             alert("User deleted successfully!");
         } catch (err) {
             console.error('Error deleting user:', err);
@@ -58,56 +82,16 @@ function ModeratorManageUsersList(props) {
         }
     };
 
-    //If there's no input, display all users
+    // Filtering users
     const filteredData = users.filter((el) => {
         if (props.input === '') {
             return el;
-            //Need user type in user table to be able to filter list by user type
-            {/*
-            if(props.tMFilter === true && el.userType === "Team Member"){
-                return el;
-            } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                return el;
-            } else if(props.marFilter === true && el.userType === "Marketer"){
-                return el;
-            } else if(props.modFilter === true && el.userType === "Moderator"){
-                return el;
-            }
-            */}
         } else {
             return (
                 el.username.toLowerCase().includes(props.input.toLowerCase()) || 
                 el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
+                el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
             );
-            //Need user type in user table to be able to filter list by user type
-            {/*
-            if(props.tMFilter === true && el.userType === "Team Member"){
-                return (
-                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
-                );
-            } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                return (
-                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
-                );
-            } else if(props.marFilter === true && el.userType === "Marketer"){
-                return (
-                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
-                );
-            } else if(props.modFilter === true && el.userType === "Moderator"){
-                return (
-                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) //filter
-                );
-            }
-            */}
         }
     });
 
@@ -119,7 +103,6 @@ function ModeratorManageUsersList(props) {
         );
     } else {
         return (
-            // List of users
             <div className='overflowList'>
                 <HR />
                 {filteredData.map((user) => (
@@ -127,7 +110,7 @@ function ModeratorManageUsersList(props) {
                         <div className="horizontalFlex spaceBetween">
                             <div>
                                 <h3>{user.username}</h3>
-                                <p>{user.teamRole || 'No Role Assigned'}</p> {/* Adjust if teamRole is available */}
+                                <p>{user.teamRole || 'No Role Assigned'}</p>
                             </div>
 
                             {/* Approve and Delete Buttons */}
@@ -136,19 +119,20 @@ function ModeratorManageUsersList(props) {
                                 <div className="centerButton">
                                     <button
                                         className="approveButton"
-                                        // onClick={} // Trigger approval on button click
+                                        onClick={() => handleApproveUser(user.UserID)} // Approve action
                                     >
-                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span> {/* Red X button */}
+                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span>
                                     </button>
                                 </div>
+
                                 {/* Delete Button */}
                                 <div className="centerButton">
                                     <button
                                         className="deleteButton"
                                         onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
                                     >
-                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span> {/* Red X button */}
-                                        </button>
+                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
