@@ -184,7 +184,7 @@ function AdminLandingPage() {
                                     {
                                         close => (
                                             <div className='modal popup'>
-                                                <div className='content'>
+                                                <div className='popupContent'>
                                                     <h1 className='center'>Filter Users</h1>
                                                     <form>
                                                         <div style={{ marginBottom: '24px' }}>

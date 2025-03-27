@@ -102,7 +102,7 @@ function AdminManageUsersList(props) {
                                     {
                                         close => (
                                             <div className='modal popup'>
-                                                <div className='content'>
+                                                <div className='popupContent'>
 
                                                     <h1 class='center'>Manage User</h1>
 
@@ -144,15 +144,17 @@ function AdminManageUsersList(props) {
 
                                                         <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
                                                             {/* TODO - add button action to save user profile changes */}
+                                                            <button className='redButton fullWidth' onClick=
+                                                                {() => close()}>
+                                                                    Close
+                                                            </button>
+
                                                             <button className='standardButton fullWidth' onClick=
                                                                 {() => close()}>
                                                                     Save
                                                             </button>
 
-                                                            <button className='redButton fullWidth' onClick=
-                                                                {() => close()}>
-                                                                    Close
-                                                            </button>
+
                                                         </div>
                                                     </form>
 
