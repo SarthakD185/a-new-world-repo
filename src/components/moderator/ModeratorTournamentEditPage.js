@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import AnnouncementsList from '../college/AnnouncementsList';
 import CurrentGameList from '../tournament/CurrentGameList';
 import NextGameModule from '../tournament/NextGameModule';
+import PastWinnersCard from './PastWinnersCard';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../../Account';
 import axios from 'axios'; 
@@ -63,7 +64,16 @@ function ModeratorTournamentEditPage() {
 
                 <div className='box' id='individualTournamentWinners'>
                     <h2>Past Winners</h2>
-                    <AnnouncementsList collegeID={data.id} />
+                    <PastWinnersCard 
+                        gameNumber={1}
+                        team1="Team A"
+                        team2="Team B"
+                    />
+                    <PastWinnersCard 
+                        gameNumber={2}
+                        team1="Team C"
+                        team2="Team D"
+                    />
                 </div> 
 
                 <div className='box' id='individualTournamentCurrentGames'>

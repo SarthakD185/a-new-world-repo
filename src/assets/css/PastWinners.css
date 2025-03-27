@@ -1,0 +1,87 @@
+.resultsCard {
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.resultsHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.resultsHeader h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.resultsHeader p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.resultsFormContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.resultsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    gap: 10px;
+}
+
+.resultsInput {
+    flex: 1;
+    padding: 6px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+.resultsSaveButton {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    min-width: fit-content;
+    justify-self: flex-end;
+}
+
+.resultsDisplay {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* gap: 10px; */
+    font-size: 0.9rem;
+}
+
+.winnerText {
+    margin: 0;
+    margin-bottom: 0px !important;
+    color: #13505B;
+    font-weight: bold;
+}
+
+.loserText {
+    margin: 0;
+    color: #666;
+}
+
+.resultsDisplayContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.resultsEditButton {
+    padding: 4px 12px;
+    font-size: 0.9rem;
+    min-width: fit-content;
+    align-self: flex-end;
+} 
