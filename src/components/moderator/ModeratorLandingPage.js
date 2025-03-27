@@ -112,6 +112,14 @@ function AdminLandingPage() {
         }
     };
 
+    const handleViewTournament = () => {
+        navigate('/moderator/tournamentEdit', { 
+            state: {
+                id: moderatorCollegeID,
+                name: "ModTournament" // You might want to pass the actual tournament name here
+            }
+        });
+    };
 
 
 
@@ -133,6 +141,13 @@ function AdminLandingPage() {
                     {errorMessage && <p className="errorMessage">{errorMessage}</p>}
                 </div>
             )}
+
+            {/* View Tournament Button */}
+            <div className='centerButton'>
+                <button className='standardButton largeButton' style={{marginRight: '10px'}} onClick={handleViewTournament} disabled={loading}>
+                    {loading ? 'Viewing Tournament...' : 'View Tournament'}
+                </button>
+            </div>
 
             {/* Uncompleted Tasks and Manage Users */}
             <div className='container' style={{ marginTop: '0px' }}>

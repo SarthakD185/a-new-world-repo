@@ -1,20 +1,32 @@
-#individualTournamentAnnouncements {
+#individualTournamentWinners {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 3;
-    height: 440px;
+    grid-row-end: 4;
+    height: auto;
     overflow: scroll;
+    
 }
 
 #individualTournamentCurrentGames {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
+    grid-row-end: 2;
+    height: 300px;
+    overflow: scroll;
+    
+}
+
+#individualTournamentPastGames {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
     grid-row-end: 3;
-    height: 440px;
+    height: 300px;
     overflow: scroll;
 }
+
 #individualTournamentNextGame {
     grid-column-start: 3;
     grid-column-end: 4;
@@ -119,7 +131,7 @@
     padding: 12px 20px;
 }
 
-    #individualTournamentAnnouncements {
+    #individualTournamentWinners {
         grid-column-start: 1;
         grid-column-end: 1;
         grid-row-start: 1;
