@@ -6,7 +6,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
 import "../assets/css/Reports.css";
 import "../App.css";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -14,6 +13,8 @@ import 'react-tabs/style/react-tabs.css';
 
 function ReportsPage() {
     const [colleges, setColleges] = useState([]);
+    const [matches, setMatches] = useState([]);
+    const [teams, setTeams] = useState([]);
 
     // Fetch college data from API
     useEffect(() => {
@@ -38,16 +39,58 @@ function ReportsPage() {
         fetchColleges();
     }, []);
 
-    // teamMap
-    const teamToCollegeMap = {
-        1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6, 7: 6, 20: 6,
-        8: 1, 9: 1, 10: 1, 11: 2, 12: 3, 13: 1, 14: 1, 15: 1,
-        16: 2, 17: 3, 18: 1, 19: 4
-    };
+    // Fetch match data from API
+    useEffect(() => {
+        const fetchMatches = async () => {
+            try {
+                const response = await fetch("https://ipa97zqhli.execute-api.us-east-1.amazonaws.com/prod/matchReports");
+                const data = await response.json();
+                console.log('Fetched data:', data);  // Log the data to understand the structure
+                
+                // Check if the data is an array or an object with an array inside it
+                if (Array.isArray(data)) {
+                    setMatches(data);  // If it's already an array, set it directly
+                } else if (Array.isArray(data.matches)) {
+                    setMatches(data.matches);  // If it's inside an object (e.g., { matches: [...] }), extract the array
+                } else {
+                    console.error("Unexpected data structure:", data);
+                }
+            } catch (error) {
+                console.error("Error fetching matches:", error);
+            }
+        };
+        fetchMatches();
+    }, []);
 
-    // collegeMap
-    const idToCollegeNameMap = {
-        1: 'Cornell', 2: 'Indian Institute of Technology', 3: 'Kyoto University', 4: 'University College Dublin', 5: 'Potifical Catholic University', 6: 'Rochester Institute of Technology', 7: 'University of Buffalo', 8: 'University of Rochester'
+    // Fetch team data from API
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch("https://1mjp1mrshl.execute-api.us-east-1.amazonaws.com/prod/teamReports");
+                const data = await response.json();
+                console.log('Fetched data:', data);  // Log the data to understand the structure
+                
+                // Check if the data is an array or an object with an array inside it
+                if (Array.isArray(data)) {
+                    setTeams(data);  // If it's already an array, set it directly
+                } else if (Array.isArray(data.teams)) {
+                    setTeams(data.teams);  // If it's inside an object (e.g., { teams: [...] }), extract the array
+                } else {
+                    console.error("Unexpected data structure:", data);
+                }
+            } catch (error) {
+                console.error("Error fetching teams:", error);
+            }
+        };
+        fetchTeams();
+    }, []);
+
+    function getTeamName(teamId){
+        for( let i = 0 ; i < teams.length ; i++ ) {
+            if(teams[i].TeamID === teamId) {
+                return teams[i].TEAM_NAME;
+            }
+        }
     };
 
     // Date formatting options
@@ -69,47 +112,6 @@ function ReportsPage() {
         }
         return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
     };
-
-    function createDataCollege(COLLEGE_NAME, DATE_ADDED, COLLEGE_COUNTRY, NUMBER_OF_TEAMS, COLLEGE_MODERATOR_EXISTS, COLLEGE_MARKETER_EXISTS, COLLEGE_PAGE_EXISTS, HOME_URL, MATCHES_NEXT_ROUND, MATCHES_PLAYED) {
-        return { COLLEGE_NAME, DATE_ADDED, COLLEGE_COUNTRY, NUMBER_OF_TEAMS, COLLEGE_MODERATOR_EXISTS, COLLEGE_MARKETER_EXISTS, COLLEGE_PAGE_EXISTS, HOME_URL, MATCHES_NEXT_ROUND, MATCHES_PLAYED };
-    }
-
-    function createDataTournament(Date, Location, TeamOneID, TeamTwoID, Result) {
-        const team1CollegeID = teamToCollegeMap[TeamOneID];
-        const team2CollegeID = teamToCollegeMap[TeamTwoID];
-        const noMatch = 'unknown';
-
-        if (team1CollegeID === team2CollegeID) {
-            const CollegeName = idToCollegeNameMap[team1CollegeID];
-            return { Date, Location, CollegeName, TeamOneID, TeamTwoID, Result };
-        }
-
-        return { Date, Location, noMatch, TeamOneID, TeamTwoID, Result };
-    }
-
-    const tempColleges = [
-        createDataCollege('Cornell', '2025-01-31', 'United States', '12', '2', '1', '12', 'https://www.cornell.edu/', '0', '0'),
-        createDataCollege('Indian Institute of Technology', '2025-01-31', 'India', '2', '1', '1', '2', 'https://home.iitd.ac.in/', '0', '0'),
-        createDataCollege('Kyoto University', '2025-01-31', 'Japan', '4', '1', '1', '4', 'https://www.kyoto-u.ac.jp/en', '0', '0'),
-        createDataCollege('University College Dublin', '2025-01-31', 'Ireland', '3', '2', '1', '3', 'https://www.ucd.ie/', '0', '0'),
-        createDataCollege('Potifical Catholic University', '2025-01-31', 'Chile', '2', '1', '2', '2', 'https://www.uc.cl/', '0', '0'),
-        createDataCollege('Rochester Institute of Technology', '2025-01-31', 'United States', '10', '4', '3', '10', 'https://www.rit.edu/', '0', '0'),
-        createDataCollege('University of Buffalo', '2025-02-13', 'United States', '3', '2', '3', '5', 'https://www.buffalo.edu/', '0', '0'),
-        createDataCollege('University of Rochester', '2025-02-12', 'United States', '5', '1', '2', '3', 'https://www.rochester.edu/', '0', '0')
-    ];
-
-    const tempTournaments = [
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '20', '5', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '6', '1', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '21', '3', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '22', '7', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '2', '4', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '14', '8', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '9', '10', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '18', '15', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '16', '11', null),
-        createDataTournament('2025-03-27 04:44:52', 'Location TBD', '17', '12', null),
-    ];
 
     // Ensure `colleges` is an array before using .map()
     if (!Array.isArray(colleges) || colleges.length === 0) {
@@ -177,26 +179,26 @@ function ReportsPage() {
                                 <TableRow>
                                     <TableCell align="left">Date</TableCell>
                                     <TableCell align="left">Location</TableCell>
-                                    <TableCell align="left">College</TableCell>
+                                    {/* <TableCell align="left">College</TableCell> */}
                                     <TableCell align="left">Team 1</TableCell>
                                     <TableCell align="left">Team 2</TableCell>
                                     <TableCell align="left">Result</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {tempTournaments.map((tournament, index) => (
+                                {matches.map((match, index) => (
                                     <TableRow
                                         key={index}  // Using index to ensure unique key for each row
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">
-                                            {tournament.Date ? formatDate(tournament.Date) : 'N/A'}
+                                            {match.Date ? formatDate(match.Date) : 'N/A'}
                                         </TableCell>
-                                        <TableCell align="left">{tournament.Location}</TableCell>
-                                        <TableCell align="left">{tournament.CollegeName ? tournament.CollegeName : 'unknown'}</TableCell>
-                                        <TableCell align="left">{tournament.TeamOneID}</TableCell>
-                                        <TableCell align="left">{tournament.TeamTwoID}</TableCell>
-                                        <TableCell align="left">{tournament.Result ? tournament.Result : 'No Result'}</TableCell>
+                                        <TableCell align="left">{match.Location}</TableCell>
+                                        {/* <TableCell align="left">{match.CollegeName ? match.CollegeName : 'unknown'}</TableCell> */}
+                                        <TableCell align="left">{getTeamName(match.TeamOneID)}</TableCell>
+                                        <TableCell align="left">{getTeamName(match.TeamTwoID)}</TableCell>
+                                        <TableCell align="left">{match.Result ? match.Result : 'No Result'}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
