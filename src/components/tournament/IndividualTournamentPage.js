@@ -8,7 +8,7 @@ import NextGameModule from './NextGameModule';
 import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../../Account';
 import axios from 'axios'; 
-
+import PastWinnersCard from '../moderator/PastWinnersCard';
 function IndividualTournamentPage() {
     const location = useLocation();
     const data = location.state;
@@ -91,7 +91,21 @@ function IndividualTournamentPage() {
 
                 <div className='box' id='individualTournamentAnnouncements'>
                     <h2>Announcements</h2>
+                    <div className='pastWinnersContainer'>
+                        <PastWinnersCard 
+                            gameNumber={1}
+                            team1="Team A"
+                            team2="Team B"
+                        />
+                        <PastWinnersCard 
+                            gameNumber={2}
+                            team1="Team C"
+                            team2="Team D"
+                        />
+                    </div>
+                    
                     <AnnouncementsList collegeID={data.id} />
+     
                 </div>
 
                 <div className='box' id='individualTournamentCurrentGames'>

@@ -8,7 +8,7 @@ function PastWinnersCard({ gameNumber, team1, team2 }) {
     const [loser, setLoser] = useState('');
     const [isSaved, setIsSaved] = useState(false);
 
-    // currently, only 'saves' the results by assigning the input value to the viewable text. Will not save to database currently (March 27th 1pm)
+    // currently, only 'saves' the results by assigning the input value to the viewable text. Will not save to database currently
     const handleSave = () => {
         if (winner && loser) {
             setIsEditing(false);

@@ -93,7 +93,7 @@ function AdminLandingPage() {
         navigate('/moderator/tournamentEdit', { 
             state: {
                 id: moderatorCollegeID,
-                name: "ModTournament" // You might want to pass the actual tournament name here
+                name: "Moderator "
             }
         });
     };
