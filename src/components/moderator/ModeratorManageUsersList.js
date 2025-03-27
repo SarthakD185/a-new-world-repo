@@ -119,7 +119,8 @@ function ModeratorManageUsersList(props) {
         );
     } else {
         return (
-            <div>
+            // List of users
+            <div className='overflowList'>
                 <HR />
                 {filteredData.map((user) => (
                     <div key={user.UserID}>
@@ -128,13 +129,27 @@ function ModeratorManageUsersList(props) {
                                 <h3>{user.username}</h3>
                                 <p>{user.teamRole || 'No Role Assigned'}</p> {/* Adjust if teamRole is available */}
                             </div>
-                            <div className="centerButton">
-                                <button
-                                    className="deleteButton"
-                                    onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
-                                >
-                                    <span style={{ color: 'red', fontSize: '20px' }}>X</span> {/* Red X button */}
-                                </button>
+
+                            {/* Approve and Delete Buttons */}
+                            <div className="horizontalFlex approveDeleteButtons">
+                                {/* Approve Button */}
+                                <div className="centerButton">
+                                    <button
+                                        className="approveButton"
+                                        // onClick={} // Trigger approval on button click
+                                    >
+                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span> {/* Red X button */}
+                                    </button>
+                                </div>
+                                {/* Delete Button */}
+                                <div className="centerButton">
+                                    <button
+                                        className="deleteButton"
+                                        onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
+                                    >
+                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span> {/* Red X button */}
+                                        </button>
+                                </div>
                             </div>
                         </div>
                         <HR />

@@ -265,3 +265,13 @@ body {
   height: 520px;
   overflow: scroll;
 }
+
+.approveDeleteButtons {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.overflowList {
+  overflow-y: scroll;
+}

@@ -39,7 +39,7 @@ function ModeratorUncompletedTasksList(props) {
 
         return (
 
-            <div>
+            <div className='overflowList'>
                 {/* https://flowbite-react.com/docs/typography/hr */}
                 <HR />
                 
@@ -50,9 +50,28 @@ function ModeratorUncompletedTasksList(props) {
                                 <h3>{task.title}</h3>
                                 <p>{task.description}</p>
                             </div>
-                            <div class='centerButton'>
-                                {/* TODO - add button action */}
-                                <button class='secondaryButton'>View Details</button>
+
+                            {/* Approve and Delete Buttons */}
+                            <div className="horizontalFlex approveDeleteButtons">
+                                {/* Approve Button */}
+                                <div className="centerButton">
+                                    <button
+                                        className="approveButton"
+                                        // onClick={} // Trigger approval on button click
+                                    >
+                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span> {/* Red X button */}
+                                    </button>
+                                </div>
+
+                                {/* Delete Button */}
+                                <div className="centerButton">
+                                    <button
+                                        className="deleteButton"
+                                        // onClick={} // Trigger delete on button click
+                                    >
+                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span> {/* Red X button */}
+                                        </button>
+                                </div>
                             </div>
                         </div>
                         <HR />
