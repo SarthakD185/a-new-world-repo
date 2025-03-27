@@ -12,13 +12,11 @@ import data from '../assets/data/users.json';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { GoXCircleFill } from "react-icons/go";
 
-
 function ProfilePage() {
     const { id: userID } = useParams(); 
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
 
-    
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -35,18 +33,18 @@ function ProfilePage() {
         };
 
         fetchUser();
-    }, [userID]); //refetch when userId is different
+    }, [userID]); // Refetch when userID is different
 
-    if (!team) {
+    if (!user) {
         return <div className="error">⚠️ {error || "User not found"}</div>;
     }
 
+    // For now, the "user" object is being replaced by a default sample from the data file
     user = data[1];
-;
 
     return (
         <div>
-            {/* the header section */}
+            {/* The header section */}
             <div className='horizontalFlex centerButton paddingTop'>
                 <h1>{user.name}</h1>
             </div>
@@ -63,7 +61,7 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
-                    {/*user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>*/}
+                        {/*user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>*/}
                         <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
                         <p>Username: {user.username || "user_name2024"}</p>
                         <p>Full Name: {user.fullName || "Jane Smith"}</p>
