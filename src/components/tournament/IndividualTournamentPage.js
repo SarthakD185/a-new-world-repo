@@ -131,6 +131,10 @@ function IndividualTournamentPage() {
                         <button className='standardButton largeButton' onClick={handleClick}>Sign Up Now!</button>
                     </div>
 
+                    <div className='centerButton'>
+                        <button className='standardButton largeButton'>Pay to Register - Goes to Stripe</button>
+                    </div>
+
                     {/* Conditionally render Create Tournament button for Moderators */}
                     {isAuthenticated && role === 'Moderator' && (
                         <div className='centerButton'>
