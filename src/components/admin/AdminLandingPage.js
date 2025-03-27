@@ -12,6 +12,7 @@ import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
 import data from '../../assets/data/colleges.json';
 import $ from 'jquery';
+import AdminActionButtons from './AdminActionButtons';
 
 function AdminLandingPage() {
 
@@ -50,6 +51,8 @@ function AdminLandingPage() {
     return (
         <div>
             <img src={logo} className='centerImagePadding' alt="logo"/>
+            <h1 className='center'>Welcome back, Admin!</h1>
+
             <div className='container' style={{marginTop: '0px'}}>
                 <div className='box' id='adminUncompletedTasks' style={{marginTop: '0px'}}>
                     <div className='horizontalFlex spaceBetween'>
@@ -65,6 +68,7 @@ function AdminLandingPage() {
                         </div>
                     </div>
                     <AdminUncompletedTasksList input={tasksInputText} />
+                    <AdminActionButtons />
                 </div>
 
                 <div className='box' id='adminManageUsers' style={{marginTop: '0px'}}>

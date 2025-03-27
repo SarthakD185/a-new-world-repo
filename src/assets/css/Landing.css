@@ -201,7 +201,7 @@ body {
   grid-row-start: 1;
   grid-row-end: 2;
   height: 520px;
-  overflow: scroll;
+  /* overflow: scroll; */
 }
 
 #manageUserProfileImage {
@@ -274,4 +274,27 @@ body {
 
 .overflowList {
   overflow-y: scroll;
+}
+
+
+/* Admin Action Buttons for creating new accounts, and the popups that appear when the buttons are clicked */
+.adminActionsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.adminActionsContainer button {
+    min-width: 200px;
+    margin: 5px;
+}
+
+.popupContent {
+  background-color: #e1f3f4;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.popupContent input {
+  margin-right: 12px;
 }
