@@ -127,7 +127,7 @@ function AdminLandingPage() {
                         onClick={handleCreateTournament}
                         disabled={loading}
                     >
-                        {loading ? 'Creating Tournament...' : 'Create Tournament'}
+                        {loading ? 'Creating Tournament...' : 'Create New Tournament'}
                     </button>
                     {/* Display Success or Error Messages */}
                     {successMessage && <p className="successMessage">{successMessage}</p>}
@@ -138,7 +138,7 @@ function AdminLandingPage() {
             {/* View Tournament Button */}
             <div className='centerButton'>
                 <button className='standardButton largeButton' style={{marginRight: '10px'}} onClick={handleViewTournament} disabled={loading}>
-                    {loading ? 'Viewing Tournament...' : 'View Tournament'}
+                    {loading ? 'Viewing Tournament...' : 'View and Edit Tournament'}
                 </button>
             </div>
 
