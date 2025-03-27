@@ -31,6 +31,7 @@ import PrivacyPolicy from './components/PrivacyPolicyPage';
 import Security from './components/SecurityPage';
 import ReportsPage from './components/ReportsPage';
 import ModeratorTournamentEditPage from "./components/moderator/ModeratorTournamentEditPage";
+import ModeratorViewDataPage from './components/moderator/ModeratorViewDataPage';
 
 Amplify.configure(awsExports);
 
@@ -71,6 +72,7 @@ root.render(
           <Route path="/moderatorTasks" element={<ModeratorTasks />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/moderator/tournamentEdit" element={<ModeratorTournamentEditPage />} />
+          <Route path="/moderator/viewData" element={<ModeratorViewDataPage />} />
         </Routes>
 
         <Footer />
