@@ -29,7 +29,7 @@ function IndividualTournamentPage() {
     //fetch and log teams
     const fetchTeams = async () => {
         try {
-            const response = await axios.get('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamsTournament'); // Example API endpoint
+            const response = await axios.get('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamsTournament'); 
             if (response.status === 200) {
                 const fetchedTeams = response.data.teams; 
                 console.log('Fetched teams:', fetchedTeams); //log
