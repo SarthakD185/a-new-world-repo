@@ -11,7 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import TeamsAwaitingApprovalList from './TeamsAwaitingApprovalList';
 import UsersAwaitingApprovalList from './UsersAwaitingApprovalList';
 
-function AdminLandingPage() {
+function ModeratorLandingPage() {
     //state management
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
@@ -109,6 +109,10 @@ function AdminLandingPage() {
         navigate('/moderator/viewData');
     };
 
+    const handleViewMarketerPage = () => {
+        navigate('/marketer');
+    };
+
     return (
         <div>
             <img src={logo} className='centerImagePadding' alt="logo" />
@@ -145,6 +149,17 @@ function AdminLandingPage() {
                     onClick={handleViewAllData}
                 >
                     View All Teams and Users Data on this Page
+                </button>
+            </div>
+
+
+            {/* Add new View All Data Button */}
+            <div className='centerButton' style={{ marginTop: '10px' }}>
+                <button 
+                    className='standardButton largeButton' 
+                    onClick={handleViewMarketerPage}
+                >
+                    View Marketer Page
                 </button>
             </div>
 
@@ -256,4 +271,4 @@ function AdminLandingPage() {
     );
 }
 
-export default AdminLandingPage;
+export default ModeratorLandingPage;

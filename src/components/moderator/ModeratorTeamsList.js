@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { HR } from "flowbite-react";
 
-function ModeratorUncompletedTasksList(props) {
+function ModeratorTeamsList(props) {
     const [teamList, setTeamList] = useState([]); // State to hold the fetched team data
     const [loading, setLoading] = useState(true); // State for loading indicator
     const [error, setError] = useState(null); // State for error handling
@@ -11,7 +11,7 @@ function ModeratorUncompletedTasksList(props) {
         const fetchTeamList = async () => {
             console.log("Starting API request to fetch team list...");
             try {
-                const response = await fetch('https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList', {
+                const response = await fetch('https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=2', {
                     method: 'GET', // Ensure this is a GET request
                     headers: {
                         'Content-Type': 'application/json', // Set appropriate headers
@@ -26,7 +26,7 @@ function ModeratorUncompletedTasksList(props) {
 
                 const data = await response.json();
                 console.log("Fetched team list:", data);
-                setTeamList(data); // Store fetched data in the state
+                setTeamList(Array.isArray(data) ? data : []); // Store fetched data in the state
             } catch (error) {
                 console.error("Error fetching data:", error.message); // Log the error
                 setError(error.message); // Store error message in state
@@ -54,7 +54,7 @@ function ModeratorUncompletedTasksList(props) {
     console.log("Filtering team list with input:", props.input);
 
     // Filter teams based on input (like in your original code)
-    const filteredTeams = teamList.filter((team) => {
+    const filteredTeams = Array.isArray(teamList) ? teamList.filter((team) => {
         if (props.input === '') {
             console.log("No filter applied, returning all teams.");
             return team;
@@ -63,7 +63,7 @@ function ModeratorUncompletedTasksList(props) {
             console.log(`Filtering team: ${team.TEAM_NAME}, match: ${isMatch}`);
             return isMatch;
         }
-    });
+    }) : [];
 
     if (filteredTeams.length === 0) {
         console.log("No teams to display after filtering.");
@@ -110,4 +110,4 @@ function ModeratorUncompletedTasksList(props) {
     }
 }
 
-export default ModeratorUncompletedTasksList;
+export default ModeratorTeamsList;

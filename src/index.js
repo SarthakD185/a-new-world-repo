@@ -21,7 +21,7 @@ import AdminManageUsersList from './components/admin/AdminManageUsersList';
 import AdminUncompletedTasks from './components/admin/AdminUncompletedTasksList';
 import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
 import ModeratorManageUsers from './components/moderator/ModeratorManageUsersList';
-import ModeratorTasks from './components/moderator/ModeratorUncompletedTasksList';
+import ModeratorTeamsList from './components/moderator/ModeratorTeamsList';
 import { Account } from "./Account";
 //import Status from './Status';
 import { Amplify } from 'aws-amplify';
@@ -33,7 +33,7 @@ import ReportsPage from './components/ReportsPage';
 import ModeratorTournamentEditPage from "./components/moderator/ModeratorTournamentEditPage";
 import ModeratorViewDataPage from './components/moderator/ModeratorViewDataPage';
 import TournamentPaymentPage from './components/tournament/TournamentPaymentPage';
-
+import MarketerLandingPage from './components/marketer/MarketerLandingPage';
 Amplify.configure(awsExports);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -70,11 +70,12 @@ root.render(
           <Route path="/adminTasks" element={<AdminUncompletedTasks />} />
           <Route path="/moderatorLanding" element={<ModeratorLandingPage />} />
           <Route path="/moderatorUsers" element={<ModeratorManageUsers />} />
-          <Route path="/moderatorTasks" element={<ModeratorTasks />} />
+          <Route path="/moderatorTeams" element={<ModeratorTeamsList />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/moderator/tournamentEdit" element={<ModeratorTournamentEditPage />} />
           <Route path="/moderator/viewData" element={<ModeratorViewDataPage />} />
           <Route path="/tournament/payment" element={<TournamentPaymentPage />} />
+          <Route path="/marketer" element={<MarketerLandingPage />} />
         </Routes>
 
         <Footer />

@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
-import ModeratorUncompletedTasksList from './ModeratorUncompletedTasksList';
 import ModeratorManageUsersList from './ModeratorManageUsersList';
+import ModeratorTeamsList from './ModeratorTeamsList';
 
 function ModeratorViewDataPage() {
     //state management
@@ -160,7 +160,7 @@ function ModeratorViewDataPage() {
                             />
                         </div>
                     </div>
-                    <ModeratorUncompletedTasksList input={tasksInputText} />
+                    <ModeratorTeamsList input={tasksInputText} />
                 </div>
 
                 {/* Manage Users */}
