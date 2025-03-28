@@ -118,6 +118,7 @@ function ModeratorLandingPage() {
             <img src={logo} className='centerImagePadding' alt="logo" />
             <h1 className='center'>Moderator Landing Page</h1>
 
+            <div className='horizontalFlex spaceBetween' id='moderatorLandingPageButtons'>
             {/* Conditionally render Create Tournament button for Moderators */}
             {tournamentData && (
                 <div className='centerButton'>
@@ -161,6 +162,8 @@ function ModeratorLandingPage() {
                 >
                     View Marketer Page
                 </button>
+            </div>
+
             </div>
 
             {/* Teams and Users Awaiting Approval */}
