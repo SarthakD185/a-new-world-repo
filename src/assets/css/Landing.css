@@ -198,7 +198,8 @@ body {
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 2;
-  height: 520px;
+  min-height: 500px;
+  height: auto;
   overflow: scroll;
 }
 
@@ -207,7 +208,8 @@ body {
   grid-column-end: 3;
   grid-row-start: 1;
   grid-row-end: 2;
-  height: 520px;
+  min-height: 500px;
+  height: auto;
   /* overflow: scroll; */
 }
 
@@ -287,8 +289,9 @@ body {
 /* Admin Action Buttons for creating new accounts, and the popups that appear when the buttons are clicked */
 .adminActionsContainer {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+    align-items: flex-start;
 }
 
 .adminActionsContainer button {

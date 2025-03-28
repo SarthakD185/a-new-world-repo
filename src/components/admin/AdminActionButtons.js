@@ -52,8 +52,8 @@ function AdminActionButtons() {
 
             {/* Create New College - Form with College Name and Country */}
             <Popup trigger={
-                <button className='standardButton'>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                <button className='standardButton' style={{ marginBottom: '36px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', fontSize: '20px'}}>
                         Create New College <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                     </div>
                 </button>} 
@@ -100,21 +100,21 @@ function AdminActionButtons() {
 
             {/* Create Moderator Account */}
             <button className='standardButton' onClick={redirectToSignup}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}>
                     Create Moderator Account <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                 </div>
             </button>
 
             {/* Create User Account */}
             <button className='standardButton' onClick={redirectToSignup}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}>
                     Create User Account <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                 </div>
             </button>
 
             {/* Create Marketer Account */}
             <button className='standardButton' onClick={redirectToSignup}>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', fontSize: '20px' }}>
                     Create Marketer Account <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                 </div>
             </button>
