@@ -57,12 +57,37 @@ function TeamsAwaitingApprovalList(props) {
             setTeams(teams.filter(team => team.teamID !== teamID));
 
             //Success message
-            alert("User approved successfully!");
+            alert("Team approved successfully!");
         } catch (err) {
             console.error('Error approving team:', err);
             alert('Failed to approve team');
         }
     };
+
+    // Delete function
+    const handleDeleteTeam = async (teamID) => {
+        try {
+            console.log(`Deleting team with ID: ${teamID}`);
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/teams/deleteTeam?teamID=${teamID}`, {
+                method: 'DELETE',
+            });
+    
+            const responseText = await response.text(); // Capture raw response
+            console.log("Delete API response:", responseText);
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete team');
+            }
+    
+            setTeams(teams.filter(team => team.teamID !== teamID));
+            alert("Team deleted successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error deleting team:', err);
+            alert('Failed to delete team');
+        }
+    };
+    
 
     // Filtering teams
     const filteredData = teams.filter((el) => {
@@ -92,7 +117,7 @@ function TeamsAwaitingApprovalList(props) {
                 <HR />
                 
                 {filteredData.map((team) => (
-                    <div key={team.id}>
+                    <div key={team.TeamID}>
                         <div class='horizontalFlex spaceBetween'>
                             <div>
                                 <h3>{team.TEAM_NAME}</h3>
@@ -104,7 +129,7 @@ function TeamsAwaitingApprovalList(props) {
                                 <div className="centerButton">
                                     <button
                                         className="approveButton"
-                                        // onClick={} // Trigger approval on button click
+                                        // onClick={() => handleApproveTeam(team.TeamID)} // Approve action
                                     >
                                         <span style={{ color: 'green', fontSize: '20px' }}>Approve</span> {/* Red X button */}
                                     </button>
@@ -114,7 +139,7 @@ function TeamsAwaitingApprovalList(props) {
                                 <div className="centerButton">
                                     <button
                                         className="deleteButton"
-                                        // onClick={} // Trigger delete on button click
+                                        onClick={() => handleDeleteTeam(team.TeamID)} // Trigger delete on button click
                                     >
                                         <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span> {/* Red X button */}
                                         </button>
