@@ -2,18 +2,47 @@ import React, { useState } from 'react';
 import '../../App.css';
 import '../../assets/css/PastWinners.css';
 
-function PastWinnersCard({ gameNumber, team1, team2 }) {
-    const [isEditing, setIsEditing] = useState(true);
-    const [winner, setWinner] = useState('');
-    const [loser, setLoser] = useState('');
-    const [isSaved, setIsSaved] = useState(false);
+function PastWinnersCard({ gameNumber, team1, team2, matchID, initialWinner, initialLoser, initialSaved }) {
+    const [isEditing, setIsEditing] = useState(initialSaved ? false : true);
+    const [winner, setWinner] = useState(initialWinner || '');
+    const [loser, setLoser] = useState(initialLoser || '');
+    const [isSaved, setIsSaved] = useState(initialSaved);
 
-    // currently, only 'saves' the results by assigning the input value to the viewable text. Will not save to database currently
-    const handleSave = () => {
+    // Function to handle the save of the result to the database
+    const handleSave = async () => {
         if (winner && loser) {
-            setIsEditing(false);
-            setIsSaved(true);
-            console.log('Saved results:', { gameNumber, winner, loser });
+            try {
+                console.log('Attempting to save result:', { matchID, winner, loser });
+                
+                // API call to save the result
+                const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/updateResults', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        matchID,
+                        winner,
+                        loser,
+                    }),
+                });
+
+                // Check if the response is okay
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    throw new Error(`Failed to save result: ${errorMessage}`);
+                }
+
+                const data = await response.json();
+                console.log('Result saved:', data);
+
+                // After saving, disable editing
+                setIsEditing(false);
+                setIsSaved(true);
+            } catch (error) {
+                console.error('Error saving result:', error);
+                alert('There was an error saving the result');
+            }
         } else {
             alert('Please fill out both winner and loser fields');
         }
