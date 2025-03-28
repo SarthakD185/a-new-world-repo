@@ -20,7 +20,7 @@ function ProfilePage() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await fetch(`arn:aws:apigateway:us-east-1::/apis/zjz8rqzudc/routes/kvriiep?userID=${userID}`);
+                const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile?userID=${userID}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
@@ -39,8 +39,6 @@ function ProfilePage() {
         return <div className="error">⚠️ {error || "User not found"}</div>;
     }
 
-    // For now, the "user" object is being replaced by a default sample from the data file
-    user = data[1];
 
     return (
         <div>
