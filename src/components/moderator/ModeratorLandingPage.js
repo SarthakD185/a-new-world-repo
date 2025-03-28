@@ -8,8 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
-import ModeratorUncompletedTasksList from './ModeratorUncompletedTasksList';
-import ModeratorManageUsersList from './ModeratorManageUsersList';
+import TeamsAwaitingApprovalList from './TeamsAwaitingApprovalList';
+import UsersAwaitingApprovalList from './UsersAwaitingApprovalList';
 
 function AdminLandingPage() {
     //state management
@@ -51,11 +51,6 @@ function AdminLandingPage() {
         fetchTeams();
     }, []);
 
-    //shuffle
-    const shuffleTeams = (teams) => {
-        return teams.sort(() => Math.random() - 0.5);
-    };
-
     //input changes if any
     const tasksInputHandler = (e) => setTasksInputText(e.target.value.toLowerCase());
     const usersInputHandler = (e) => setUsersInputText(e.target.value.toLowerCase());
@@ -96,10 +91,6 @@ function AdminLandingPage() {
                 name: "Moderator "
             }
         });
-    };
-    //Sign Up navigation
-    const handleClick = () => {
-        navigate('/signup');
     };
 
     const fetchTournamentData = () => {
@@ -157,10 +148,10 @@ function AdminLandingPage() {
                 </button>
             </div>
 
-            {/* Uncompleted Tasks and Manage Users */}
+            {/* Teams and Users Awaiting Approval */}
             <div className='container' style={{ marginTop: '0px' }}>
 
-                {/* Uncompleted Tasks */}
+                {/* New Teams Awaiting Approval */}
                 <div className='box' id='moderatorUncompletedTasks' style={{ marginTop: '0px' }}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>New Teams Awaiting Approval</h2>
@@ -174,7 +165,7 @@ function AdminLandingPage() {
                             />
                         </div>
                     </div>
-                    <ModeratorUncompletedTasksList input={tasksInputText} />
+                    <TeamsAwaitingApprovalList input={tasksInputText} />
                 </div>
 
                 {/* Manage Users */}
@@ -251,7 +242,7 @@ function AdminLandingPage() {
                             </div>
                         </div>
                     </div>
-                    <ModeratorManageUsersList
+                    <UsersAwaitingApprovalList
                         input={usersInputText}
                         moderatorCollegeID={moderatorCollegeID}
                         tMFilter={teamMemberFilter}
