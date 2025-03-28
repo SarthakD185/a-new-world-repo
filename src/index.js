@@ -23,6 +23,7 @@ import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
 import ModeratorManageUsers from './components/moderator/ModeratorManageUsersList';
 import ModeratorTeamsList from './components/moderator/ModeratorTeamsList';
 import { Account } from "./Account";
+import BracketPage from './components/BracketPage';
 //import Status from './Status';
 import { Amplify } from 'aws-amplify';
 import awsExports from './aws-exports';
@@ -58,6 +59,7 @@ root.render(
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/tournament" element={<TournamentPage />} />
           <Route path="/individualTournament" element={<IndividualTournamentPage />} />
+          <Route path="/bracket" element={<BracketPage />} />
           <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
           <Route path="/security" element={<Security />} />
           

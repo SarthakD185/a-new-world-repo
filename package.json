@@ -8,6 +8,7 @@
     "@aws-amplify/ui-react": "^6.9.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@g-loot/react-tournament-brackets": "^1.0.31-rc",
     "@mui/material": "^6.4.2",
     "amazon-cognito-identity-js": "^6.3.12",
     "aws-amplify": "^6.13.1",
