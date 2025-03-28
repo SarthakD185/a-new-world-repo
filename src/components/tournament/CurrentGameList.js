@@ -16,18 +16,17 @@ function CurrentGameList({ collegeID }) {
         16: 2, 17: 3, 18: 1, 19: 4
     };
 
-    //fetch teams on mount
+    // Fetch teams on mount
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamNameForTourney'); // Adjust the URL
+                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamNameForTourney');
                 if (!response.ok) {
                     throw new Error('Failed to fetch teams');
                 }
                 const data = await response.json();
                 console.log('Fetched teams:', data);
 
-                //check if teams is an array
                 if (Array.isArray(data.teams)) {
                     setTeams(data.teams); 
                 } else {
@@ -43,6 +42,7 @@ function CurrentGameList({ collegeID }) {
         fetchTeams();
     }, []);
 
+    // Fetch games on mount
     useEffect(() => {
         const fetchGames = async () => {
             try {
@@ -68,7 +68,7 @@ function CurrentGameList({ collegeID }) {
         };
 
         fetchGames();
-    }, []); // only on mount
+    }, []); // Only on mount
 
     useEffect(() => {
         if (games.length > 0 && collegeID) {
@@ -89,17 +89,17 @@ function CurrentGameList({ collegeID }) {
             console.log('Filtered games:', filtered);
             setFilteredGames(filtered);
         }
-    }, [games, collegeID]); //refetch
+    }, [games, collegeID]); // Refetch when games or collegeID change
 
     const getTeamName = (teamID) => {
         if (Array.isArray(teams)) {
             const team = teams.find(t => t.TeamID === teamID);
-            return team ? team.TEAM_NAME : 'Unknown Team'; //if name is not found, this is a error placeholder
+            return team ? team.TEAM_NAME : 'Unknown Team'; // Placeholder if name is not found
         }
         return 'Unknown Team'; 
     };
 
-    //this is needed because sql date time data store is uncompatible
+    // Date formatting options
     const formatOptions = {
         weekday: 'long', 
         year: 'numeric',
@@ -110,7 +110,6 @@ function CurrentGameList({ collegeID }) {
         hour12: true,
     };
 
-    //more datetime formatting
     const formatDate = (dateStr) => {
         const date = new Date(dateStr);
         if (isNaN(date.getTime())) {
