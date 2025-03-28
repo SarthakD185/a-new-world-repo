@@ -57,6 +57,7 @@ function UsersAwaitingApprovalList(props) {
 
             //Success message
             alert("User approved successfully!");
+            window.location.reload();
         } catch (err) {
             console.error('Error approving user:', err);
             alert('Failed to approve user');
@@ -76,6 +77,7 @@ function UsersAwaitingApprovalList(props) {
 
             setUsers(users.filter(user => user.UserID !== userID)); //Update the user list after deletion
             alert("User deleted successfully!");
+            window.location.reload();
         } catch (err) {
             console.error('Error deleting user:', err);
             alert('Failed to delete user');
@@ -84,14 +86,16 @@ function UsersAwaitingApprovalList(props) {
 
     // Filtering users
     const filteredData = users.filter((el) => {
-        if (props.input === '') {
-            return el;
-        } else {
-            return (
-                el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
-            );
+        if(el.Approved === 0) {
+            if (props.input === '') {
+                return el;
+            } else {
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                );
+            }
         }
     });
 
