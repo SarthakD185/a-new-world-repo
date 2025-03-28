@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { HR } from "flowbite-react";
 
-function ModeratorUncompletedTasksList(props) {
+function ModeratorTeamsList(props) {
     const [teamList, setTeamList] = useState([]); // State to hold the fetched team data
     const [loading, setLoading] = useState(true); // State for loading indicator
     const [error, setError] = useState(null); // State for error handling
@@ -110,4 +110,4 @@ function ModeratorUncompletedTasksList(props) {
     }
 }
 
-export default ModeratorUncompletedTasksList;
+export default ModeratorTeamsList;
