@@ -14,7 +14,7 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
     }
 
     //Filter teams by collegeID
-    const filteredTeams = teams.filter(team => team.CollegeID === collegeID);
+    const filteredTeams = teams.filter(team => (team.CollegeID === collegeID && team.APPROVED === 1));
 
     if (filteredTeams.length === 0) {
         return (

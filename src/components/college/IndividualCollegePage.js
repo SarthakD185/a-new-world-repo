@@ -87,7 +87,7 @@ function IndividualCollegePage() {
             const result = await response.json();
 
             if (response.status === 201) {
-                alert("Team created successfully!");
+                alert("Team created successfully, awaiting Moderator approval!");
                 window.location.reload();
             } else {
                 alert("Error creating team: " + (result.body || "Unknown error"));

@@ -2,7 +2,7 @@
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
-    grid-row-end: 5;
+    grid-row-end: 4;
     height: auto;
     max-height: 700px;
     overflow: scroll;
@@ -13,7 +13,7 @@
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
-    grid-row-end: 2;
+    grid-row-end: 4;
     height: 400px;
     overflow: scroll;
     
@@ -43,6 +43,15 @@
     grid-row-end: 3;
     height: 200px;
 }
+
+#stripeButton {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+
 
 .largeButton {
     padding: 16px 36px;

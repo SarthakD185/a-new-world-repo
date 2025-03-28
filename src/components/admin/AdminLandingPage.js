@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate for routing
 import logo from '../../assets/images/ANewWorldTitleTextClearBackground.png';
 import '../../App.css';
 import '../../assets/css/Landing.css';
@@ -15,6 +16,7 @@ import $ from 'jquery';
 import AdminActionButtons from './AdminActionButtons';
 
 function AdminLandingPage() {
+    const navigate = useNavigate(); // Hook to navigate between pages
 
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
@@ -47,6 +49,11 @@ function AdminLandingPage() {
             });
         }
     }
+
+    // Redirect to SignUp page
+    const redirectToSignup = () => {
+        navigate('/signup'); // Directly navigate to the SignUp page
+    };
 
     return (
         <div>
@@ -132,35 +139,11 @@ function AdminLandingPage() {
                     </div>
                     <AdminManageUsersList input={usersInputText} tMFilter={teamMemberFilter} tCFilter={teamCaptainFilter} marFilter={marketerFilter} modFilter={moderatorFilter} aFilter={adminFilter} cFilter={collegeFilter}/>
                     <div className='centerButton' style={{marginTop: '24px'}}>
-                        <Popup trigger={
-                            <button className='standardButton'>
-                                <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
-                                    Create New User <FaPlusCircle size='14px' style={{paddingLeft: '6px'}}/>
-                                </div>
-                            </button>} 
-                            modal nested>
-                            {
-                                close => (
-                                    <div className='modal popup'>
-                                        <div className='content'>
-                                            <h1 className='center'>Create New User</h1>
-                                            <form className='center'>
-                                                <label htmlFor="email">Email: </label>
-                                                <input type="text" id="email" name="email" style={{marginBottom: '24px'}}/>
-                                                <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
-                                                    <button className='standardButton fullWidth' onClick={() => close()}>
-                                                        Save
-                                                    </button>
-                                                    <button className='redButton fullWidth' onClick={() => close()}>
-                                                        Close
-                                                    </button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                )
-                            }
-                        </Popup>
+                        <button className='standardButton' onClick={redirectToSignup}>
+                            <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
+                                Create New User <FaPlusCircle size='14px' style={{paddingLeft: '6px'}}/>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </div>

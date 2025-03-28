@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../../Account';
 import axios from 'axios'; 
 import PastWinnersCard from '../moderator/PastWinnersCard';
+
+
 function IndividualTournamentPage() {
     const location = useLocation();
     const data = location.state;
@@ -21,6 +23,7 @@ function IndividualTournamentPage() {
     const [successMessage, setSuccessMessage] = React.useState('');
     const [teams, setTeams] = React.useState([]); 
 
+    
     //navigate to sign up
     function handleClick() {
         navigate('/signup');
@@ -80,6 +83,10 @@ function IndividualTournamentPage() {
         }
     };
 
+    const handlePaymentClick = () => {
+        navigate('/tournament/payment');
+    };
+
     return (
         <div>
             <div className='verticalFlexMobile480 horizontalFlex paddingTop' style={{justifyContent: 'center'}}>
@@ -129,6 +136,12 @@ function IndividualTournamentPage() {
 
                     <div className='centerButton'>
                         <button className='standardButton largeButton' onClick={handleClick}>Sign Up Now!</button>
+                    </div>
+
+                    <div className='centerButton'>
+                        <button className='standardButton largeButton' onClick={handlePaymentClick}>
+                            Proceed to Payment
+                        </button>
                     </div>
 
                     {/* Conditionally render Create Tournament button for Moderators */}

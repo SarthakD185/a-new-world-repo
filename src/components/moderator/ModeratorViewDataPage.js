@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
-import TeamsAwaitingApprovalList from './TeamsAwaitingApprovalList';
-import UsersAwaitingApprovalList from './UsersAwaitingApprovalList';
+import ModeratorUncompletedTasksList from './ModeratorUncompletedTasksList';
+import ModeratorManageUsersList from './ModeratorManageUsersList';
 
-function AdminLandingPage() {
+function ModeratorViewDataPage() {
     //state management
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
@@ -50,6 +50,11 @@ function AdminLandingPage() {
 
         fetchTeams();
     }, []);
+
+    //shuffle
+    const shuffleTeams = (teams) => {
+        return teams.sort(() => Math.random() - 0.5);
+    };
 
     //input changes if any
     const tasksInputHandler = (e) => setTasksInputText(e.target.value.toLowerCase());
@@ -92,6 +97,10 @@ function AdminLandingPage() {
             }
         });
     };
+    //Sign Up navigation
+    const handleClick = () => {
+        navigate('/signup');
+    };
 
     const fetchTournamentData = () => {
         setTournamentData({
@@ -104,15 +113,11 @@ function AdminLandingPage() {
         fetchTournamentData();
     }, []);
 
-    // Add this new handler
-    const handleViewAllData = () => {
-        navigate('/moderator/viewData');
-    };
-
     return (
         <div>
             <img src={logo} className='centerImagePadding' alt="logo" />
-            <h1 className='center'>Moderator Landing Page</h1>
+            <h1 className='center'>Moderator View All Data Page</h1>
+            <h2 className='center'>View All Teams and Users</h2>
 
             {/* Conditionally render Create Tournament button for Moderators */}
             {tournamentData && (
@@ -138,23 +143,13 @@ function AdminLandingPage() {
                 </button>
             </div>
 
-            {/* Add new View All Data Button */}
-            <div className='centerButton' style={{ marginTop: '10px' }}>
-                <button 
-                    className='standardButton largeButton' 
-                    onClick={handleViewAllData}
-                >
-                    View All Teams and Users Data on this Page
-                </button>
-            </div>
-
-            {/* Teams and Users Awaiting Approval */}
+            {/* Uncompleted Tasks and Manage Users */}
             <div className='container' style={{ marginTop: '0px' }}>
 
-                {/* New Teams Awaiting Approval */}
+                {/* Uncompleted Tasks */}
                 <div className='box' id='moderatorUncompletedTasks' style={{ marginTop: '0px' }}>
                     <div className='horizontalFlex spaceBetween'>
-                        <h2 className='noPadding noMargin'>New Teams Awaiting Approval</h2>
+                        <h2 className='noPadding noMargin'>All Teams in your Tournament</h2>
                         <div className="search">
                             <TextField
                                 id="outlined-basic"
@@ -165,13 +160,13 @@ function AdminLandingPage() {
                             />
                         </div>
                     </div>
-                    <TeamsAwaitingApprovalList input={tasksInputText} moderatorCollegeID={moderatorCollegeID} />
+                    <ModeratorUncompletedTasksList input={tasksInputText} />
                 </div>
 
                 {/* Manage Users */}
                 <div className='box' id='moderatorManageUsers' style={{ marginTop: '0px' }}>
                     <div className='horizontalFlex spaceBetween'>
-                        <h2 className='noPadding noMargin'>Users Pending Approval</h2>
+                        <h2 className='noPadding noMargin'>All Users at your College</h2>
                         <div className="search horizontalFlex">
                             <TextField
                                 id="outlined-basic"
@@ -242,7 +237,7 @@ function AdminLandingPage() {
                             </div>
                         </div>
                     </div>
-                    <UsersAwaitingApprovalList
+                    <ModeratorManageUsersList
                         input={usersInputText}
                         moderatorCollegeID={moderatorCollegeID}
                         tMFilter={teamMemberFilter}
@@ -256,4 +251,4 @@ function AdminLandingPage() {
     );
 }
 
-export default AdminLandingPage;
+export default ModeratorViewDataPage;
