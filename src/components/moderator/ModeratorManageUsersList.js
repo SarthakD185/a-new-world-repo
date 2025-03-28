@@ -34,53 +34,6 @@ function ModeratorManageUsersList(props) {
         return <div className="center">Error: {error}</div>;
     }
 
-    // Approve function
-    const handleApproveUser = async (userID) => {
-        try {
-            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: userID,
-                    approve: true,
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to approve user');
-            }
-
-            //Update the UI after approval: either remove or mark the user as approved
-            setUsers(users.filter(user => user.UserID !== userID));
-
-            //Success message
-            alert("User approved successfully!");
-        } catch (err) {
-            console.error('Error approving user:', err);
-            alert('Failed to approve user');
-        }
-    };
-
-    // Delete function
-    const handleDeleteUser = async (userID) => {
-        try {
-            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete user');
-            }
-
-            setUsers(users.filter(user => user.UserID !== userID)); //Update the user list after deletion
-            alert("User deleted successfully!");
-        } catch (err) {
-            console.error('Error deleting user:', err);
-            alert('Failed to delete user');
-        }
-    };
 
     // Filtering users
     const filteredData = users.filter((el) => {
@@ -111,29 +64,6 @@ function ModeratorManageUsersList(props) {
                             <div>
                                 <h3>{user.username}</h3>
                                 <p>{user.teamRole || 'No Role Assigned'}</p>
-                            </div>
-
-                            {/* Approve and Delete Buttons */}
-                            <div className="horizontalFlex approveDeleteButtons">
-                                {/* Approve Button */}
-                                <div className="centerButton">
-                                    <button
-                                        className="approveButton"
-                                        onClick={() => handleApproveUser(user.UserID)} // Approve action
-                                    >
-                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span>
-                                    </button>
-                                </div>
-
-                                {/* Delete Button */}
-                                <div className="centerButton">
-                                    <button
-                                        className="deleteButton"
-                                        onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
-                                    >
-                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         <HR />
