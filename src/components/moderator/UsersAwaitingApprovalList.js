@@ -85,6 +85,7 @@ function UsersAwaitingApprovalList(props) {
     };
 
     // Filtering users
+    // eslint-disable-next-line
     const filteredData = users.filter((el) => {
         if(el.Approved === 0) {
             if (props.input === '') {

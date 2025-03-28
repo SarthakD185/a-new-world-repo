@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 
-{/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
+// https://dev.to/salehmubashar/search-bar-in-react-js-545l
 function TeamsAwaitingApprovalList(props) {
     const [teams, setTeams] = useState([]); 
     const [loading, setLoading] = useState(true); 
@@ -38,13 +38,13 @@ function TeamsAwaitingApprovalList(props) {
     // Approve function
     const handleApproveTeam = async (teamID) => {
         try {
-            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveUser', {
+            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveTeam', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    teamId: teamID,
+                    TeamID: teamID,
                     approve: true,
                 }),
             });
@@ -58,6 +58,7 @@ function TeamsAwaitingApprovalList(props) {
 
             //Success message
             alert("Team approved successfully!");
+            window.location.reload();
         } catch (err) {
             console.error('Error approving team:', err);
             alert('Failed to approve team');
@@ -90,21 +91,24 @@ function TeamsAwaitingApprovalList(props) {
     
 
     // Filtering teams
+    // eslint-disable-next-line
     const filteredData = teams.filter((el) => {
-        if (props.input === '') {
-            return el;
-        } else {
-            return (
-                el.TEAM_NAME.toLowerCase().includes(props.input.toLowerCase())
-            );
+        if(el.APPROVED === 0) {
+            if (props.input === '') {
+                return el;
+            } else {
+                return (
+                    el.TEAM_NAME.toLowerCase().includes(props.input.toLowerCase())
+                );
+            }
         }
     });
 
     if(filteredData.length === 0){
 
         return(
-            <div class='fullHeight'>
-                <p class='center'>No Teams to Display</p>
+            <div className='fullHeight'>
+                <p className='center'>No Teams to Display</p>
             </div>
         )
 
@@ -118,7 +122,7 @@ function TeamsAwaitingApprovalList(props) {
                 
                 {filteredData.map((team) => (
                     <div key={team.TeamID}>
-                        <div class='horizontalFlex spaceBetween'>
+                        <div className='horizontalFlex spaceBetween'>
                             <div>
                                 <h3>{team.TEAM_NAME}</h3>
                             </div>
@@ -129,7 +133,7 @@ function TeamsAwaitingApprovalList(props) {
                                 <div className="centerButton">
                                     <button
                                         className="approveButton"
-                                        // onClick={() => handleApproveTeam(team.TeamID)} // Approve action
+                                        onClick={() => handleApproveTeam(team.TeamID)} // Approve action
                                     >
                                         <span style={{ color: 'green', fontSize: '20px' }}>Approve</span> {/* Red X button */}
                                     </button>
