@@ -4,7 +4,10 @@
     grid-template-rows: auto;
     margin: 18px;
 }
-/* 
+#teamActionButtons {
+    padding-left: 50px;
+} 
+/*  this really needs to be fixed, the buttons are in weird places
 #teamActionButtons{
     grid-column-start: 3;
     grid-column-end: 4;

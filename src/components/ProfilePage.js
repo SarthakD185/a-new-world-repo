@@ -18,26 +18,34 @@ function ProfilePage() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchUser = async () => {
+        const getProfile = async () => {
             try {
-                const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile?userID=${userID}`);
+                const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile`); {/*userID=${userID} */}
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                setUser(data); 
+                console.log(data);
+                let json = data.body;
+                json = JSON.parse(json)
+                setUser(json[0]); 
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 setError("Failed to load user data. Please try again.");
             }
         };
 
-        fetchUser();
+        getProfile();
     }, [userID]); // Refetch when userID is different
-
+    let approved = "";
     if (!user) {
         return <div className="error">⚠️ {error || "User not found"}</div>;
+    } else {
+        console.log(user);
+        console.log(user.username);
+        approved = user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>;
     }
+
 
 
     return (
@@ -56,13 +64,12 @@ function ProfilePage() {
             <div className='pageGrid'>
                 <div className='box' id='accountInformation'>
                     <div className='horizontalFlex spaceBetween'>
-                        <h2>Account Information</h2>
+                        <h2>Account Information</h2> {approved}
                     </div>
                     <div>
-                        {/*user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>*/}
                         <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
                         <p>Username: {user.username || "user_name2024"}</p>
-                        <p>Full Name: {user.fullName || "Jane Smith"}</p>
+                        <p>Full Name: {user.firstname+" "+user.lastname || "Jane Smith"}</p>
                         <p>Email Address: {user.email || "jsmith@unl.edu"}</p>
                     </div>
                 </div>
