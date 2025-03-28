@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { AccountContext } from '../../Account';
 import axios from 'axios'; 
 import PastWinnersCard from '../moderator/PastWinnersCard';
+
+
 function IndividualTournamentPage() {
     const location = useLocation();
     const data = location.state;
@@ -21,6 +23,7 @@ function IndividualTournamentPage() {
     const [successMessage, setSuccessMessage] = React.useState('');
     const [teams, setTeams] = React.useState([]); 
 
+    
     //navigate to sign up
     function handleClick() {
         navigate('/signup');
@@ -80,6 +83,10 @@ function IndividualTournamentPage() {
         }
     };
 
+    const handlePaymentClick = () => {
+        navigate('/tournament/payment');
+    };
+
     return (
         <div>
             <div className='verticalFlexMobile480 horizontalFlex paddingTop' style={{justifyContent: 'center'}}>
@@ -131,17 +138,11 @@ function IndividualTournamentPage() {
                         <button className='standardButton largeButton' onClick={handleClick}>Sign Up Now!</button>
                     </div>
 
-
-
-                    <script async
-                        src="https://js.stripe.com/v3/buy-button.js">
-                    </script>
-
-                    <stripe-buy-button
-                        buy-button-id="buy_btn_1R7Oy9RpKvOKttKIvGI6skqS"
-                        publishable-key="pk_test_51R7OhLRpKvOKttKI1UGW7zEzMiuGhpfAXtRxv9llNMmXY7M1Za9L6wp6PJrz5p518Z7yBhH2JON65DgcqK5ugWhE00gRD9y4us"
-                    >
-                    </stripe-buy-button>
+                    <div className='centerButton'>
+                        <button className='standardButton largeButton' onClick={handlePaymentClick}>
+                            Proceed to Payment
+                        </button>
+                    </div>
 
                     {/* Conditionally render Create Tournament button for Moderators */}
                     {isAuthenticated && role === 'Moderator' && (
