@@ -150,6 +150,13 @@ export default function SignUp(props) {
   
     const data = new FormData(event.currentTarget);
   
+    let roleToSubmit = selectedRole;
+  
+    //If the user is not an admin, default the role to "Player"
+    if (role !== 'Admin' && !roleToSubmit) {
+      roleToSubmit = 'Player';
+    }
+  
     const formData = {
       firstname: data.get('name'),
       lastname: data.get('lastName'),
@@ -158,7 +165,7 @@ export default function SignUp(props) {
       username: data.get('username'),
       confirm_password: data.get('password'),
       college: selectedCollege, // include the selected college here
-      role: selectedRole, // include the selected role here if needed
+      role: roleToSubmit, // use the roleToSubmit which is either "Player" or the selected role
     };
   
     try {
@@ -189,15 +196,15 @@ export default function SignUp(props) {
       }
       console.log(data);
   
-      // Check if the user is an admin, and if so, redirect to the admin landing page
-      if (role === 'Admin') {  // Checking if the current logged-in user is an admin
-        navigate('/adminLanding'); // Redirect admin to the admin landing page
+      
+      if (role === 'Admin') {  
+        navigate('/adminLanding'); 
       } else {
-        // If not an admin, you can redirect to a general user page or sign-in page
         navigate('/signin');
       }
     });
   };
+  
 
   return (
     <>
