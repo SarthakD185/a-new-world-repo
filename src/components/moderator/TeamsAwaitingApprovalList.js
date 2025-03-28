@@ -1,37 +1,85 @@
-import { React } from 'react';
-import data from '../../assets/data/adminTasks.json';
+import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 
 {/* https://dev.to/salehmubashar/search-bar-in-react-js-545l */}
 function TeamsAwaitingApprovalList(props) {
+    const [teams, setTeams] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-    //create a new array by filtering the original array
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/teams/${props.moderatorCollegeID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch teams');
+                }
+                const data = await response.json();
+                console.log("API response data:", data); //log
+                setTeams(data); 
+            } catch (err) {
+                setError(err.message); 
+            } finally {
+                setLoading(false); 
+            }
+        };
 
-    const filteredData = data.filter((el) => {
+        fetchTeams();
+    }, [props.moderatorCollegeID]);
 
-        //if no input the return the original
+    if (loading) {
+        return <div className="center">Loading...</div>;
+    }
 
+    if (error) {
+        return <div className="center">Error: {error}</div>;
+    }
+
+    // Approve function
+    const handleApproveTeam = async (teamID) => {
+        try {
+            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    teamId: teamID,
+                    approve: true,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to approve team');
+            }
+
+            //Update the UI after approval: either remove or mark the team as approved
+            setTeams(teams.filter(team => team.teamID !== teamID));
+
+            //Success message
+            alert("User approved successfully!");
+        } catch (err) {
+            console.error('Error approving team:', err);
+            alert('Failed to approve team');
+        }
+    };
+
+    // Filtering teams
+    const filteredData = teams.filter((el) => {
         if (props.input === '') {
-
             return el;
-
+        } else {
+            return (
+                el.TEAM_NAME.toLowerCase().includes(props.input.toLowerCase())
+            );
         }
-
-        //return the item which contains the user input
-
-        else {
-
-            return el.title.toLowerCase().includes(props.input)
-
-        }
-
-    })
+    });
 
     if(filteredData.length === 0){
 
         return(
             <div class='fullHeight'>
-                <p class='center'>No Tasks to Display</p>
+                <p class='center'>No Teams to Display</p>
             </div>
         )
 
@@ -43,12 +91,11 @@ function TeamsAwaitingApprovalList(props) {
                 {/* https://flowbite-react.com/docs/typography/hr */}
                 <HR />
                 
-                {filteredData.map((task) => (
-                    <div key={task.id}>
+                {filteredData.map((team) => (
+                    <div key={team.id}>
                         <div class='horizontalFlex spaceBetween'>
                             <div>
-                                <h3>{task.title}</h3>
-                                <p>{task.description}</p>
+                                <h3>{team.TEAM_NAME}</h3>
                             </div>
 
                             {/* Approve and Delete Buttons */}

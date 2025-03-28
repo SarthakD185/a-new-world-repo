@@ -165,7 +165,7 @@ function AdminLandingPage() {
                             />
                         </div>
                     </div>
-                    <TeamsAwaitingApprovalList input={tasksInputText} />
+                    <TeamsAwaitingApprovalList input={tasksInputText} moderatorCollegeID={moderatorCollegeID} />
                 </div>
 
                 {/* Manage Users */}
