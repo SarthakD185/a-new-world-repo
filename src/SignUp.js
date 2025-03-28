@@ -196,7 +196,6 @@ export default function SignUp(props) {
       }
       console.log(data);
   
-      
       if (role === 'Admin') {  
         navigate('/adminLanding'); 
       } else {
@@ -326,7 +325,7 @@ export default function SignUp(props) {
                 >
                   <MenuItem value="Moderator">Moderator</MenuItem>
                   <MenuItem value="Marketer">Marketer</MenuItem>
-                  <MenuItem value="User">User</MenuItem>
+                  <MenuItem value="Player">Player</MenuItem>
                 </Select>
               </FormControl>
             )}
