@@ -18,6 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import UserPool from './UserPool';
+import { AccountContext } from './Account';  // Import AccountContext for role-based rendering
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -68,7 +69,10 @@ export default function SignUp(props) {
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [nameError, setNameError] = React.useState(false);
   const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [selectedRole, setSelectedRole] = React.useState('');
   const navigate = useNavigate();  // Initialize the useNavigate hook for redirection
+
+  const { isAuthenticated, role } = React.useContext(AccountContext);  // Access role and authentication status
 
   const validateInputs = () => {
     const email = document.getElementById('email');
@@ -111,6 +115,10 @@ export default function SignUp(props) {
     setSelectedCollege(event.target.value);
   };
 
+  const handleRoleChange = (event) => {
+    setSelectedRole(event.target.value);
+  };
+
   // Fetch colleges on component mount
   React.useEffect(() => {
     const fetchColleges = async () => {
@@ -135,13 +143,13 @@ export default function SignUp(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     if (!validateInputs()) {
       return;
     }
-
+  
     const data = new FormData(event.currentTarget);
-
+  
     const formData = {
       firstname: data.get('name'),
       lastname: data.get('lastName'),
@@ -150,8 +158,9 @@ export default function SignUp(props) {
       username: data.get('username'),
       confirm_password: data.get('password'),
       college: selectedCollege, // include the selected college here
+      role: selectedRole, // include the selected role here if needed
     };
-
+  
     try {
       const response = await fetch('https://0t8p7zxufc.execute-api.us-east-1.amazonaws.com/prod', {
         method: 'POST',
@@ -160,7 +169,7 @@ export default function SignUp(props) {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
         const result = await response.json();
         console.log('Success:', result);
@@ -170,18 +179,23 @@ export default function SignUp(props) {
     } catch (error) {
       console.error('Request failed:', error);
     }
-
+  
     const email = formData.email; // Get email from formData
     const password = formData.password; // Get password from formData
-
+  
     UserPool.signUp(email, password, [], null, (err, data) => {
-      if (err){
+      if (err) {
         console.error(err);
       }
-      console.log(data); 
-
-      // Redirect to sign-in page after successful sign-up
-      navigate('/signin'); // Use navigate to redirect to /signin
+      console.log(data);
+  
+      // Check if the user is an admin, and if so, redirect to the admin landing page
+      if (role === 'Admin') {  // Checking if the current logged-in user is an admin
+        navigate('/adminLanding'); // Redirect admin to the admin landing page
+      } else {
+        // If not an admin, you can redirect to a general user page or sign-in page
+        navigate('/signin');
+      }
     });
   };
 
@@ -290,6 +304,25 @@ export default function SignUp(props) {
                 />
               </FormControl>
             </Stack>
+
+            {/* Admin Role Dropdown (Visible only if user is an admin) */}
+            {role === 'Admin' && (
+              <FormControl fullWidth>
+                <InputLabel id="role-label">Role</InputLabel>
+                <Select
+                  labelId="role-label"
+                  id="role"
+                  value={selectedRole}
+                  label="Role"
+                  onChange={handleRoleChange}
+                  required
+                >
+                  <MenuItem value="Moderator">Moderator</MenuItem>
+                  <MenuItem value="Marketer">Marketer</MenuItem>
+                  <MenuItem value="User">User</MenuItem>
+                </Select>
+              </FormControl>
+            )}
 
             <FormControl fullWidth>
               <InputLabel id="college-label">College</InputLabel>

@@ -1,169 +1,141 @@
-import { React } from 'react';
-import data from '../../assets/data/users.json';
+import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
-import Popup from 'reactjs-popup';
 import '../../App.css';
 import '../../assets/css/Landing.css';
 
-// https://dev.to/salehmubashar/search-bar-in-react-js-545l
 function AdminManageUsersList(props) {
 
-    // Create a new array by filtering the original array
-    // eslint-disable-next-line
-    const filteredData = data.filter((el) => {
+    //states
+    const [users, setUsers] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
 
-        // If no input, return the original
-
-        if(props.cFilter[0] === "All Colleges"){
-            if (props.input === '') {
-                if(props.tMFilter === true && el.userType === "Team Member"){
-                    return el;
-                } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                    return el;
-                } else if(props.marFilter === true && el.userType === "Marketer"){
-                    return el;
-                } else if(props.modFilter === true && el.userType === "Moderator"){
-                    return el;
-                } else if(props.aFilter === true && el.userType === "Admin"){
-                    return el;
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/adminFetchAllUsers`); 
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
                 }
+                const data = await response.json();
+                console.log("API response data:", data); //logs
+                setUsers(data); 
+            } catch (err) {
+                setError(err.message); 
+            } finally {
+                setLoading(false); 
+            }
+        };
+
+        fetchUsers();
+    }, [props.adminCollegeID]); //Dependency array, refetch when adminCollegeID changes
+
+    if (loading) {
+        return <div className="center">Loading...</div>; //loading while fetching
+    }
+
+    if (error) {
+        return <div className="center">Error: {error}</div>; //error
+    }
+
+    //approve
+    const handleApproveUser = async (userID) => {
+        try {
+            const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/approveUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userID,
+                    approve: true,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to approve user');
             }
 
-            // Return the item which contains the user input
-            else {
-                if(props.tMFilter === true && el.userType === "Team Member"){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.marFilter === true && el.userType === "Marketer"){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.modFilter === true && el.userType === "Moderator"){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.aFilter === true && el.userType === "Admin"){
-                    return el.name.toLowerCase().includes(props.input);
-                }
-            }
-        } else {
-            if (props.input === '') {
-                if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
-                    return el;
-                } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
-                    return el;
-                } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
-                    return el;
-                } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
-                    return el;
-                } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
-                    return el;
-                }
-            }
+            //make them disappear after
+            setUsers(users.filter(user => user.UserID !== userID));
 
-            // Return the item which contains the user input
-            else {
-                if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
-                    return el.name.toLowerCase().includes(props.input);
-                } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
-                    return el.name.toLowerCase().includes(props.input);
-                }
-            }
+            //Success
+            alert("User approved successfully!");
+        } catch (err) {
+            console.error('Error approving user:', err);
+            alert('Failed to approve user');
         }
+    };
 
+    //Delete
+    const handleDeleteUser = async (userID) => {
+        try {
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            setUsers(users.filter(user => user.UserID !== userID)); //Update the user list after deletion
+            alert("User deleted successfully!");
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            alert('Failed to delete user');
+        }
+    };
+
+    //Filter
+    const filteredData = users.filter((el) => {
+        if (props.input === '') {
+            return el;
+        } else {
+            return (
+                el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+            );
+        }
     });
 
     if (filteredData.length === 0) {
         return (
-            <div className='fullHeight'>
-                <p className='center'>No Users to Display</p>
+            <div className="fullHeight">
+                <p className="center">No Users to Display</p>
             </div>
         );
     } else {
         return (
-            <div style={{ height: '412px', overflow: 'scroll' }}>
-                {/* https://flowbite-react.com/docs/typography/hr */}
+            <div className='overflowList'>
                 <HR />
-
-                {filteredData.map((users) => (
-                    <div key={users.id}>
-                        <div className='horizontalFlex spaceBetween'>
+                {filteredData.map((user) => (
+                    <div key={user.UserID}>
+                        <div className="horizontalFlex spaceBetween">
                             <div>
-                                <h3>{users.name}</h3>
-                                <p>{users.teamRole}</p>
+                                <h3>{user.username}</h3>
+                                <p>{user.teamRole || 'No Role Assigned'}</p>
                             </div>
-                            <div className='centerButton'>
-                                <Popup trigger=
-                                    {<button className='secondaryButton'>View Profile</button>} 
-                                    modal nested>
-                                    {
-                                        close => (
-                                            <div className='modal popup'>
-                                                <div className='popupContent'>
 
-                                                    <h1 class='center'>Manage User</h1>
+                            {/* Approve and Delete Buttons */}
+                            <div className="horizontalFlex approveDeleteButtons">
+                                <div className="centerButton">
+                                    <button
+                                        className="approveButton"
+                                        onClick={() => handleApproveUser(user.UserID)} // Approve action
+                                    >
+                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span>
+                                    </button>
+                                </div>
 
-                                                    <form>
-                                                        <div class='twoColumnGrid'>
-                                                            
-                                                            <div id='manageUserProfileImage' class='horizontalFlex' style={{marginBottom: '24px'}}>
-                                                                <img src={require(`../../assets/images/${users.profileImage}`)} class='smallLogo' alt={`${users.name} logo`}></img>
-                                                                {/* TODO - add button action to delete user profile image */}
-                                                                <button className='redButton'>Delete Image</button>
-                                                            </div>
-                                                            
-                                                            <div id='manageUserProfileName'>
-                                                                <label htmlFor="name">Name: </label>
-                                                                <input type="text" id="name" name="name" style={{marginBottom: '24px'}} value={users.name}/>
-                                                            </div>
-
-                                                            <div id='manageUserProfileUserType' style={{marginBottom: '24px'}}>
-                                                                <label for="userType">User Type:</label>
-
-                                                                <select name="userType" id="userType" defaultValue={users.userType}>
-                                                                    <option value="Team Member">Team Member</option>
-                                                                    <option value="Team Captain">Team Captain</option>
-                                                                    <option value="Moderator">Moderator</option>
-                                                                    <option value="Marketer">Marketer</option>
-                                                                    <option value="Admin">Admin</option>
-                                                                </select>
-                                                            </div>
-                                                            
-                                                            <div id='manageUserProfileTeamRole'>
-                                                                <label htmlFor="teamRole">Team Role: </label>
-                                                                <input type="text" id="teamRole" name="teamRole" style={{marginBottom: '24px'}} value={users.teamRole}/>
-                                                            </div>
-
-                                                            <label htmlFor="manageUserProfileBioInput" id='manageUserProfileBioLabel'>Bio: </label>
-                                                            <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={users.userBio} class='messageInputField'/>
-
-                                                        </div>
-
-                                                        <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
-                                                            {/* TODO - add button action to save user profile changes */}
-                                                            <button className='redButton fullWidth' onClick=
-                                                                {() => close()}>
-                                                                    Close
-                                                            </button>
-
-                                                            <button className='standardButton fullWidth' onClick=
-                                                                {() => close()}>
-                                                                    Save
-                                                            </button>
-
-
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-
-                                            </div>
-                                        )
-                                    }
-                                </Popup>
+                                <div className="centerButton">
+                                    <button
+                                        className="deleteButton"
+                                        onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
+                                    >
+                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                         <HR />
