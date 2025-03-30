@@ -11,7 +11,7 @@ import UpcomingEventComponent from './profile/upcomingEventComponent';
 import data from '../assets/data/users.json';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { GoXCircleFill } from "react-icons/go";
-
+import PendingAccountApprovalComponent from './profile/PendingAccountApprovalComponent';
 function ProfilePage() {
     const { id: userID } = useParams(); 
     const [user, setUser] = useState(null);
@@ -60,6 +60,9 @@ function ProfilePage() {
                 <button className='heroButton'>Deactivate Account</button>
                 <button className='heroButton'>VIEW MY TEAM</button>
             </div>
+
+            {user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
+            {/* <PendingAccountApprovalComponent/> */}
 
             <div className='pageGrid'>
                 <div className='box' id='accountInformation'>

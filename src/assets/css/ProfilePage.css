@@ -155,6 +155,16 @@
     height: 272px;
 }
 
+.pendingApprovalContainer {
+    height: auto;
+    margin: 0 auto;
+    padding: 50px;
+    justify-items: center;
+    max-width: 50vw;
+    border: 10px solid #12505B;
+}
+
+
 @media only screen and (max-width: 768px) {
 
     .pageGrid {
