@@ -98,6 +98,8 @@ function IndividualTournamentPage() {
 
                 <div className='box' id='individualTournamentAnnouncements'>
                     <h2>Announcements</h2>
+                    {/* Only show editable past winners if user is moderator */}
+                    {isAuthenticated && role === 'Moderator' && (
                     <div className='pastWinnersContainer'>
                         <PastWinnersCard 
                             gameNumber={1}
@@ -110,6 +112,7 @@ function IndividualTournamentPage() {
                             team2="Team D"
                         />
                     </div>
+                    )}
                     
                     <AnnouncementsList collegeID={data.id} />
      
