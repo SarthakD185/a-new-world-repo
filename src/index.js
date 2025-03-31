@@ -35,6 +35,7 @@ import ModeratorTournamentEditPage from "./components/moderator/ModeratorTournam
 import ModeratorViewDataPage from './components/moderator/ModeratorViewDataPage';
 import TournamentPaymentPage from './components/tournament/TournamentPaymentPage';
 import MarketerLandingPage from './components/marketer/MarketerLandingPage';
+import PendingAccountApprovalPage from './components/profile/PendingAccountApprovalPage';
 Amplify.configure(awsExports);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -78,6 +79,7 @@ root.render(
           <Route path="/moderator/viewData" element={<ModeratorViewDataPage />} />
           <Route path="/tournament/payment" element={<TournamentPaymentPage />} />
           <Route path="/marketer" element={<MarketerLandingPage />} />
+          <Route path="/pendingAccountApproval" element={<PendingAccountApprovalPage />} />
         </Routes>
 
         <Footer />

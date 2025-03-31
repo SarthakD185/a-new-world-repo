@@ -19,6 +19,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import UserPool from './UserPool';
 import { AccountContext } from './Account';  // Import AccountContext for role-based rendering
+import { PendingAccountApprovalPage } from './components/profile/PendingAccountApprovalPage';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -198,8 +199,10 @@ export default function SignUp(props) {
   
       if (role === 'Admin') {  
         navigate('/adminLanding'); 
+      } else if (role === 'Moderator') {
+        navigate('/moderatorLanding');
       } else {
-        navigate('/signin');
+        navigate('/pendingAccountApproval');
       }
     });
   };

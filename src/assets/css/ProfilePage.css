@@ -148,7 +148,7 @@
 
 .pendingApprovalContainer {
     height: auto;
-    margin: 0 auto;
+    margin: 10vh auto;
     padding: 50px;
     justify-items: center;
     max-width: 50vw;
