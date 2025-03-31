@@ -3,6 +3,7 @@ import '../App.css';
 import '../assets/css/ProfilePage.css';
 import { useLocation, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import TeamList from './college/TeamList';
 import AnnouncementsList from './college/AnnouncementsList';
@@ -12,10 +13,19 @@ import data from '../assets/data/users.json';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { GoXCircleFill } from "react-icons/go";
 import PendingAccountApprovalComponent from './profile/PendingAccountApprovalComponent';
+
+
+
 function ProfilePage() {
     const { id: userID } = useParams(); 
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
+    const navigate = useNavigate(); 
+
+    //div click navigation function
+    const handleTeamClick = (teamID) => {
+        navigate(`/team/${teamID}`);  //redirect to the correct team page
+    };
 
     useEffect(() => {
         const getProfile = async () => {
@@ -52,13 +62,16 @@ function ProfilePage() {
         <div>
             {/* The header section */}
             <div className='horizontalFlex centerButton paddingTop'>
-                <h1>{user.name}</h1>
+                <h1>{user.firstname}'s Profile</h1>
             </div>
 
-            <div id='teamActionButtons'>
-                <button className='heroButton'>Leave Team</button>
-                <button className='heroButton'>Deactivate Account</button>
-                <button className='heroButton'>VIEW MY TEAM</button>
+            <div id='profilePageTeamActionButtons'>
+                <button className='heroButton' onClick={() => handleTeamClick(user.teamID)}>View My Team!</button>
+                <div className='horizontalFlex'>
+                    <button className='heroButton'>Deactivate Account</button>
+                    <button className='heroButton'>Leave Team</button>
+                </div>
+
             </div>
 
             {user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
@@ -132,11 +145,29 @@ function ProfilePage() {
                     <div className='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>Your Bio</h2>
                         <button className='editButton'>
-                            <img src={require('../assets/images/pencil.png')} className='editButton' alt="Edit Bio" />
+                            <img 
+                                src={require('../assets/images/pencil.png')} 
+                                className='editButton' 
+                                alt="Edit Bio" 
+                                onClick={() => {
+                                    const bioText = document.getElementById('bioInformationText');
+                                    const textarea = bioText.querySelector('textarea');
+                                    
+                                    if (textarea) {
+                                        // Save the text and convert back to div
+                                        const newText = textarea.value;
+                                        bioText.innerHTML = `<p>${newText}</p>`;
+                                    } else {
+                                        // Convert to textarea
+                                        const currentText = bioText.innerText;
+                                        bioText.innerHTML = `<textarea placeholder="Type Your Bio Here!" style="width: 100%; min-height: 100px;">${currentText}</textarea>`;
+                                    }
+                                }}
+                            />
                         </button>
                     </div>
-                    <div>
-                        <p>loren ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div id='bioInformationText'>
+                        <p>Your Bio Goes Here!</p>
                     </div>
                 </div>   
             </div>
