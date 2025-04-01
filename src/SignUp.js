@@ -91,9 +91,32 @@ export default function SignUp(props) {
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    // Enhanced password validation
+    const passwordValue = password.value;
+    const hasNumber = /\d/.test(passwordValue);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(passwordValue);
+    const hasUpperCase = /[A-Z]/.test(passwordValue);
+    const hasLowerCase = /[a-z]/.test(passwordValue);
+    
+    if (!passwordValue || passwordValue.length < 8) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage('Password must be at least 8 characters long.');
+      isValid = false;
+    } else if (!hasNumber) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Password must contain at least one number.');
+      isValid = false;
+    } else if (!hasSpecialChar) {
+      setPasswordError(true); 
+      setPasswordErrorMessage('Password must contain at least one special character.');
+      isValid = false;
+    } else if (!hasUpperCase) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Password must contain at least one uppercase letter.');
+      isValid = false;
+    } else if (!hasLowerCase) {
+      setPasswordError(true);
+      setPasswordErrorMessage('Password must contain at least one lowercase letter.');
       isValid = false;
     } else {
       setPasswordError(false);
