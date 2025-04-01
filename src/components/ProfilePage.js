@@ -13,7 +13,7 @@ import data from '../assets/data/users.json';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { GoXCircleFill } from "react-icons/go";
 import PendingAccountApprovalComponent from './profile/PendingAccountApprovalComponent';
-
+import Pool from '../UserPool';
 
 
 function ProfilePage() {
@@ -28,6 +28,8 @@ function ProfilePage() {
     };
 
     useEffect(() => {
+        const userInfo = Pool.getCurrentUser();
+        console.log(userInfo);
         const getProfile = async () => {
             try {
                 const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile`); {/*userID=${userID} */}
