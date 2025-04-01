@@ -4,15 +4,13 @@ import logo from '../../assets/images/ANewWorldTitleTextClearBackground.png';
 import '../../App.css';
 import '../../assets/css/Landing.css';
 import 'reactjs-popup/dist/index.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import AdminUncompletedTasksList from './AdminUncompletedTasksList';
 import AdminManageUsersList from './AdminManageUsersList';
 import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
-import data from '../../assets/data/colleges.json';
-import $ from 'jquery';
 import AdminActionButtons from './AdminActionButtons';
 
 function AdminLandingPage() {
@@ -21,12 +19,39 @@ function AdminLandingPage() {
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
 
-    const [teamMemberFilter, setTeamMemberFilter] = useState(true);
-    const [teamCaptainFilter, setTeamCaptainFilter] = useState(true);
+    const [playerFilter, setPlaterFilter] = useState(true);
     const [marketerFilter, setMarketerFilter] = useState(true);
     const [moderatorFilter, setModeratorFilter] = useState(true);
     const [adminFilter, setAdminFilter] = useState(true);
     const [collegeFilter, setCollegeFilter] = useState(["All Colleges", null]);
+
+    const [colleges, setColleges] = useState([]); 
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null); 
+
+    useEffect(() => {
+        const fetchColleges = async () => {
+            try {
+                console.log("Fetching colleges...");  // Log when fetching starts
+                const response = await fetch(`https://jy7rxs047b.execute-api.us-east-1.amazonaws.com/prod/colleges`); 
+                console.log("Fetch response status:", response.status);  // Log the response status
+                if (!response.ok) {
+                    throw new Error('Failed to fetch colleges');
+                }
+                const data = await response.json();
+                console.log("API response data:", data); // Log the fetched data
+                setColleges(data); 
+            } catch (err) {
+                console.error("Error fetching colleges:", err.message); // Log any errors
+                setError(err.message); 
+            } finally {
+                console.log("Fetch operation completed.");  // Log when fetch finishes
+                setLoading(false); 
+            }
+        };
+
+        fetchColleges();
+    }, []); // Dependency array, refetch when adminCollegeID changes
 
     let tasksInputHandler = (e) => {
         var lowerCase = e.target.value.toLowerCase();
@@ -42,9 +67,9 @@ function AdminLandingPage() {
         if(collegeName === "All Colleges") {
             setCollegeFilter(["All Colleges", null]);
         } else {
-            data.forEach(college => {
-                if(college.name === collegeName){
-                    setCollegeFilter([collegeName, college.id]);
+            colleges.forEach(college => {
+                if(college.COLLEGE_NAME === collegeName){
+                    setCollegeFilter([collegeName, college.CollegeID]);
                 }
             });
         }
@@ -54,6 +79,16 @@ function AdminLandingPage() {
     const redirectToSignup = () => {
         navigate('/signup'); // Directly navigate to the SignUp page
     };
+
+    if (loading) {
+        console.log("Loading data...");  // Log loading state
+        return <div className="center">Loading...</div>; // Loading while fetching
+    }
+
+    if (error) {
+        console.error("Error state:", error);  // Log error state
+        return <div className="center">Error: {error}</div>; // Error message
+    }
 
     return (
         <div>
@@ -98,15 +133,13 @@ function AdminLandingPage() {
                                     {
                                         close => (
                                             <div className='modal popup'>
-                                                <div className='content'>
+                                                <div className='popupContent'>
                                                     <h1 className='center'>Filter Users</h1>
                                                     <form>
                                                         <div style={{marginBottom: '24px'}}>
                                                             <p style={{marginBottom: '0px'}}>User Type: </p>
-                                                            <input type="checkbox" id="userTypeFilterTeamMember" name="userTypeFilterTeamMember" value="Team Member" checked={teamMemberFilter} onClick={() => setTeamMemberFilter(teamMemberFilter => !teamMemberFilter)}/>
-                                                            <label htmlFor="userTypeFilterTeamMember">Team Member</label><br/>
-                                                            <input type="checkbox" id="userTypeFilterTeamCaptain" name="userTypeFilterTeamCaptain" value="Team Captain" checked={teamCaptainFilter} onClick={() => setTeamCaptainFilter(teamCaptainFilter => !teamCaptainFilter)}/>
-                                                            <label htmlFor="userTypeFilterTeamCaptain">Team Captain</label><br/>
+                                                            <input type="checkbox" id="userTypeFilterPlayer" name="userTypeFilterPlayer" value="Player" checked={playerFilter} onClick={() => setPlaterFilter(playerFilter => !playerFilter)}/>
+                                                            <label htmlFor="userTypeFilterPlayer">Player</label><br/>
                                                             <input type="checkbox" id="userTypeFilterMarketer" name="userTypeFilterMarketer" value="Marketer" checked={marketerFilter} onClick={() => setMarketerFilter(marketerFilter => !marketerFilter)}/>
                                                             <label htmlFor="userTypeFilterMarketer">Marketer</label><br/>
                                                             <input type="checkbox" id="userTypeFilterModerator" name="userTypeFilterModerator" value="Moderator" checked={moderatorFilter} onClick={() => setModeratorFilter(moderatorFilter => !moderatorFilter)}/>
@@ -118,8 +151,8 @@ function AdminLandingPage() {
                                                             <p style={{marginBottom: '0px'}}>College: </p>
                                                             <select name="collegeFilter" id="collegeFilterAdmin" onChange={() => handleSelect(document.getElementById("collegeFilterAdmin").value)} value={collegeFilter[0]}>
                                                                 <option value="All Colleges" id={'collegeFilterAdminAllColleges'}>All Colleges</option>
-                                                                {data.map((college) => (
-                                                                    <option value={college.name} id={'collegeFilterAdmin' + college.id}>{college.name}</option>
+                                                                {colleges.map((college) => (
+                                                                    <option value={college.COLLEGE_NAME} id={'collegeFilterAdmin' + college.CollegeID}>{college.COLLEGE_NAME}</option>
                                                                 ))}
                                                             </select>
                                                         </div>
@@ -137,7 +170,7 @@ function AdminLandingPage() {
                             </div>
                         </div>
                     </div>
-                    <AdminManageUsersList input={usersInputText} tMFilter={teamMemberFilter} tCFilter={teamCaptainFilter} marFilter={marketerFilter} modFilter={moderatorFilter} aFilter={adminFilter} cFilter={collegeFilter}/>
+                    <AdminManageUsersList input={usersInputText} pFilter={playerFilter} marFilter={marketerFilter} modFilter={moderatorFilter} aFilter={adminFilter} cFilter={collegeFilter}/>
                     <div className='centerButton' style={{marginTop: '24px'}}>
                         <button className='standardButton' onClick={redirectToSignup}>
                             <div style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>

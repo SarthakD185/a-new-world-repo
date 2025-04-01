@@ -117,17 +117,166 @@ function AdminManageUsersList(props) {
 
     // Filter Users
     const filteredData = users.filter((el) => {
-        if (props.input === '') {
-            console.log("No filter applied.");  // Log if no filter
-            return el;
+        if(props.cFilter[0] === "All Colleges"){
+
+            if (props.input === '') {
+
+                console.log("No search filter applied.");  // Log if no filter
+
+                if(props.pFilter === true && el.role === "Player"){
+                    return el;
+                } else if(props.marFilter === true && el.role === "Marketer"){
+                    return el;
+                } else if(props.modFilter === true && el.role === "Moderator"){
+                    return el;
+                } else if(props.aFilter === true && el.role === "Admin"){
+                    return el;
+                }
+            }
+
+            // Return the item which contains the user input
+            else {
+
+                console.log("Applying filter:", props.input);  // Log the filter being applied
+
+                if(props.pFilter === true && el.role === "Player"){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.marFilter === true && el.role === "Marketer"){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.modFilter === true && el.role === "Moderator"){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.aFilter === true && el.role === "Admin"){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                }
+            }
         } else {
-            console.log("Applying filter:", props.input);  // Log the filter being applied
-            return (
-                el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
-            );
+
+            if (props.input === '') {
+
+                console.log("No search filter applied.");  // Log if no filter
+
+                if(props.pFilter === true && el.role === "Player" && el.college === props.cFilter[0]){
+                    return el;
+                } else if(props.marFilter === true && el.role === "Marketer" && el.college === props.cFilter[0]){
+                    return el;
+                } else if(props.modFilter === true && el.role === "Moderator" && el.college === props.cFilter[0]){
+                    return el;
+                } else if(props.aFilter === true && el.role === "Admin" && el.college === props.cFilter[0]){
+                    return el;
+                }
+            }
+
+            // Return the item which contains the user input
+            else {
+
+                console.log("Applying filter:", props.input);  // Log the filter being applied
+
+                if(props.pFilter === true && el.role === "Player" && el.college === props.cFilter[0]){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.marFilter === true && el.role === "Marketer" && el.college === props.cFilter[0]){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.modFilter === true && el.role === "Moderator" && el.college === props.cFilter[0]){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                } else if(props.aFilter === true && el.role === "Admin" && el.college === props.cFilter[0]){
+                    return (
+                        el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                        el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                    );
+                }
+            }
         }
+
+        {/* 
+        if(props.cFilter[0] === "All Colleges"){
+             if (props.input === '') {
+                 if(props.tMFilter === true && el.userType === "Team Member"){
+                     return el;
+                 } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                     return el;
+                 } else if(props.marFilter === true && el.userType === "Marketer"){
+                     return el;
+                 } else if(props.modFilter === true && el.userType === "Moderator"){
+                     return el;
+                 } else if(props.aFilter === true && el.userType === "Admin"){
+                     return el;
+                 }
+             }
+ 
+             // Return the item which contains the user input
+             else {
+                 if(props.tMFilter === true && el.userType === "Team Member"){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.tCFilter === true && el.userType === "Team Captain"){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.marFilter === true && el.userType === "Marketer"){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.modFilter === true && el.userType === "Moderator"){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.aFilter === true && el.userType === "Admin"){
+                     return el.name.toLowerCase().includes(props.input);
+                 }
+             }
+         
+         } else {
+             if (props.input === '') {
+                 if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
+                     return el;
+                 } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
+                     return el;
+                 } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
+                     return el;
+                 } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
+                     return el;
+                 } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
+                     return el;
+                 }
+             }
+ 
+             // Return the item which contains the user input
+             else {
+                 if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
+                     return el.name.toLowerCase().includes(props.input);
+                 } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
+                     return el.name.toLowerCase().includes(props.input);
+                 }
+             }
+         }
+        */}
     });
 
     if (filteredData.length === 0) {
