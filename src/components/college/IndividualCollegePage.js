@@ -228,7 +228,7 @@ function IndividualCollegePage() {
                             </button>} modal nested>
                                 {close => (
                                     <div className='modal popup'>
-                                        <div className='content'>
+                                        <div className='popupContent'>
                                             <h1 className='center'>Create Team</h1>
                                             <form className='center' onSubmit={handleCreateTeam}>
                                                 <label htmlFor="teamName">Team Name: </label>
