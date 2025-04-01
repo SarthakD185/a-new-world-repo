@@ -98,25 +98,27 @@ export default function SignUp(props) {
     const hasUpperCase = /[A-Z]/.test(passwordValue);
     const hasLowerCase = /[a-z]/.test(passwordValue);
     
-    if (!passwordValue || passwordValue.length < 8) {
+    let missingRequirements = [];
+    
+    if (passwordValue.length < 8) {
+      missingRequirements.push('at least 8 characters long');
+    }
+    if (!hasNumber) {
+      missingRequirements.push('one number');
+    }
+    if (!hasSpecialChar) {
+      missingRequirements.push('one special character');
+    }
+    if (!hasUpperCase) {
+      missingRequirements.push('one uppercase letter');
+    }
+    if (!hasLowerCase) {
+      missingRequirements.push('one lowercase letter');
+    }
+
+    if (missingRequirements.length > 0) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 8 characters long.');
-      isValid = false;
-    } else if (!hasNumber) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must contain at least one number.');
-      isValid = false;
-    } else if (!hasSpecialChar) {
-      setPasswordError(true); 
-      setPasswordErrorMessage('Password must contain at least one special character.');
-      isValid = false;
-    } else if (!hasUpperCase) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must contain at least one uppercase letter.');
-      isValid = false;
-    } else if (!hasLowerCase) {
-      setPasswordError(true);
-      setPasswordErrorMessage('Password must contain at least one lowercase letter.');
+      setPasswordErrorMessage(`Password must contain ${missingRequirements.join(', ')}.`);
       isValid = false;
     } else {
       setPasswordError(false);
@@ -236,9 +238,16 @@ export default function SignUp(props) {
       <CssBaseline enableColorScheme />
       <SignUpContainer direction="column" justifyContent="space-between">
         <Card variant="outlined">
+        {role === 'Admin' && (
           <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
-            Sign up
+            Admin - Create Another User Account
           </Typography>
+        )}
+          {role !== 'Admin' && (
+            <Typography component="h1" variant="h4" sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}>
+              Sign up
+            </Typography>
+          )}
           <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Stack direction="row" spacing={2}>
               <FormControl sx={{ flex: 1 }}>
