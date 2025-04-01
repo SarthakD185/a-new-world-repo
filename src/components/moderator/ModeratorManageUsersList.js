@@ -38,13 +38,36 @@ function ModeratorManageUsersList(props) {
     // Filtering users
     const filteredData = users.filter((el) => {
         if (props.input === '') {
-            return el;
-        } else {
-            return (
-                el.username.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
-                el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
-            );
+            if(props.pFilter === true && el.role === "Player"){
+                return el;
+            } else if(props.marFilter === true && el.role === "Marketer"){
+                return el;
+            } else if(props.modFilter === true && el.role === "Moderator"){
+                return el;
+            }
+        }
+
+        // Return the item which contains the user input
+        else {
+            if(props.pFilter === true && el.role === "Player"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                );
+            } else if(props.marFilter === true && el.role === "Marketer"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                );
+            } else if(props.modFilter === true && el.role === "Moderator"){
+                return (
+                    el.username.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.firstname.toLowerCase().includes(props.input.toLowerCase()) || 
+                    el.lastname.toLowerCase().includes(props.input.toLowerCase()) 
+                );
+            }
         }
     });
 

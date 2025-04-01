@@ -221,7 +221,7 @@ function IndividualCollegePage() {
                     <div className='horizontalFlex spaceBetween stickyHeader'>
                         <div className='horizontalFlex'>
                             <h2 className='noPadding noMargin'>Registered Teams</h2>
-                            <Popup trigger={<button className='standardButton'>
+                            <Popup trigger={<button className='standardButton' style={{ marginLeft: '12px'}}>
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                                 </div>

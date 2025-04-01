@@ -15,10 +15,6 @@ function ModeratorLandingPage() {
     //state management
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
-    const [teamMemberFilter, setTeamMemberFilter] = useState(true);
-    const [teamCaptainFilter, setTeamCaptainFilter] = useState(true);
-    const [marketerFilter, setMarketerFilter] = useState(true);
-    const [moderatorFilter, setModeratorFilter] = useState(true);
     const [tournamentData, setTournamentData] = useState(null); //storing tournament data in a local state so its accessible
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -198,75 +194,11 @@ function ModeratorLandingPage() {
                                 fullWidth
                                 label="Search"
                             />
-
-                            {/* Filter Button */}
-                            <div className='centerButton' style={{ marginLeft: '12px' }}>
-                                <Popup
-                                    trigger={<button className='secondaryButton' style={{ padding: '8px 8px 6px 8px' }}><FaFilter /></button>}
-                                    modal nested
-                                >
-                                    {
-                                        close => (
-                                            <div className='modal popup'>
-                                                <div className='popupContent'>
-                                                    <h1 className='center'>Filter Users</h1>
-                                                    <form>
-                                                        <div style={{ marginBottom: '24px' }}>
-                                                            <p style={{ marginBottom: '0px' }}>User Type: </p>
-                                                            <input
-                                                                type="checkbox"
-                                                                id="userTypeFilterTeamMember"
-                                                                value="Team Member"
-                                                                checked={teamMemberFilter}
-                                                                onClick={() => setTeamMemberFilter(prev => !prev)}
-                                                            />
-                                                            <label htmlFor="userTypeFilterTeamMember">Team Member</label><br />
-                                                            <input
-                                                                type="checkbox"
-                                                                id="userTypeFilterTeamCaptain"
-                                                                value="Team Captain"
-                                                                checked={teamCaptainFilter}
-                                                                onClick={() => setTeamCaptainFilter(prev => !prev)}
-                                                            />
-                                                            <label htmlFor="userTypeFilterTeamCaptain">Team Captain</label><br />
-                                                            <input
-                                                                type="checkbox"
-                                                                id="userTypeFilterMarketer"
-                                                                value="Marketer"
-                                                                checked={marketerFilter}
-                                                                onClick={() => setMarketerFilter(prev => !prev)}
-                                                            />
-                                                            <label htmlFor="userTypeFilterMarketer">Marketer</label><br />
-                                                            <input
-                                                                type="checkbox"
-                                                                id="userTypeFilterModerator"
-                                                                value="Moderator"
-                                                                checked={moderatorFilter}
-                                                                onClick={() => setModeratorFilter(prev => !prev)}
-                                                            />
-                                                            <label htmlFor="userTypeFilterModerator">Moderator</label><br />
-                                                        </div>
-                                                        <div className='centerButton' style={{ gap: '24px' }}>
-                                                            <button className='standardButton fullWidth' onClick={() => close()}>
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                </Popup>
-                            </div>
                         </div>
                     </div>
                     <UsersAwaitingApprovalList
                         input={usersInputText}
                         moderatorCollegeID={moderatorCollegeID}
-                        tMFilter={teamMemberFilter}
-                        tCFilter={teamCaptainFilter}
-                        marFilter={marketerFilter}
-                        modFilter={moderatorFilter}
                     />
                 </div>
             </div>

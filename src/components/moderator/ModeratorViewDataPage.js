@@ -15,8 +15,7 @@ function ModeratorViewDataPage() {
     //state management
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
-    const [teamMemberFilter, setTeamMemberFilter] = useState(true);
-    const [teamCaptainFilter, setTeamCaptainFilter] = useState(true);
+    const [playerFilter, setPlayerFilter] = useState(true);
     const [marketerFilter, setMarketerFilter] = useState(true);
     const [moderatorFilter, setModeratorFilter] = useState(true);
     const [tournamentData, setTournamentData] = useState(null); //storing tournament data in a local state so its accessible
@@ -192,20 +191,12 @@ function ModeratorViewDataPage() {
                                                             <p style={{ marginBottom: '0px' }}>User Type: </p>
                                                             <input
                                                                 type="checkbox"
-                                                                id="userTypeFilterTeamMember"
-                                                                value="Team Member"
-                                                                checked={teamMemberFilter}
-                                                                onClick={() => setTeamMemberFilter(prev => !prev)}
+                                                                id="userTypeFilterPlayer"
+                                                                value="Player"
+                                                                checked={playerFilter}
+                                                                onClick={() => setPlayerFilter(prev => !prev)}
                                                             />
-                                                            <label htmlFor="userTypeFilterTeamMember">Team Member</label><br />
-                                                            <input
-                                                                type="checkbox"
-                                                                id="userTypeFilterTeamCaptain"
-                                                                value="Team Captain"
-                                                                checked={teamCaptainFilter}
-                                                                onClick={() => setTeamCaptainFilter(prev => !prev)}
-                                                            />
-                                                            <label htmlFor="userTypeFilterTeamCaptain">Team Captain</label><br />
+                                                            <label htmlFor="userTypeFilterPlayer">Player</label><br />
                                                             <input
                                                                 type="checkbox"
                                                                 id="userTypeFilterMarketer"
@@ -240,8 +231,7 @@ function ModeratorViewDataPage() {
                     <ModeratorManageUsersList
                         input={usersInputText}
                         moderatorCollegeID={moderatorCollegeID}
-                        tMFilter={teamMemberFilter}
-                        tCFilter={teamCaptainFilter}
+                        pFilter={playerFilter}
                         marFilter={marketerFilter}
                         modFilter={moderatorFilter}
                     />
