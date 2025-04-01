@@ -2,6 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 import '../../App.css';
 import '../../assets/css/Landing.css';
+import Popup from 'reactjs-popup';
 
 function AdminManageUsersList(props) {
 
@@ -214,69 +215,6 @@ function AdminManageUsersList(props) {
                 }
             }
         }
-
-        {/* 
-        if(props.cFilter[0] === "All Colleges"){
-             if (props.input === '') {
-                 if(props.tMFilter === true && el.userType === "Team Member"){
-                     return el;
-                 } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                     return el;
-                 } else if(props.marFilter === true && el.userType === "Marketer"){
-                     return el;
-                 } else if(props.modFilter === true && el.userType === "Moderator"){
-                     return el;
-                 } else if(props.aFilter === true && el.userType === "Admin"){
-                     return el;
-                 }
-             }
- 
-             // Return the item which contains the user input
-             else {
-                 if(props.tMFilter === true && el.userType === "Team Member"){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.tCFilter === true && el.userType === "Team Captain"){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.marFilter === true && el.userType === "Marketer"){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.modFilter === true && el.userType === "Moderator"){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.aFilter === true && el.userType === "Admin"){
-                     return el.name.toLowerCase().includes(props.input);
-                 }
-             }
-         
-         } else {
-             if (props.input === '') {
-                 if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
-                     return el;
-                 } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
-                     return el;
-                 } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
-                     return el;
-                 } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
-                     return el;
-                 } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
-                     return el;
-                 }
-             }
- 
-             // Return the item which contains the user input
-             else {
-                 if(props.tMFilter === true && el.userType === "Team Member" && el.collegeID === props.cFilter[1]){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.tCFilter === true && el.userType === "Team Captain" && el.collegeID === props.cFilter[1]){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.marFilter === true && el.userType === "Marketer" && el.collegeID === props.cFilter[1]){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.modFilter === true && el.userType === "Moderator" && el.collegeID === props.cFilter[1]){
-                     return el.name.toLowerCase().includes(props.input);
-                 } else if(props.aFilter === true && el.userType === "Admin" && el.collegeID === props.cFilter[1]){
-                     return el.name.toLowerCase().includes(props.input);
-                 }
-             }
-         }
-        */}
     });
 
     if (filteredData.length === 0) {
@@ -301,22 +239,86 @@ function AdminManageUsersList(props) {
 
                             {/* Approve and Delete Buttons */}
                             <div className="horizontalFlex approveDeleteButtons">
-                                <div className="centerButton">
-                                    <button
-                                        className="approveButton"
-                                        onClick={() => handleApproveUser(user.UserID)} // Approve action
-                                    >
-                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span>
-                                    </button>
-                                </div>
+                                <div className='centerButton'>
+                                    <Popup trigger=
+                                        {<button className='secondaryButton'>View Profile</button>} 
+                                        modal nested>
+                                        {
+                                            close => (
+                                                <div className='modal popup'>
+                                                    <div className='popupContent'>
+    
+                                                        <h1 class='center'>Manage User</h1>
+    
+                                                        <form>
+                                                            <div class='twoColumnGrid'>
+                                                                
+                                                                {/*
+                                                                <div id='manageUserProfileImage' class='horizontalFlex' style={{marginBottom: '24px'}}>
+                                                                    <img src={require(`../../assets/images/${users.profileImage}`)} class='smallLogo' alt={`${users.name} logo`}></img>
+                                                                    // TODO - add button action to delete user profile image
+                                                                    <button className='redButton'>Delete Image</button>
+                                                                </div>
+                                                                */}
+                                                                
+                                                                <div id='manageUserProfileFirstName'>
+                                                                    <label htmlFor="firstname">First Name: </label>
+                                                                    <input type="text" id="firstname" name="firstname" style={{marginBottom: '24px'}} value={users.firstname}/>
+                                                                </div>
 
-                                <div className="centerButton">
-                                    <button
-                                        className="deleteButton"
-                                        onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
-                                    >
-                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span>
-                                    </button>
+                                                                <div id='manageUserProfileLastName'>
+                                                                    <label htmlFor="lastname">Last Name: </label>
+                                                                    <input type="text" id="lastname" name="lastname" style={{marginBottom: '24px'}} value={users.lastname}/>
+                                                                </div>
+
+                                                                <div id='manageUserProfileUsername'>
+                                                                    <label htmlFor="username">Username: </label>
+                                                                    <input type="text" id="username" name="username" style={{marginBottom: '24px'}} value={users.username}/>
+                                                                </div>
+
+                                                                <div id='manageUserProfileEmail'>
+                                                                    <label htmlFor="email">Email: </label>
+                                                                    <input type="text" id="email" name="email" style={{marginBottom: '24px'}} value={users.email}/>
+                                                                </div>
+    
+                                                                <div id='manageUserProfileRole' style={{marginBottom: '24px'}}>
+                                                                    <label for="role">Role:</label>
+    
+                                                                    <select name="role" id="role" defaultValue={users.role}>
+                                                                        <option value="Player">Player</option>
+                                                                        <option value="Moderator">Moderator</option>
+                                                                        <option value="Marketer">Marketer</option>
+                                                                        <option value="Admin">Admin</option>
+                                                                    </select>
+                                                                </div>
+    
+                                                                <label htmlFor="manageUserProfileBioInput" id='manageUserProfileBioLabel'>Bio: </label>
+                                                                <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={users.bio} class='messageInputField'/>
+    
+                                                            </div>
+    
+                                                            <div className='centerButton horizontalFlex spaceBetween' style={{gap: '24px'}}>
+                                                                {/* TODO - add button action to save user profile changes */}
+                                                                <button className='redButton fullWidth' onClick=
+                                                                    {() => close()}>
+                                                                        Close
+                                                                </button>
+    
+                                                                <button className='standardButton fullWidth' onClick=
+                                                                    {() => close()}>
+                                                                        Save
+                                                                </button>
+    
+    
+                                                            </div>
+                                                        </form>
+    
+                                                    </div>
+    
+                                                </div>
+                                            )
+                                        }
+                                    </Popup>
                                 </div>
                             </div>
                         </div>
