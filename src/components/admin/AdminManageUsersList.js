@@ -234,7 +234,7 @@ function AdminManageUsersList(props) {
                         <div className="horizontalFlex spaceBetween">
                             <div>
                                 <h3>{user.username}</h3>
-                                <p>{user.teamRole || 'No Role Assigned'}</p>
+                                <p>{user.college || 'No College Assigned'}</p>
                             </div>
 
                             {/* Approve and Delete Buttons */}
@@ -255,7 +255,7 @@ function AdminManageUsersList(props) {
                                                                 
                                                                 {/*
                                                                 <div id='manageUserProfileImage' class='horizontalFlex' style={{marginBottom: '24px'}}>
-                                                                    <img src={require(`../../assets/images/${users.profileImage}`)} class='smallLogo' alt={`${users.name} logo`}></img>
+                                                                    <img src={require(`../../assets/images/${user.profileImage}`)} class='smallLogo' alt={`${user.name} logo`}></img>
                                                                     // TODO - add button action to delete user profile image
                                                                     <button className='redButton'>Delete Image</button>
                                                                 </div>
@@ -263,28 +263,28 @@ function AdminManageUsersList(props) {
                                                                 
                                                                 <div id='manageUserProfileFirstName'>
                                                                     <label htmlFor="firstname">First Name: </label>
-                                                                    <input type="text" id="firstname" name="firstname" style={{marginBottom: '24px'}} value={users.firstname}/>
+                                                                    <input type="text" id="firstname" name="firstname" style={{marginBottom: '24px'}} value={user.firstname}/>
                                                                 </div>
 
                                                                 <div id='manageUserProfileLastName'>
                                                                     <label htmlFor="lastname">Last Name: </label>
-                                                                    <input type="text" id="lastname" name="lastname" style={{marginBottom: '24px'}} value={users.lastname}/>
+                                                                    <input type="text" id="lastname" name="lastname" style={{marginBottom: '24px'}} value={user.lastname}/>
                                                                 </div>
 
                                                                 <div id='manageUserProfileUsername'>
                                                                     <label htmlFor="username">Username: </label>
-                                                                    <input type="text" id="username" name="username" style={{marginBottom: '24px'}} value={users.username}/>
+                                                                    <input type="text" id="username" name="username" style={{marginBottom: '24px'}} value={user.username}/>
                                                                 </div>
 
                                                                 <div id='manageUserProfileEmail'>
                                                                     <label htmlFor="email">Email: </label>
-                                                                    <input type="text" id="email" name="email" style={{marginBottom: '24px'}} value={users.email}/>
+                                                                    <input type="text" id="email" name="email" style={{marginBottom: '24px'}} value={user.email}/>
                                                                 </div>
     
                                                                 <div id='manageUserProfileRole' style={{marginBottom: '24px'}}>
                                                                     <label for="role">Role:</label>
     
-                                                                    <select name="role" id="role" defaultValue={users.role}>
+                                                                    <select name="role" id="role" defaultValue={user.role}>
                                                                         <option value="Player">Player</option>
                                                                         <option value="Moderator">Moderator</option>
                                                                         <option value="Marketer">Marketer</option>
@@ -293,7 +293,7 @@ function AdminManageUsersList(props) {
                                                                 </div>
     
                                                                 <label htmlFor="manageUserProfileBioInput" id='manageUserProfileBioLabel'>Bio: </label>
-                                                                <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={users.bio} class='messageInputField'/>
+                                                                <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={user.bio} class='messageInputField'/>
     
                                                             </div>
     
