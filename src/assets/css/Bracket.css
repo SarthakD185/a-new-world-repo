@@ -1,27 +1,102 @@
-
-.bracketContainer {
-    padding: 20px;
-    height: 100vh;
+/* Style for the container */
+.bracket-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.bracketWrapper {
-    width: 100%;
-    max-width: 1200px;
+    padding: 24px;
+    background-color: #f7fafc; /* Light gray background */
+    min-height: 100vh;
+  }
+  
+  /* Style for the button container */
+  .button-container {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  /* Style for the buttons */
+  .button {
+    padding: 12px 16px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-undo {
+    background-color: #f56565; /* Red */
+    color: white;
+  }
+  
+  .button-undo:hover {
+    background-color: #e53e3e;
+  }
+  
+  .button-restart {
+    background-color: #ecc94b; /* Yellow */
+    color: white;
+  }
+  
+  .button-restart:hover {
+    background-color: #d69e2e;
+  }
+  
+  .button-save {
+    background-color: #3182ce; /* Blue */
+    color: white;
+  }
+  
+  .button-save:hover {
+    background-color: #2b6cb0;
+  }
+  
+  /* Style for the rounds section */
+  .round-section {
+    display: flex;
+    gap: 48px;
     overflow-x: auto;
-    padding: 20px;
-}
-
-.bracketTitle {
-    margin-bottom: 20px;
+  }
+  
+  /* Style for each round */
+  .round {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Style for each match */
+  .match-box {
+    border: 2px solid #e2e8f0; /* Light gray border */
+    border-radius: 12px;
+    padding: 24px;
+    width: 256px;
     text-align: center;
-}
-
-.noMatchesMessage {
-    text-align: center;
-    color: #666;
-    font-size: 1.1em;
-    margin: 20px 0;
-} 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin-bottom: 16px;
+  }
+  
+  /* Style for the match button */
+  .match-button {
+    width: 100%;
+    padding: 16px;
+    background-color: #4299e1; /* Blue */
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .match-button:hover {
+    background-color: #3182ce;
+  }
+  
+  /* Style for the winner text */
+  .winner-text {
+    margin-top: 24px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #48bb78; /* Green */
+  }
