@@ -14,6 +14,7 @@ function TeamPage() {
     const [team, setTeam] = useState(null); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
+    const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
 
     useEffect(() => {
@@ -52,7 +53,7 @@ function TeamPage() {
 
         const apiUrl = action === 'leave' 
             ? 'https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/leaveTeam' 
-            : `https://your-api-id.execute-api.us-east-1.amazonaws.com/prod/${action}Team`;
+            : `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/joinTeam`;
 
         const requestBody = { email, teamID };
 
@@ -71,6 +72,7 @@ function TeamPage() {
             const data = await response.json();
             console.log(`Successfully ${action}ed team:`, data);
             setShowLeaveModal(false);
+            setShowJoinModal(false);
         } catch (error) {
             console.error("Network error:", error);
             setError("An error occurred. Please try again.");
@@ -96,10 +98,26 @@ function TeamPage() {
 
                 {/* Action Buttons */}
                 <div id='teamActionButtons'>
-                    <button className='heroButton' onClick={() => handleTeamAction('join')}>Join Team</button>
+                    <button className='heroButton' onClick={() => setShowJoinModal(true)}>Join Team</button>
                     <button className='heroButton' onClick={() => setShowLeaveModal(true)}>Leave Team</button>
                 </div>
-
+                {/* Join Team Modal */}
+                {showJoinModal && (
+                    <div className="modal">
+                        <div className="modalContent">
+                            <button className="closeModalButton" onClick={() => setShowJoinModal(false)}>X</button>
+                            <h3>Join the Team</h3>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={handleEmailChange}
+                                placeholder="Enter your email to join"
+                            />
+                            <button className='heroButton' onClick={() => handleTeamAction('join')}>Join Team</button>
+                            {error && <div className="error">{error}</div>}
+                        </div>
+                    </div>
+                )}
                 {/* Leave Team Modal */}
                 {showLeaveModal && (
                     <div className="modal">
