@@ -10,6 +10,7 @@ function AdminManageUsersList(props) {
     const [users, setUsers] = useState([]); 
     const [loading, setLoading] = useState(true); 
     const [error, setError] = useState(null); 
+    const [colleges, setColleges] = useState([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -35,6 +36,30 @@ function AdminManageUsersList(props) {
         fetchUsers();
     }, [props.adminCollegeID]); // Dependency array, refetch when adminCollegeID changes
 
+    useEffect(() => {
+        const fetchColleges = async () => {
+            try {
+                console.log("Fetching colleges...");  // Log when fetching starts
+                const response = await fetch(`https://jy7rxs047b.execute-api.us-east-1.amazonaws.com/prod/colleges`); 
+                console.log("Fetch response status:", response.status);  // Log the response status
+                if (!response.ok) {
+                    throw new Error('Failed to fetch colleges');
+                }
+                const data = await response.json();
+                console.log("API response data:", data); // Log the fetched data
+                setColleges(data); 
+            } catch (err) {
+                console.error("Error fetching colleges:", err.message); // Log any errors
+                setError(err.message); 
+            } finally {
+                console.log("Fetch operation completed.");  // Log when fetch finishes
+                setLoading(false); 
+            }
+        };
+
+        fetchColleges();
+    }, []); // Dependency array, refetch when adminCollegeID changes
+
     if (loading) {
         console.log("Loading users...");  // Log loading state
         return <div className="center">Loading...</div>; // Loading while fetching
@@ -44,6 +69,39 @@ function AdminManageUsersList(props) {
         console.error("Error state:", error);  // Log error state
         return <div className="center">Error: {error}</div>; // Error message
     }
+
+    // Edit function
+    const handleEditUser = async (userID) => {
+        try {
+
+            const response = await fetch('https://sstzeckd16.execute-api.us-east-1.amazonaws.com/prod/editUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userId: userID,
+                    edit: true,
+                    firstname: document.getElementById('manageUserProfileFirstName').value,
+                    lastname: document.getElementById('manageUserProfileLastName').value,
+                    username: document.getElementById('manageUserProfileUsername').value,
+                    college: document.getElementById('manageUserProfileCollege').value,
+                    role: document.getElementById('manageUserProfileRole').value,
+                    bio: document.getElementById('manageUserProfileBioInput').value,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to edit user information');
+            }
+
+            //Success message
+            alert("User information edited successfully!");
+        } catch (err) {
+            console.error('Error editing user information:', err);
+            alert('Failed to edit user information');
+        }
+    };
 
     // Approve User
     const handleApproveUser = async (userID) => {
@@ -248,10 +306,10 @@ function AdminManageUsersList(props) {
                                                 <div className='modal popup'>
                                                     <div className='popupContent'>
     
-                                                        <h1 class='center'>Manage User</h1>
+                                                        <h1 className='center'>Manage User</h1>
     
                                                         <form>
-                                                            <div class='twoColumnGrid'>
+                                                            <div className='twoColumnGrid'>
                                                                 
                                                                 {/*
                                                                 <div id='manageUserProfileImage' class='horizontalFlex' style={{marginBottom: '24px'}}>
@@ -261,30 +319,36 @@ function AdminManageUsersList(props) {
                                                                 </div>
                                                                 */}
                                                                 
-                                                                <div id='manageUserProfileFirstName'>
-                                                                    <label htmlFor="firstname">First Name: </label>
-                                                                    <input type="text" id="firstname" name="firstname" style={{marginBottom: '24px'}} value={user.firstname}/>
+                                                                <div id='manageUserProfileFirstNameDiv'>
+                                                                    <label htmlFor="manageUserProfileFirstName">First Name: </label>
+                                                                    <input type="text" id="manageUserProfileFirstName" name="manageUserProfileFirstName" style={{marginBottom: '24px'}} defaultValue={user.firstname}/>
                                                                 </div>
 
-                                                                <div id='manageUserProfileLastName'>
-                                                                    <label htmlFor="lastname">Last Name: </label>
-                                                                    <input type="text" id="lastname" name="lastname" style={{marginBottom: '24px'}} value={user.lastname}/>
+                                                                <div id='manageUserProfileLastNameDiv'>
+                                                                    <label htmlFor="manageUserProfileLastName">Last Name: </label>
+                                                                    <input type="text" id="manageUserProfileLastName" name="manageUserProfileLastName" style={{marginBottom: '24px'}} defaultValue={user.lastname}/>
                                                                 </div>
 
-                                                                <div id='manageUserProfileUsername'>
-                                                                    <label htmlFor="username">Username: </label>
-                                                                    <input type="text" id="username" name="username" style={{marginBottom: '24px'}} value={user.username}/>
+                                                                <div id='manageUserProfileUsernameDiv'>
+                                                                    <label htmlFor="manageUserProfileUsername">Username: </label>
+                                                                    <input type="text" id="manageUserProfileUsername" name="manageUserProfileUsername" style={{marginBottom: '24px'}} defaultValue={user.username}/>
                                                                 </div>
 
-                                                                <div id='manageUserProfileEmail'>
-                                                                    <label htmlFor="email">Email: </label>
-                                                                    <input type="text" id="email" name="email" style={{marginBottom: '24px'}} value={user.email}/>
+                                                                <div id='manageUserProfileCollegeDiv'>
+                                                                    <label htmlFor="manageUserProfileCollege">College: </label>
+
+                                                                    <select name="manageUserProfileCollege" id="manageUserProfileCollege" defaultValue={user.college ? user.college : 'No College Selected'}>
+                                                                        <option value="No College Selected" id={'collegeEditUserNoCollegeSelected'}>No College Selected</option>
+                                                                        {colleges.map((college) => (
+                                                                            <option value={college.COLLEGE_NAME} id={'collegeEditUser' + college.CollegeID}>{college.COLLEGE_NAME}</option>
+                                                                        ))}
+                                                                    </select>
                                                                 </div>
     
-                                                                <div id='manageUserProfileRole' style={{marginBottom: '24px'}}>
-                                                                    <label for="role">Role:</label>
+                                                                <div id='manageUserProfileRoleDiv' style={{marginBottom: '24px'}}>
+                                                                    <label htmlFor="manageUserProfileRole">Role:</label>
     
-                                                                    <select name="role" id="role" defaultValue={user.role}>
+                                                                    <select name="manageUserProfileRole" id="manageUserProfileRole" defaultValue={user.role}>
                                                                         <option value="Player">Player</option>
                                                                         <option value="Moderator">Moderator</option>
                                                                         <option value="Marketer">Marketer</option>
@@ -293,7 +357,7 @@ function AdminManageUsersList(props) {
                                                                 </div>
     
                                                                 <label htmlFor="manageUserProfileBioInput" id='manageUserProfileBioLabel'>Bio: </label>
-                                                                <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} value={user.bio} class='messageInputField'/>
+                                                                <input type="text" id="manageUserProfileBioInput" name="manageUserProfileBioInput" style={{marginBottom: '24px'}} defaultValue={user.bio ? user.bio : ''} className='messageInputField'/>
     
                                                             </div>
     
@@ -305,7 +369,7 @@ function AdminManageUsersList(props) {
                                                                 </button>
     
                                                                 <button className='standardButton fullWidth' onClick=
-                                                                    {() => close()}>
+                                                                    {() => handleEditUser(user.UserID)}>
                                                                         Save
                                                                 </button>
     
