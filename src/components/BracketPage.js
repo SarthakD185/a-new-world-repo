@@ -1,12 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../assets/css/Bracket.css';
 
-// Just the list of teams
-const teams = [
-  "Debug Frogs", "Bored Gamers", "Saltbar", "Harmony Force",
-  "Goblin Squad", "McDonald Masters", "The Avengers", "Pizza Party",
-  "Smiling Friends", "INSERT NAME HERE", "The Dream Team", "Team Rocket"];
-  
 // Helper function to create matchups ensuring each has exactly two teams
 const createMatchups = (teams) => {
   const matchups = [];
@@ -17,8 +11,26 @@ const createMatchups = (teams) => {
 };
 
 export default function Bracket() {
-  const [rounds, setRounds] = useState([createMatchups(teams)]);
+  const [teams, setTeams] = useState([]);
+  const [rounds, setRounds] = useState([]);
   const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    const collegeID = "6"; // Replace with the actual CollegeID
+    fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("API Response:", data); // Debugging line
+        if (data.teams && Array.isArray(data.teams)) {
+          const teamNames = data.teams.map(team => team.TEAM_NAME);
+          setTeams(teamNames);
+          setRounds([createMatchups(teamNames)]);
+        } else {
+          console.error("Unexpected data format:", data);
+        }
+      })
+      .catch(error => console.error("Error fetching teams:", error));
+  }, []);
 
   const handleWin = (roundIndex, matchIndex, winner) => {
     let newRounds = [...rounds];
@@ -105,7 +117,7 @@ export default function Bracket() {
           </div>
         ))}
       </div>
-      {rounds[rounds.length - 1].length === 1 && rounds[rounds.length - 1][0].length === 1 && (
+      {rounds.length > 0 && rounds[rounds.length - 1].length === 1 && rounds[rounds.length - 1][0].length === 1 && (
         <div className="winner-text">
           Winner: {rounds[rounds.length - 1][0][0]}
         </div>
