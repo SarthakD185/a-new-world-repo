@@ -11,7 +11,7 @@ import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 function TeamPage() {
     const { id: teamID } = useParams(); 
-    const [team, setTeam] = useState(null); 
+    const [team, setTeam] = useState(); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
@@ -25,6 +25,7 @@ function TeamPage() {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
+                console.log(data);
                 setTeam(data); 
             } catch (error) {
                 console.error("Error fetching team data:", error);
@@ -87,7 +88,6 @@ function TeamPage() {
             {/* Header */}
             <div className='verticalFlex centerButton paddingTop'>
                 <h1>{team.name} Team Page</h1>
-                {/* <h1>From college number: {team.id}</h1> */}
             </div>
 
             <div className='teamPageGrid'>
@@ -160,18 +160,12 @@ function TeamPage() {
                     <p>{team.bio || "No bio available."}</p>
                 </div>
 
-                {/* Team Gallery */}
-                <div id='teamGallery'>
-                    <h2>Your Team's Gallery</h2>
-                    {/* <GalleryList collegeID={team.id} /> */}
-                </div>
-
                 {/* Team Information */}
                 <div id='teamAccountInformation'>
                     <h2>Team Information</h2>
-                    <p>Team Name: {team.name}</p>
+                    <p>Team Name: {team.TEAM_NAME}</p>
                     <p>Number of Players: {team.members || "N/A"}</p>
-                    <p>College ID: {team.collegeID || "N/A"}</p>
+                    <p>College ID: {team.CollegeID || "N/A"}</p>
                 </div>
 
                 {/* Registration Information */}

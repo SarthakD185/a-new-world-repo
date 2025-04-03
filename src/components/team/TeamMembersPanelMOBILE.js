@@ -13,7 +13,7 @@ function TeamMembersPanelMOBILE() {
     return (
         <>
             <h2>Team Members</h2>
-            <div class='horizontalFlex' style={{justifyContent: 'space-around', height: '250px', overflow: 'scroll' }}>
+            <div className='horizontalFlex' style={{justifyContent: 'space-around', height: '250px', overflow: 'scroll' }}>
                 <TeamMemberCard user={users[0]} className='teamMemberMobileCard' />
                 <TeamMemberCard user={users[1]} className='teamMemberMobileCard' />
                 <TeamMemberCard user={users[2]} className='teamMemberMobileCard' />
