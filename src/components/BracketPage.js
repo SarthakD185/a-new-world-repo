@@ -3,11 +3,10 @@ import '../assets/css/Bracket.css';
 
 // Just the list of teams
 const teams = [
-  "Player 1", "Player 2", "Player 3", "Player 4",
-  "Player 5", "Player 6", "Player 7", "Player 8",
-  "Team 3", "Team 6"
-];
-
+  "Debug Frogs", "Bored Gamers", "Saltbar", "Harmony Force",
+  "Goblin Squad", "McDonald Masters", "The Avengers", "Pizza Party",
+  "Smiling Friends", "INSERT NAME HERE", "The Dream Team", "Team Rocket"];
+  
 // Helper function to create matchups
 const createMatchups = (teams) => {
   const matchups = [];
@@ -20,6 +19,7 @@ const createMatchups = (teams) => {
 export default function Bracket() {
   const [rounds, setRounds] = useState([createMatchups(teams)]);
   const [history, setHistory] = useState([]);
+  const [savedBracket, setSavedBracket] = useState(null); // State to hold the saved bracket
 
   const handleWin = (roundIndex, matchIndex, winner) => {
     let newRounds = [...rounds];
@@ -50,6 +50,19 @@ export default function Bracket() {
     setHistory([]);
   };
 
+  const handleSave = () => {
+    const currentBracketState = {
+      rounds,
+      history,
+    };
+    setSavedBracket(currentBracketState);
+    // Save to localStorage (optional)
+    localStorage.setItem('savedBracket', JSON.stringify(currentBracketState));
+    // Output to console
+    console.log('Saved Bracket:', currentBracketState);
+    alert('Bracket saved successfully!');
+  };
+
   return (
     <div className="bracket-container">
       <div className="button-container">
@@ -67,7 +80,7 @@ export default function Bracket() {
         </button>
         <button
           className="button button-save"
-          onClick={() => alert('Save functionality not implemented yet.')}
+          onClick={handleSave}
         >
           Save
         </button>
@@ -102,9 +115,16 @@ export default function Bracket() {
           Winner: {rounds[rounds.length - 1][0][0]}
         </div>
       )}
+      {savedBracket && (
+        <div className="saved-bracket-info">
+          <h3>Saved Bracket Information:</h3>
+          <pre>{JSON.stringify(savedBracket, null, 2)}</pre>
+        </div>
+      )}
     </div>
   );
 }
+  
 
 
 
