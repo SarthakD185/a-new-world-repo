@@ -5,7 +5,6 @@
 // This is an image gallery that displays images in a grid and allows the user to click on them and view them in a lightbox. 
 // When in the lightbox, users have the ability to view the image in full screen, download the image, and zoom in on the image, view the image description and navigate through the images using arrow buttons. 
 
-
 import * as React from 'react';
 import GalleryGrid from './gallery/GalleryGrid.jsx';
 import logo from '../assets/images/AardvarkLogoClearHorizontal.png';
@@ -15,26 +14,22 @@ import '../App.css';
 
 function GalleryPage() {
     return (
-        <div>
-            <p className='center'>
-                <img className='centerImagePadding' src={logo} alt="Aardvark Games Logo"></img>
+        <div >
+            <div className='center'>
+                <img className='logo' src={logo} alt="Aardvark Games Logo" />
                 <h1>Gallery</h1>
-            </p>
+            </div>
 
-            <div>
-                {/* tester until the one inside the gallery grid is working */}
-                {/* <div className='box'>
+            <div className="gallery-content">
+                <div className="gallery-card">
                     <Filter />
-                </div> */}
-                <div>
                     <GalleryGrid />
                 </div>
             </div>
 
-            <div>
+            <div className="upload-section">
                 <FileUploader />
             </div>
-
         </div>
     );
 }

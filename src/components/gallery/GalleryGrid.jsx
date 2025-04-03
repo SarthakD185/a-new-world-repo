@@ -1,59 +1,113 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './GalleryGrid.css';
-import Lightbox from 'yet-another-react-lightbox';
-import { slides } from '../../assets/images/sample gallery data/data.js';
-import galleryData from "../../assets/data/gallery.json";
-import 'yet-another-react-lightbox/styles.css';
-import {
-  Captions,
-  Download,
-  Fullscreen,
-  Thumbnails,
-  Zoom,
-} from 'yet-another-react-lightbox/plugins';
-import 'yet-another-react-lightbox/plugins/captions.css';
-import 'yet-another-react-lightbox/plugins/thumbnails.css';
-import Images from './Images.jsx';
-import Filter from './Filter.jsx';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css';
 
 function GalleryGrid() {
-  const [index, setIndex] = useState(-1);
+  const [galleryData, setGalleryData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
-  // Format the gallery data to match the expected format for Lightbox
-  const formattedGalleryData = galleryData.map(item => ({
-    src: item.src,
-    title: item.teamName,
-    description: item.description
-  }));
+  const slideProperties = {
+    duration: 3000,
+    transitionDuration: 500,
+    infinite: true,
+    indicators: true,
+    arrows: true
+  };
 
-  return (
-    <>
-      <div className="page-wrapper">
-        <div className="box" id="filter-imgs-box">
-          <Filter 
-            onClick={(currentIndex) => setIndex(currentIndex)} 
-          />
-          {/* <Images
-            data={formattedGalleryData}
-            onClick={(currentIndex) => setIndex(currentIndex)}
-          /> */}
+  useEffect(() => {
+    const fetchGalleryData = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://bs9mr54c86.execute-api.us-east-1.amazonaws.com/prod/getGallery', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Server error: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data || !Array.isArray(data) || data.length === 0) {
+          setError('No images available');
+          setGalleryData([]);
+          return;
+        }
+
+        const formattedData = data.map(item => ({
+          src: item.Src,
+          title: item.CollegeID,
+          description: item.Description,
+          teamName: `Team Name: ${item.CollegeID}`
+        })).filter(item => item.src && item.title); // Only keep items with required data
+        
+        if (formattedData.length === 0) {
+          setError('No valid images available');
+          return;
+        }
+
+        setGalleryData(formattedData);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching gallery data:', err);
+        setError(err.message);
+        setGalleryData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGalleryData();
+  }, []);
+
+  // Don't render anything if we're loading or have no data
+  if (loading || error || !galleryData || galleryData.length === 0) {
+    return null;
+  }
+
+  // Only render if we actually have data
+  return galleryData.length > 0 ? (
+    <div className="gallery-container">
+      {selectedImage ? (
+        <div className="slideshow-container">
+          <button className="back-button" onClick={() => setSelectedImage(null)}>
+            Back to Gallery
+          </button>
+          <Slide {...slideProperties}>
+            {galleryData.map((item, index) => (
+              <div className="each-slide" key={index}>
+                <div style={{ backgroundImage: `url(${item.src})` }}>
+                  <div className="slide-caption">{item.teamName}</div>
+                </div>
+              </div>
+            ))}
+          </Slide>
         </div>
-      </div>
-
-      <Lightbox
-        plugins={[Captions, Download, Fullscreen, Zoom, Thumbnails]}
-        captions={{
-          showToggle: false,
-          descriptionTextAlign: 'end',
-        }}
-        index={index}
-        open={index >= 0}
-        close={() => setIndex(-1)}
-        slides={formattedGalleryData}
-      />
-    </>
-  );
+      ) : (
+        <div className="gallery-grid">
+          {galleryData.map((item, index) => (
+            <div 
+              key={index} 
+              className="gallery-item" 
+              onClick={() => setSelectedImage(item)}
+              role="button"
+              tabIndex={0}
+            >
+              <img src={item.src} alt={item.description || item.title} />
+              <div className="team-name">{item.teamName}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  ) : null;
 }
 
 export default GalleryGrid; 
