@@ -96,7 +96,7 @@ function ModeratorTournamentEditPage() {
                 </div>
 
                 <div className='box' id='individualTournamentNextGame'>
-                    <h2 className='noPadding noMargin'>Next Game</h2>
+                    <h2 className='noPadding noMargin'>Winner</h2>
                     <NextGameModule collegeID={data.id} />
                 </div>
 

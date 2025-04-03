@@ -3,29 +3,31 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import '../App.css';
 import '../assets/css/TeamPage.css';
 
-import TeamList from './college/TeamList';
-import GalleryList from './college/GalleryList';
 import UpcomingEventComponent from './profile/upcomingEventComponent';
 import TeamMembersPanelDESKTOP from './team/TeamMembersPanelDESKTOP';
 import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 function TeamPage() {
     const { id: teamID } = useParams(); 
-    const [team, setTeam] = useState(null); 
+    const [team, setTeam] = useState([]); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
+    const [teamMembers, setTeamMembers] = useState([]); 
+    const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
 
     useEffect(() => {
         const fetchTeamData = async () => {
             try {
-                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamByID?teamID=${teamID}`);
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/teamPageData?teamID=${teamID}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
+                console.log(data);
                 setTeam(data); 
+                setTeamMembers(data.team_members);
             } catch (error) {
                 console.error("Error fetching team data:", error);
                 setError("Failed to load team data. Please try again.");
@@ -87,13 +89,12 @@ function TeamPage() {
             {/* Header */}
             <div className='verticalFlex centerButton paddingTop'>
                 <h1>{team.name} Team Page</h1>
-                {/* <h1>From college number: {team.id}</h1> */}
             </div>
 
             <div className='teamPageGrid'>
                 {/* Team Profile Picture */}
-                <div id='teamProfilePicture'>
-                    {team.image && <img src={team.image} className='smallLogo' alt="Team Logo" />}
+                <div id='teamProfilePicture' className='center'>
+                    {team.team_photo ? <img src={team.team_photo} className='smallLogo' alt="Team Logo" /> : "No photo to display"}
                 </div>
 
                 {/* Action Buttons */}
@@ -137,8 +138,8 @@ function TeamPage() {
                 )}
 
                 {/* Team Members (Desktop & Mobile) */}
-                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP /></div>
-                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE /></div>
+                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers}/></div>
+                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers}/></div>
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
@@ -156,22 +157,44 @@ function TeamPage() {
 
                 {/* Team Bio */}
                 <div id='teamBioInformation'>
-                    <h2>Team Bio</h2>
-                    <p>{team.bio || "No bio available."}</p>
-                </div>
+                    <div className='horizontalFlex spaceBetween bioInformationHeader'>
+                        <h2>Team Bio</h2>
+                        <button className='editButton'>
+                            <img 
+                                src={isEditingTeamBio ? require('../assets/images/pencil.png') : "save"} 
+                                className='editButton' 
+                                alt="Edit Bio" 
+                                onClick={() => {
+                                    
+                                    setIsEditingTeamBio(prev => !prev);
 
-                {/* Team Gallery */}
-                <div id='teamGallery'>
-                    <h2>Your Team's Gallery</h2>
-                    {/* <GalleryList collegeID={team.id} /> */}
+                                    const bioText = document.getElementById('teamBioInformationText');
+                                    const textarea = bioText.querySelector('textarea');
+                                    
+                                    if (textarea) {
+                                        // Save the text and convert back to div
+                                        const newText = textarea.value;
+                                        bioText.innerHTML = `<p>${newText}</p>`;
+                                    } else {
+                                        // Convert to textarea
+                                        const currentText = bioText.innerText;
+                                        bioText.innerHTML = `<textarea placeholder="Type Your Bio Here!" style="width: 100%; min-height: 100px;">${currentText}</textarea>`;
+                                    }
+                                }}
+                            />
+                        </button>
+                    </div>
+                    <div id='teamBioInformationText'>
+                        <p>{team.team_blurb || "No bio available."}</p>
+                    </div>
                 </div>
 
                 {/* Team Information */}
                 <div id='teamAccountInformation'>
                     <h2>Team Information</h2>
-                    <p>Team Name: {team.name}</p>
-                    <p>Number of Players: {team.members || "N/A"}</p>
-                    <p>College ID: {team.collegeID || "N/A"}</p>
+                    <p>Team Name: {team.team_name}</p>
+                    <p>Number of Players: {teamMembers ? teamMembers.length : "N/A"}</p>
+                    <p>College Name: {team.college_name ? team.college_name : "N/A"}</p>
                 </div>
 
                 {/* Registration Information */}
