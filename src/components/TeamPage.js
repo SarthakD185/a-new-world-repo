@@ -3,30 +3,30 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import '../App.css';
 import '../assets/css/TeamPage.css';
 
-import TeamList from './college/TeamList';
-import GalleryList from './college/GalleryList';
 import UpcomingEventComponent from './profile/upcomingEventComponent';
 import TeamMembersPanelDESKTOP from './team/TeamMembersPanelDESKTOP';
 import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 function TeamPage() {
     const { id: teamID } = useParams(); 
-    const [team, setTeam] = useState(); 
+    const [team, setTeam] = useState([]); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
+    const [teamMembers, setTeamMembers] = useState([]); 
 
     useEffect(() => {
         const fetchTeamData = async () => {
             try {
-                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamByID?teamID=${teamID}`);
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/teamPageData?teamID=${teamID}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
                 console.log(data);
                 setTeam(data); 
+                setTeamMembers(data.team_members);
             } catch (error) {
                 console.error("Error fetching team data:", error);
                 setError("Failed to load team data. Please try again.");
@@ -93,7 +93,7 @@ function TeamPage() {
             <div className='teamPageGrid'>
                 {/* Team Profile Picture */}
                 <div id='teamProfilePicture'>
-                    {team.image && <img src={team.image} className='smallLogo' alt="Team Logo" />}
+                    {team.team_photo && <img src={team.team_photo} className='smallLogo' alt="Team Logo" />}
                 </div>
 
                 {/* Action Buttons */}
@@ -137,7 +137,7 @@ function TeamPage() {
                 )}
 
                 {/* Team Members (Desktop & Mobile) */}
-                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP /></div>
+                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers}/></div>
                 <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE /></div>
 
                 {/* Upcoming Event */}
@@ -157,15 +157,15 @@ function TeamPage() {
                 {/* Team Bio */}
                 <div id='teamBioInformation'>
                     <h2>Team Bio</h2>
-                    <p>{team.bio || "No bio available."}</p>
+                    <p>{team.team_blurb || "No bio available."}</p>
                 </div>
 
                 {/* Team Information */}
                 <div id='teamAccountInformation'>
                     <h2>Team Information</h2>
-                    <p>Team Name: {team.TEAM_NAME}</p>
-                    <p>Number of Players: {team.members || "N/A"}</p>
-                    <p>College ID: {team.CollegeID || "N/A"}</p>
+                    <p>Team Name: {team.team_name}</p>
+                    <p>Number of Players: {teamMembers ? teamMembers.length : "N/A"}</p>
+                    <p>College Name: {team.college_name ? team.college_name : "N/A"}</p>
                 </div>
 
                 {/* Registration Information */}
