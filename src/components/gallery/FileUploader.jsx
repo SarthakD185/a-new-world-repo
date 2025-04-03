@@ -14,7 +14,7 @@ const FileUploader = () => {
   const [status, setStatus] = useState('initial');
 
   // API endpoint where we'll send the file
-  
+  const DB_URL = 'http://localhost:3000/api/upload';
 
   const handleFileChange = (e) => {
     if (e.target.files) {
