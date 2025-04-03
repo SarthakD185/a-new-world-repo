@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { HR } from "flowbite-react";
 import '../../assets/css/IndividualTournament.css';
 
-function CurrentGameList({ collegeID }) {
+function CompletedGameList({ collegeID }) {
     const [games, setGames] = useState([]);
     const [filteredGames, setFilteredGames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -42,37 +42,42 @@ function CurrentGameList({ collegeID }) {
         fetchTeams();
     }, []);
 
-    //Fetch games on mount
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch games');
-                }
-                const data = await response.json();
-                console.log('Fetched data:', data);
-
-                if (data.matches && Array.isArray(data.matches)) {
-                    setGames(data.matches);
-                } else {
-                    throw new Error('Fetched data is not in expected format');
-                }
-
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching games:', error);
-                setError('Error fetching games. Please try again later.');
-                setLoading(false);
+    //Function to fetch completed games
+    const fetchCompletedGames = async () => {
+        try {
+            const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getCompletedGames');
+            if (!response.ok) {
+                throw new Error('Failed to fetch completed games');
             }
-        };
+            const data = await response.json();
+            console.log('Fetched completed games:', data);
 
-        fetchGames();
+            if (data.matches && Array.isArray(data.matches)) {
+                setGames(data.matches); 
+            } else {
+                throw new Error('Fetched data is not in expected format');
+            }
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching completed games:', error);
+            setError('Error fetching completed games. Please try again later.');
+            setLoading(false);
+        }
+    };
+
+    //refreshing to fetch completed games
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            fetchCompletedGames();
+        }, 1000); //10sec reload
+
+        return () => clearInterval(intervalId);
     }, []); 
 
+    //Filter games based on collegeID
     useEffect(() => {
         if (games.length > 0 && collegeID) {
-            console.log('Filtering games for collegeID:', collegeID);
+            console.log('Filtering completed games for collegeID:', collegeID);
 
             const filtered = games.filter((game) => {
                 const team1CollegeID = teamToCollegeMap[game.TeamOneID];
@@ -86,10 +91,10 @@ function CurrentGameList({ collegeID }) {
                 return isMatch;
             });
 
-            console.log('Filtered games:', filtered);
+            console.log('Filtered completed games:', filtered);
             setFilteredGames(filtered);
         }
-    }, [games, collegeID]); //Refetch if changes
+    }, [games, collegeID]);
 
     const getTeamName = (teamID) => {
         if (Array.isArray(teams)) {
@@ -121,7 +126,7 @@ function CurrentGameList({ collegeID }) {
     if (loading) {
         return (
             <div className='fullHeight'>
-                <p className='center'>Loading games...</p>
+                <p className='center'>Loading completed games...</p>
             </div>
         );
     }
@@ -137,11 +142,11 @@ function CurrentGameList({ collegeID }) {
     if (filteredGames.length === 0) {
         return (
             <div className='fullHeight'>
-                <p className='center'>No Games to Display</p>
+                <p className='center'>Awaiting match results...</p>
             </div>
         );
     } else {
-        console.log('Rendering games:', filteredGames);
+        console.log('Rendering completed games:', filteredGames);
 
         return (
             <div>
@@ -170,4 +175,4 @@ function CurrentGameList({ collegeID }) {
     }
 }
 
-export default CurrentGameList;
+export default CompletedGameList;

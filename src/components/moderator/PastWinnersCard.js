@@ -2,43 +2,85 @@ import React, { useState } from 'react';
 import '../../App.css';
 import '../../assets/css/PastWinners.css';
 
-function PastWinnersCard({ gameNumber, team1, team2, matchID, initialWinner, initialLoser, initialSaved }) {
+function PastWinnersCard({
+    gameNumber,
+    team1,
+    team2,
+    initialWinner,
+    initialLoser,
+    initialSaved,
+    collegeID,
+    teams, 
+}) {
     const [isEditing, setIsEditing] = useState(initialSaved ? false : true);
     const [winner, setWinner] = useState(initialWinner || '');
     const [loser, setLoser] = useState(initialLoser || '');
     const [isSaved, setIsSaved] = useState(initialSaved);
 
-    // Function to handle the save of the result to the database
+    //handling save on pastwinners
     const handleSave = async () => {
         if (winner && loser) {
             try {
-                console.log('Attempting to save result:', { matchID, winner, loser });
-                
-                // API call to save the result
-                const response = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/updateResults', {
+                console.log('Attempting to fetch MatchID for:', { winner, loser });
+
+                //API to get matchID
+                const matchIDResponse = await fetch(
+                    `https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/getMatchID?winner=${encodeURIComponent(winner)}&loser=${encodeURIComponent(loser)}`,
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+
+                if (!matchIDResponse.ok) {
+                    const errorMessage = await matchIDResponse.text();
+                    throw new Error(`Failed to fetch matchID: ${errorMessage}`);
+                }
+
+                const matchIDData = await matchIDResponse.json();
+                const matchID = matchIDData.matchID;
+
+                console.log('MatchID fetched:', matchID);
+
+                if (!matchID) {
+                    alert('Match not found for the selected teams.');
+                    return;
+                }
+
+                //saving match result
+                const saveResponse = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/updateResults', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        matchID,
-                        winner,
-                        loser,
+                        matchID: matchID,  
+                        WinnerTeamName: winner,     
+                        LoserTeamName: loser,       
                     }),
                 });
 
-                // Check if the response is okay
-                if (!response.ok) {
-                    const errorMessage = await response.text();
+                if (!saveResponse.ok) {
+                    const errorMessage = await saveResponse.text();
                     throw new Error(`Failed to save result: ${errorMessage}`);
                 }
 
-                const data = await response.json();
-                console.log('Result saved:', data);
+                const result = await saveResponse.json();
+                console.log('Result saved:', result);
 
-                // After saving, disable editing
+                //shows saved results for a couple seconds
                 setIsEditing(false);
                 setIsSaved(true);
+
+                //resets form after a few seconds
+                setTimeout(() => {
+                    setIsSaved(false);
+                    setWinner('');
+                    setLoser('');
+                    setIsEditing(true); //reset
+                }, 3000); //3sec delay
             } catch (error) {
                 console.error('Error saving result:', error);
                 alert('There was an error saving the result');
@@ -62,22 +104,43 @@ function PastWinnersCard({ gameNumber, team1, team2, matchID, initialWinner, ini
             {isEditing ? (
                 <div className='resultsFormContainer'>
                     <div className='resultsForm'>
-                        <input
-                            type="text"
+                        {/* Winner Dropdown */}
+                        <select
                             value={winner}
                             onChange={(e) => setWinner(e.target.value)}
-                            placeholder="Winner"
                             className='resultsInput'
-                        />
-                        <input
-                            type="text"
+                        >
+                            <option value="">Select Winner</option>
+                            {teams && teams.length > 0 ? (
+                                teams.map((team) => (
+                                    <option key={team.TeamID} value={team.TEAM_NAME}>
+                                        {team.TEAM_NAME}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">No teams available</option>
+                            )}
+                        </select>
+
+                        {/* Loser Dropdown */}
+                        <select
                             value={loser}
                             onChange={(e) => setLoser(e.target.value)}
-                            placeholder="Loser"
                             className='resultsInput'
-                        />
+                        >
+                            <option value="">Select Loser</option>
+                            {teams && teams.length > 0 ? (
+                                teams.map((team) => (
+                                    <option key={team.TeamID} value={team.TEAM_NAME}>
+                                        {team.TEAM_NAME}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">No teams available</option>
+                            )}
+                        </select>
                     </div>
-                    <button 
+                    <button
                         className='standardButton resultsSaveButton'
                         onClick={handleSave}
                     >
@@ -87,10 +150,14 @@ function PastWinnersCard({ gameNumber, team1, team2, matchID, initialWinner, ini
             ) : (
                 <div className='resultsDisplayContainer'>
                     <div className='resultsDisplay'>
-                        <p className='winnerText'>Winner: {winner}</p>
-                        <p className='loserText'>Loser: {loser}</p>
+                        {isSaved && (
+                            <div className='savedResult'>
+                                <p className='winnerText'>Winner: {winner}</p>
+                                <p className='loserText'>Loser: {loser}</p>
+                            </div>
+                        )}
                     </div>
-                    <button 
+                    <button
                         className='secondaryButton resultsEditButton'
                         onClick={handleEdit}
                     >
