@@ -15,6 +15,7 @@ function TeamPage() {
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
     const [teamMembers, setTeamMembers] = useState([]); 
+    const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
 
     useEffect(() => {
         const fetchTeamData = async () => {
@@ -92,8 +93,8 @@ function TeamPage() {
 
             <div className='teamPageGrid'>
                 {/* Team Profile Picture */}
-                <div id='teamProfilePicture'>
-                    {team.team_photo && <img src={team.team_photo} className='smallLogo' alt="Team Logo" />}
+                <div id='teamProfilePicture' className='center'>
+                    {team.team_photo ? <img src={team.team_photo} className='smallLogo' alt="Team Logo" /> : "No photo to display"}
                 </div>
 
                 {/* Action Buttons */}
@@ -138,7 +139,7 @@ function TeamPage() {
 
                 {/* Team Members (Desktop & Mobile) */}
                 <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers}/></div>
-                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE /></div>
+                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers}/></div>
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
@@ -156,8 +157,36 @@ function TeamPage() {
 
                 {/* Team Bio */}
                 <div id='teamBioInformation'>
-                    <h2>Team Bio</h2>
-                    <p>{team.team_blurb || "No bio available."}</p>
+                    <div className='horizontalFlex spaceBetween bioInformationHeader'>
+                        <h2>Team Bio</h2>
+                        <button className='editButton'>
+                            <img 
+                                src={isEditingTeamBio ? require('../assets/images/pencil.png') : "save"} 
+                                className='editButton' 
+                                alt="Edit Bio" 
+                                onClick={() => {
+                                    
+                                    setIsEditingTeamBio(prev => !prev);
+
+                                    const bioText = document.getElementById('teamBioInformationText');
+                                    const textarea = bioText.querySelector('textarea');
+                                    
+                                    if (textarea) {
+                                        // Save the text and convert back to div
+                                        const newText = textarea.value;
+                                        bioText.innerHTML = `<p>${newText}</p>`;
+                                    } else {
+                                        // Convert to textarea
+                                        const currentText = bioText.innerText;
+                                        bioText.innerHTML = `<textarea placeholder="Type Your Bio Here!" style="width: 100%; min-height: 100px;">${currentText}</textarea>`;
+                                    }
+                                }}
+                            />
+                        </button>
+                    </div>
+                    <div id='teamBioInformationText'>
+                        <p>{team.team_blurb || "No bio available."}</p>
+                    </div>
                 </div>
 
                 {/* Team Information */}
