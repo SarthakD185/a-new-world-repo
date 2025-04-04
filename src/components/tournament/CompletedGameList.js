@@ -69,7 +69,7 @@ function CompletedGameList({ collegeID }) {
     useEffect(() => {
         const intervalId = setInterval(() => {
             fetchCompletedGames();
-        }, 1000); //10sec reload
+        }, 1000); //1000ms reload
 
         return () => clearInterval(intervalId);
     }, []); 
