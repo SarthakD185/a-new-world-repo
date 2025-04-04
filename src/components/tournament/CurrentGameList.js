@@ -42,34 +42,41 @@ function CurrentGameList({ collegeID }) {
         fetchTeams();
     }, []);
 
-    //Fetch games on mount
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
-                if (!response.ok) {
-                    throw new Error('Failed to fetch games');
-                }
-                const data = await response.json();
-                console.log('Fetched data:', data);
-
-                if (data.matches && Array.isArray(data.matches)) {
-                    setGames(data.matches);
-                } else {
-                    throw new Error('Fetched data is not in expected format');
-                }
-
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching games:', error);
-                setError('Error fetching games. Please try again later.');
-                setLoading(false);
+    // Function to fetch ongoing games with polling
+    const fetchOngoingGames = async () => {
+        try {
+            const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
+            if (!response.ok) {
+                throw new Error('Failed to fetch games');
             }
-        };
+            const data = await response.json();
+            console.log('Fetched games data:', data);
 
-        fetchGames();
-    }, []); 
+            if (data.matches && Array.isArray(data.matches)) {
+                setGames(data.matches);
+            } else {
+                throw new Error('Fetched data is not in expected format');
+            }
 
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching ongoing games:', error);
+            setError('Error fetching games. Please try again later.');
+            setLoading(false);
+        }
+    };
+
+    // Polling for ongoing games (every 10 seconds)
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            fetchOngoingGames();
+        }, 1000); // 10 seconds interval
+
+        // Cleanup interval on unmount
+        return () => clearInterval(intervalId);
+    }, []);
+
+    // Filter games based on collegeID
     useEffect(() => {
         if (games.length > 0 && collegeID) {
             console.log('Filtering games for collegeID:', collegeID);
@@ -89,7 +96,7 @@ function CurrentGameList({ collegeID }) {
             console.log('Filtered games:', filtered);
             setFilteredGames(filtered);
         }
-    }, [games, collegeID]); //Refetch if changes
+    }, [games, collegeID]); // Refetch if changes
 
     const getTeamName = (teamID) => {
         if (Array.isArray(teams)) {
@@ -99,7 +106,7 @@ function CurrentGameList({ collegeID }) {
         return 'Unknown Team'; 
     };
 
-    //Date formatting options
+    // Date formatting options
     const formatOptions = {
         weekday: 'long', 
         year: 'numeric',

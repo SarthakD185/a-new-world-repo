@@ -10,20 +10,21 @@ function PastWinnersCard({
     initialLoser,
     initialSaved,
     collegeID,
-    teams, 
+    teams,
 }) {
     const [isEditing, setIsEditing] = useState(initialSaved ? false : true);
     const [winner, setWinner] = useState(initialWinner || '');
     const [loser, setLoser] = useState(initialLoser || '');
+    const [round, setRound] = useState('');  // State for selected round
     const [isSaved, setIsSaved] = useState(initialSaved);
 
-    //handling save on pastwinners
+    // Handle save on PastWinners
     const handleSave = async () => {
-        if (winner && loser) {
+        if (winner && loser && round) {  // Check if all fields are filled
             try {
                 console.log('Attempting to fetch MatchID for:', { winner, loser });
 
-                //API to get matchID
+                // API to get matchID
                 const matchIDResponse = await fetch(
                     `https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/getMatchID?winner=${encodeURIComponent(winner)}&loser=${encodeURIComponent(loser)}`,
                     {
@@ -49,16 +50,17 @@ function PastWinnersCard({
                     return;
                 }
 
-                //saving match result
+                // Saving match result
                 const saveResponse = await fetch('https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/updateResults', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        matchID: matchID,  
-                        WinnerTeamName: winner,     
-                        LoserTeamName: loser,       
+                        matchID: matchID,
+                        WinnerTeamName: winner,
+                        LoserTeamName: loser,
+                        roundNumber: round,  // Send the selected round number
                     }),
                 });
 
@@ -70,23 +72,24 @@ function PastWinnersCard({
                 const result = await saveResponse.json();
                 console.log('Result saved:', result);
 
-                //shows saved results for a couple seconds
+                // Shows saved results for a couple of seconds
                 setIsEditing(false);
                 setIsSaved(true);
 
-                //resets form after a few seconds
+                // Resets form after a few seconds
                 setTimeout(() => {
                     setIsSaved(false);
                     setWinner('');
                     setLoser('');
-                    setIsEditing(true); //reset
-                }, 3000); //3sec delay
+                    setRound('');  // Reset round
+                    setIsEditing(true);  // Reset to editing mode
+                }, 3000); // 3 sec delay
             } catch (error) {
                 console.error('Error saving result:', error);
                 alert('There was an error saving the result');
             }
         } else {
-            alert('Please fill out both winner and loser fields');
+            alert('Please fill out all fields (winner, loser, and round)');
         }
     };
 
@@ -139,6 +142,19 @@ function PastWinnersCard({
                                 <option value="">No teams available</option>
                             )}
                         </select>
+
+                        {/* Round Dropdown */}
+                        <select
+                            value={round}
+                            onChange={(e) => setRound(e.target.value)}
+                            className='resultsInput'
+                        >
+                            <option value="">Select Round</option>
+                            <option value="1">Round 1</option>
+                            <option value="2">Round 2</option>
+                            <option value="3">Round 3</option>
+                            <option value="4">Round 4</option>
+                        </select>
                     </div>
                     <button
                         className='standardButton resultsSaveButton'
@@ -154,6 +170,7 @@ function PastWinnersCard({
                             <div className='savedResult'>
                                 <p className='winnerText'>Winner: {winner}</p>
                                 <p className='loserText'>Loser: {loser}</p>
+                                <p className='roundText'>Round: {round}</p>  {/* Display the selected round */}
                             </div>
                         )}
                     </div>

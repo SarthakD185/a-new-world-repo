@@ -3,30 +3,43 @@ import { useParams } from 'react-router-dom'; // Import useParams hook
 import '../App.css';
 import '../assets/css/TeamPage.css';
 
-import TeamList from './college/TeamList';
-import GalleryList from './college/GalleryList';
 import UpcomingEventComponent from './profile/upcomingEventComponent';
 import TeamMembersPanelDESKTOP from './team/TeamMembersPanelDESKTOP';
 import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 function TeamPage() {
     const { id: teamID } = useParams(); 
-    const [team, setTeam] = useState(); 
+    const [team, setTeam] = useState([]); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
+    const [teamMembers, setTeamMembers] = useState([]); 
+    const [teamCaptain, setTeamCaptain] = useState([]);
+    const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
+    const [games, setGames] = useState([]);
+    const [nextGame, setNextGame] = useState([]);
+
+    function teamCaptainCheck(member) {
+        if(member.IS_CAPTAIN === 1) {
+            setTeamCaptain(member);
+        }
+    };
 
     useEffect(() => {
         const fetchTeamData = async () => {
             try {
-                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamByID?teamID=${teamID}`);
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/teamPageData?teamID=${teamID}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data);
                 setTeam(data); 
+                setTeamMembers(data.team_members);
+
+                // Check for team captain
+                teamMembers.forEach(teamCaptainCheck);
+
             } catch (error) {
                 console.error("Error fetching team data:", error);
                 setError("Failed to load team data. Please try again.");
@@ -34,7 +47,37 @@ function TeamPage() {
         };
 
         fetchTeamData();
-    }, [teamID]); //refetch when teamID is different
+    }, [teamID, teamCaptain, teamMembers]); //refetch when teamID, teamCaptain, or teamMembers are different
+
+    //Fetch games on mount
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/fetchTeamMatches?teamID=${teamID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch games');
+                }
+                const data = await response.json();
+                console.log('Fetched data:', data);
+
+                if (data.matches && Array.isArray(data.matches)) {
+                    setGames(data.matches);
+                    setNextGame(data.matches[0]);
+
+                } else {
+                    throw new Error('Fetched data is not in expected format');
+                }
+
+            } catch (error) {
+                console.error('Error fetching games:', error);
+                setError('Error fetching games. Please try again later.');
+            }
+        };
+
+        fetchGames();
+        // look into useEffect running multiple times
+        // eslint-disable-next-line
+    }, [teamID]);
 
     if (!team) {
         return <div className="error">⚠️ {error || "Team not found"}</div>;
@@ -80,20 +123,44 @@ function TeamPage() {
         }
     };
 
-    //find the next item
-    const nextTeam = team.nextTeam || {};
+    // Edit Bio function
+    const handleEditTeamBio = async (newBio) => {
+        try {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/editTeamBio`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    teamID: teamID,
+                    newBio: newBio,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to edit team bio');
+            }
+
+            //Success message
+            alert("Team bio updated successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error editing team bio:', err);
+            alert('Failed to edit team bio');
+        }
+    };
 
     return (
         <div>
             {/* Header */}
             <div className='verticalFlex centerButton paddingTop'>
-                <h1>{team.name} Team Page</h1>
+                <h1>{team.team_name} Team Page</h1>
             </div>
 
             <div className='teamPageGrid'>
                 {/* Team Profile Picture */}
-                <div id='teamProfilePicture'>
-                    {team.image && <img src={team.image} className='smallLogo' alt="Team Logo" />}
+                <div id='teamProfilePicture' className='center'>
+                    {team.team_photo ? <img src={team.team_photo} className='smallLogo' alt={`${team.team_name} Logo`} /> : "No photo to display"}
                 </div>
 
                 {/* Action Buttons */}
@@ -101,6 +168,7 @@ function TeamPage() {
                     <button className='heroButton' onClick={() => setShowJoinModal(true)}>Join Team</button>
                     <button className='heroButton' onClick={() => setShowLeaveModal(true)}>Leave Team</button>
                 </div>
+
                 {/* Join Team Modal */}
                 {showJoinModal && (
                     <div className="modal">
@@ -118,6 +186,7 @@ function TeamPage() {
                         </div>
                     </div>
                 )}
+                
                 {/* Leave Team Modal */}
                 {showLeaveModal && (
                     <div className="modal">
@@ -137,51 +206,58 @@ function TeamPage() {
                 )}
 
                 {/* Team Members (Desktop & Mobile) */}
-                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP /></div>
-                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE /></div>
+                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
+                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
                     <h2>Next Event</h2>
-                    <UpcomingEventComponent
-                        eventTitle="Opening Ceremonies"
-                        team1Number={team.name}
-                        team2Number={nextTeam.name || "TBA"}
-                        location="123-A"
-                        team1Logo={team.image || "https://placehold.co/100"}
-                        team2Logo={nextTeam.image || "https://placehold.co/100"}
-                        isYourTeam1={true}
-                    />
+                    <UpcomingEventComponent nextGame = {nextGame}/>
                 </div>
 
                 {/* Team Bio */}
                 <div id='teamBioInformation'>
-                    <h2>Team Bio</h2>
-                    <p>{team.bio || "No bio available."}</p>
+                    <div className='horizontalFlex spaceBetween bioInformationHeader'>
+                        <h2>Team Bio</h2>
+                        <button className='editButton'>
+                            <img 
+                                src={isEditingTeamBio ? require('../assets/images/saveIcon.png') : require('../assets/images/pencil.png')} 
+                                className='editButton' 
+                                alt="Edit Bio" 
+                                onClick={() => {
+                                    
+                                    setIsEditingTeamBio(prev => !prev);
+
+                                    const bioText = document.getElementById('teamBioInformationText');
+                                    const textarea = bioText.querySelector('textarea');
+                                    
+                                    if (textarea) {
+                                        // Save the text and convert back to div
+                                        const newText = textarea.value;
+                                        bioText.innerHTML = `<p>${newText}</p>`;
+                                        handleEditTeamBio(newText);
+                                    } else {
+                                        // Convert to textarea
+                                        const currentText = bioText.innerText;
+                                        bioText.innerHTML = `<textarea placeholder="Type Your Bio Here!" style="width: 100%; min-height: 100px;">${currentText}</textarea>`;
+                                    }
+                                }}
+                            />
+                        </button>
+                    </div>
+                    <div id='teamBioInformationText'>
+                        <p>{team.team_blurb || "No bio available."}</p>
+                    </div>
                 </div>
 
                 {/* Team Information */}
                 <div id='teamAccountInformation'>
                     <h2>Team Information</h2>
-                    <p>Team Name: {team.TEAM_NAME}</p>
-                    <p>Number of Players: {team.members || "N/A"}</p>
-                    <p>College ID: {team.CollegeID || "N/A"}</p>
+                    <p style={{marginBottom: '8px'}}>Team Name: {team.team_name}</p>
+                    <p style={{marginBottom: '8px'}}>Number of Players: {teamMembers ? teamMembers.length : "N/A"}</p>
+                    <p style={{marginBottom: '8px'}}>College Name: {team.college_name ? team.college_name : "N/A"}</p>
                 </div>
 
-                {/* Registration Information */}
-                <div id='teamRegistrationInformation'>
-                    <h2>Registration Information</h2>
-                    <div className='horizontalFlex spaceBetween'>
-                        <div>
-                            <p>Team Name:</p>
-                            <img src="https://placehold.co/100" className='smallLogo' alt="Registration Logo" />
-                        </div>
-                        <div>
-                            <p>Registration Status</p>
-                            <img src="https://placehold.co/100" className='smallLogo' alt="Registration Status" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
