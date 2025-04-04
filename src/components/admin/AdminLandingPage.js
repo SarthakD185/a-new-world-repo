@@ -6,7 +6,6 @@ import '../../assets/css/Landing.css';
 import 'reactjs-popup/dist/index.css';
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import AdminUncompletedTasksList from './AdminUncompletedTasksList';
 import AdminManageUsersList from './AdminManageUsersList';
 import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
@@ -16,7 +15,6 @@ import AdminActionButtons from './AdminActionButtons';
 function AdminLandingPage() {
     const navigate = useNavigate(); // Hook to navigate between pages
 
-    const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
 
     const [playerFilter, setPlaterFilter] = useState(true);
@@ -52,11 +50,6 @@ function AdminLandingPage() {
 
         fetchColleges();
     }, []); // Dependency array, refetch when adminCollegeID changes
-
-    let tasksInputHandler = (e) => {
-        var lowerCase = e.target.value.toLowerCase();
-        setTasksInputText(lowerCase);
-    };
 
     let usersInputHandler = (e) => {
         var lowerCase = e.target.value.toLowerCase();
@@ -98,18 +91,8 @@ function AdminLandingPage() {
             <div className='container' style={{marginTop: '0px'}}>
                 <div className='box' id='adminUncompletedTasks' style={{marginTop: '0px'}}>
                     <div className='horizontalFlex spaceBetween'>
-                        <h2 className='noPadding noMargin'>Uncompleted Tasks</h2>
-                        <div className="search">
-                            <TextField
-                            id="outlined-basic"
-                            onChange={tasksInputHandler}
-                            variant="outlined"
-                            fullWidth
-                            label="Search"
-                            />
-                        </div>
+                        <h2 className='noPadding noMargin'>Create Accounts or College</h2>
                     </div>
-                    <AdminUncompletedTasksList input={tasksInputText} />
                     <AdminActionButtons />
                 </div>
 
