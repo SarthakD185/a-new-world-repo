@@ -27,6 +27,30 @@ function ProfilePage() {
         navigate(`/team/${teamID}`);  //redirect to the correct team page
     };
 
+    const updateUserInfo = async (UserID, field, update) => {
+        try {
+            const response = await fetch(`https://u2so2b3hpc.execute-api.us-east-1.amazonaws.com/prod/updateUserInfo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    UserID: UserID,
+                    field: field,
+                    new: update
+                }),
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            setError("Failed to load user data. Please try again.");
+        }
+    };
+
     useEffect(() => {
         const userInfo = Pool.getCurrentUser();
         console.log(userInfo);
@@ -54,7 +78,8 @@ function ProfilePage() {
         return <div className="error">⚠️ {error || "User not found"}</div>;
     } else {
         console.log(user);
-        console.log(user.username);
+        console.log(user.UserID);
+        console.log(user.teamID);
         approved = user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>;
     }
 
@@ -171,6 +196,7 @@ function ProfilePage() {
                     <div id='bioInformationText'>
                         <p>Your Bio Goes Here!</p>
                     </div>
+                    <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>View My Team!</button>
                 </div>   
             </div>
         </div>
