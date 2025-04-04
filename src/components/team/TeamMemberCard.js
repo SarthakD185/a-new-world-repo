@@ -7,7 +7,7 @@ function TeamMemberCard({ user, className }) {
     return (
         <>
             <div className={`box teamMemberBox ${className}`}>
-                <img src={"https://placehold.co/150"}></img>
+                <img src={user.pfp ? user.pfp : "https://placehold.co/150"} alt={`${user.firstname} ${user.lastname} Profile`}></img>
                 <div style={{padding: '10px', textAlign: 'left'}}>
                     <h4>{user.firstname} {user.lastname}</h4>
                     <p>{user.bio ? user.bio : "No bio available."}</p>

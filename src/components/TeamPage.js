@@ -17,6 +17,8 @@ function TeamPage() {
     const [teamMembers, setTeamMembers] = useState([]); 
     const [teamCaptain, setTeamCaptain] = useState([]);
     const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
+    const [games, setGames] = useState([]);
+    const [nextGame, setNextGame] = useState([]);
 
     function teamCaptainCheck(member) {
         if(member.IS_CAPTAIN === 1) {
@@ -32,14 +34,11 @@ function TeamPage() {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log(data);
                 setTeam(data); 
                 setTeamMembers(data.team_members);
 
                 // Check for team captain
                 teamMembers.forEach(teamCaptainCheck);
-
-                console.log(teamCaptain);
 
             } catch (error) {
                 console.error("Error fetching team data:", error);
@@ -48,7 +47,37 @@ function TeamPage() {
         };
 
         fetchTeamData();
-    }, [teamID]); //refetch when teamID is different
+    }, [teamID, teamCaptain, teamMembers]); //refetch when teamID, teamCaptain, or teamMembers are different
+
+    //Fetch games on mount
+    useEffect(() => {
+        const fetchGames = async () => {
+            try {
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/fetchTeamMatches?teamID=${teamID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch games');
+                }
+                const data = await response.json();
+                console.log('Fetched data:', data);
+
+                if (data.matches && Array.isArray(data.matches)) {
+                    setGames(data.matches);
+                    setNextGame(data.matches[0]);
+
+                } else {
+                    throw new Error('Fetched data is not in expected format');
+                }
+
+            } catch (error) {
+                console.error('Error fetching games:', error);
+                setError('Error fetching games. Please try again later.');
+            }
+        };
+
+        fetchGames();
+        // look into useEffect running multiple times
+        // eslint-disable-next-line
+    }, [teamID]);
 
     if (!team) {
         return <div className="error">⚠️ {error || "Team not found"}</div>;
@@ -94,9 +123,6 @@ function TeamPage() {
         }
     };
 
-    //find the next item
-    const nextTeam = team.nextTeam || {};
-
     // Edit Bio function
     const handleEditTeamBio = async (newBio) => {
         try {
@@ -128,13 +154,13 @@ function TeamPage() {
         <div>
             {/* Header */}
             <div className='verticalFlex centerButton paddingTop'>
-                <h1>{team.name} Team Page</h1>
+                <h1>{team.team_name} Team Page</h1>
             </div>
 
             <div className='teamPageGrid'>
                 {/* Team Profile Picture */}
                 <div id='teamProfilePicture' className='center'>
-                    {team.team_photo ? <img src={team.team_photo} className='smallLogo' alt="Team Logo" /> : "No photo to display"}
+                    {team.team_photo ? <img src={team.team_photo} className='smallLogo' alt={`${team.team_name} Logo`} /> : "No photo to display"}
                 </div>
 
                 {/* Action Buttons */}
@@ -142,6 +168,7 @@ function TeamPage() {
                     <button className='heroButton' onClick={() => setShowJoinModal(true)}>Join Team</button>
                     <button className='heroButton' onClick={() => setShowLeaveModal(true)}>Leave Team</button>
                 </div>
+
                 {/* Join Team Modal */}
                 {showJoinModal && (
                     <div className="modal">
@@ -159,6 +186,7 @@ function TeamPage() {
                         </div>
                     </div>
                 )}
+                
                 {/* Leave Team Modal */}
                 {showLeaveModal && (
                     <div className="modal">
@@ -184,15 +212,7 @@ function TeamPage() {
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
                     <h2>Next Event</h2>
-                    <UpcomingEventComponent
-                        eventTitle="Opening Ceremonies"
-                        team1Number={team.name}
-                        team2Number={nextTeam.name || "TBA"}
-                        location="123-A"
-                        team1Logo={team.image || "https://placehold.co/100"}
-                        team2Logo={nextTeam.image || "https://placehold.co/100"}
-                        isYourTeam1={true}
-                    />
+                    <UpcomingEventComponent nextGame = {nextGame}/>
                 </div>
 
                 {/* Team Bio */}

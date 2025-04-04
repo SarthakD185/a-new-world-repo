@@ -112,35 +112,7 @@ function ProfilePage() {
                 <div className='box' id='upcomingEvents'>
                     <h2>Upcoming Events</h2>
                     
-                    <UpcomingEventComponent 
-                        eventTitle="Opening Ceremonies"
-                        team1Number="1"
-                        team2Number="2"
-                        location="123-A"
-                        team1Logo="https://placehold.co/100"
-                        team2Logo="https://placehold.co/100"
-                        isYourTeam1={true}
-                    />
-                    
-                    <UpcomingEventComponent 
-                        eventTitle="Match 1: Round of 32"
-                        team1Number="3"
-                        team2Number="1"
-                        location="456-B"
-                        team1Logo="https://placehold.co/100"
-                        team2Logo="https://placehold.co/100"
-                        isYourTeam1={false}
-                    />
-                    
-                    <UpcomingEventComponent 
-                        eventTitle="Match 2: Round of 16"
-                        team1Number="1"
-                        team2Number="4"
-                        location="2345-C"
-                        team1Logo="https://placehold.co/100"
-                        team2Logo="https://placehold.co/100"
-                        isYourTeam1={true}
-                    />
+                    <UpcomingEventComponent nextGame={null}/>
                 </div>
 
                 <div className='box' id='bioInformation'>

@@ -234,8 +234,8 @@
     #teamBioInformation {
         grid-column-start: 1;
         grid-column-end: 3;
-        grid-row-start: 4;
-        grid-row-end: 5;
+        grid-row-start: 5;
+        grid-row-end: 6;
         height: auto;
     }
 
@@ -268,5 +268,12 @@
             font-size: 1rem;
             padding: 8px 16px;
         }
+    }
+
+    #teamAccountInformation {
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 6;
+        grid-row-end: 7;
     }
 }
