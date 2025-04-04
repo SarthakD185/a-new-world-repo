@@ -9,6 +9,7 @@ import TeamMemberCard from './TeamMemberCard';
 function TeamMembersPanelDESKTOP(props) {
 
     const teamMembers = props.teamMembers;
+    const teamCaptain = props.teamCaptain;
 
     return (
         <>

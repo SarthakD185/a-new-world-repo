@@ -15,7 +15,14 @@ function TeamPage() {
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [email, setEmail] = useState('');
     const [teamMembers, setTeamMembers] = useState([]); 
+    const [teamCaptain, setTeamCaptain] = useState([]);
     const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
+
+    function teamCaptainCheck(member) {
+        if(member.IS_CAPTAIN === 1) {
+            setTeamCaptain(member);
+        }
+    };
 
     useEffect(() => {
         const fetchTeamData = async () => {
@@ -28,6 +35,12 @@ function TeamPage() {
                 console.log(data);
                 setTeam(data); 
                 setTeamMembers(data.team_members);
+
+                // Check for team captain
+                teamMembers.forEach(teamCaptainCheck);
+
+                console.log(teamCaptain);
+
             } catch (error) {
                 console.error("Error fetching team data:", error);
                 setError("Failed to load team data. Please try again.");
@@ -84,6 +97,33 @@ function TeamPage() {
     //find the next item
     const nextTeam = team.nextTeam || {};
 
+    // Edit Bio function
+    const handleEditTeamBio = async (newBio) => {
+        try {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/editTeamBio`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    teamID: teamID,
+                    newBio: newBio,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to edit team bio');
+            }
+
+            //Success message
+            alert("Team bio updated successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error editing team bio:', err);
+            alert('Failed to edit team bio');
+        }
+    };
+
     return (
         <div>
             {/* Header */}
@@ -138,8 +178,8 @@ function TeamPage() {
                 )}
 
                 {/* Team Members (Desktop & Mobile) */}
-                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers}/></div>
-                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers}/></div>
+                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
+                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
@@ -161,7 +201,7 @@ function TeamPage() {
                         <h2>Team Bio</h2>
                         <button className='editButton'>
                             <img 
-                                src={isEditingTeamBio ? require('../assets/images/pencil.png') : "save"} 
+                                src={isEditingTeamBio ? require('../assets/images/saveIcon.png') : require('../assets/images/pencil.png')} 
                                 className='editButton' 
                                 alt="Edit Bio" 
                                 onClick={() => {
@@ -175,6 +215,7 @@ function TeamPage() {
                                         // Save the text and convert back to div
                                         const newText = textarea.value;
                                         bioText.innerHTML = `<p>${newText}</p>`;
+                                        handleEditTeamBio(newText);
                                     } else {
                                         // Convert to textarea
                                         const currentText = bioText.innerText;
@@ -192,25 +233,11 @@ function TeamPage() {
                 {/* Team Information */}
                 <div id='teamAccountInformation'>
                     <h2>Team Information</h2>
-                    <p>Team Name: {team.team_name}</p>
-                    <p>Number of Players: {teamMembers ? teamMembers.length : "N/A"}</p>
-                    <p>College Name: {team.college_name ? team.college_name : "N/A"}</p>
+                    <p style={{marginBottom: '8px'}}>Team Name: {team.team_name}</p>
+                    <p style={{marginBottom: '8px'}}>Number of Players: {teamMembers ? teamMembers.length : "N/A"}</p>
+                    <p style={{marginBottom: '8px'}}>College Name: {team.college_name ? team.college_name : "N/A"}</p>
                 </div>
 
-                {/* Registration Information */}
-                <div id='teamRegistrationInformation'>
-                    <h2>Registration Information</h2>
-                    <div className='horizontalFlex spaceBetween'>
-                        <div>
-                            <p>Team Name:</p>
-                            <img src="https://placehold.co/100" className='smallLogo' alt="Registration Logo" />
-                        </div>
-                        <div>
-                            <p>Registration Status</p>
-                            <img src="https://placehold.co/100" className='smallLogo' alt="Registration Status" />
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
