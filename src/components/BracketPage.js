@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../assets/css/Bracket.css';
 
+
 // Helper function to create matchups ensuring each has exactly two teams
 const createMatchups = (teams) => {
   const matchups = [];
@@ -12,24 +13,50 @@ const createMatchups = (teams) => {
 
 export default function Bracket() {
   const [teams, setTeams] = useState([]);
+  const [initialTeams, setInitialTeams] = useState([]); // <-- new
   const [rounds, setRounds] = useState([]);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
     const collegeID = "6"; // Hardcoded college ID
-    fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
+
+    // First, try to load saved bracket data
+    fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${collegeID}`)
       .then(response => response.json())
       .then(data => {
-        console.log("API Response:", data); // Debugging line
-        if (data.teams && Array.isArray(data.teams)) {
-          const teamNames = data.teams.map(team => team.TEAM_NAME);
-          setTeams(teamNames);
-          setRounds([createMatchups(teamNames)]);
+        if (data.tournamentData && data.tournamentData.rounds && data.tournamentData.history) {
+          console.log("Loaded saved tournament data:", data);
+          setRounds(data.tournamentData.rounds);
+          setHistory(data.tournamentData.history);
+
+          // Pull team list from the first round if available
+          if (data.tournamentData.rounds.length > 0) {
+            const teamSet = new Set();
+            data.tournamentData.rounds[0].forEach(match => match.forEach(t => teamSet.add(t)));
+            const teamList = Array.from(teamSet);
+            setInitialTeams(teamList);
+            setTeams(teamList);
+          }
         } else {
-          console.error("Unexpected data format:", data);
+          // No saved data? Fetch fresh team list instead
+          console.log("No saved data found, loading fresh team list...");
+          fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
+            .then(response => response.json())
+            .then(data => {
+              console.log("Team list API Response:", data);
+              if (data.teams && Array.isArray(data.teams)) {
+                const teamNames = data.teams.map(team => team.TEAM_NAME);
+                setTeams(teamNames);
+                setInitialTeams(teamNames);
+                setRounds([createMatchups(teamNames)]);
+              } else {
+                console.error("Unexpected team data format:", data);
+              }
+            })
+            .catch(error => console.error("Error fetching team list:", error));
         }
       })
-      .catch(error => console.error("Error fetching teams:", error));
+      .catch(error => console.error("Error loading tournament data:", error));
   }, []);
 
   const handleWin = (roundIndex, matchIndex, winner) => {
@@ -69,7 +96,7 @@ export default function Bracket() {
   };
 
   const handleRestart = () => {
-    setRounds([createMatchups(teams)]);
+    setRounds([createMatchups(initialTeams)]);
     setHistory([]);
   };
 
