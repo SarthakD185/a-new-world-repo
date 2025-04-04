@@ -16,7 +16,7 @@ export default function Bracket() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    const collegeID = "6"; // Replace with the actual CollegeID
+    const collegeID = "6"; // Hardcoded college ID
     fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
       .then(response => response.json())
       .then(data => {
@@ -39,7 +39,7 @@ export default function Bracket() {
     }
 
     const nextMatchIndex = matchIndex >> 1;
-    
+
     // Ensure only one or two teams are in the next round match
     if (!newRounds[roundIndex + 1][nextMatchIndex]) {
       newRounds[roundIndex + 1][nextMatchIndex] = [winner];
@@ -57,9 +57,9 @@ export default function Bracket() {
     if (history.length === 0) return;
     const lastAction = history[history.length - 1];
     let newRounds = [...rounds];
-    
+
     // Remove the last added winner from the next round
-    newRounds[lastAction.roundIndex + 1][lastAction.matchIndex >> 1] = 
+    newRounds[lastAction.roundIndex + 1][lastAction.matchIndex >> 1] =
       newRounds[lastAction.roundIndex + 1][lastAction.matchIndex >> 1].filter(
         player => player !== lastAction.winner
       );
@@ -74,12 +74,32 @@ export default function Bracket() {
   };
 
   const handleSave = () => {
-    const currentBracketState = {
-      rounds,
-      history,
+    const payload = {
+      collegeID: "6",
+      tournamentData: {
+        rounds,
+        history,
+      },
     };
-    console.log('Saved Bracket:', currentBracketState);
-    alert('Bracket saved successfully!');
+
+    console.log("Saving bracket with data:", payload);
+
+    fetch("https://z1f71wtgjj.execute-api.us-east-1.amazonaws.com/prod/postTourneyData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Bracket saved response:", data);
+        alert("Bracket saved successfully!");
+      })
+      .catch(error => {
+        console.error("Error saving bracket:", error);
+        alert("Failed to save bracket.");
+      });
   };
 
   return (
