@@ -2,31 +2,49 @@ import * as React from 'react';
 import '../App.css';
 import '../assets/css/ProfilePage.css';
 import { useLocation, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import TeamList from './college/TeamList';
-import AnnouncementsList from './college/AnnouncementsList';
-import GalleryList from './college/GalleryList';
-import UpcomingEventComponent from './profile/upcomingEventComponent';
-import data from '../assets/data/users.json';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { GoXCircleFill } from "react-icons/go";
 import PendingAccountApprovalComponent from './profile/PendingAccountApprovalComponent';
-import Pool from '../UserPool';
-
+import UpcomingEventComponent from './profile/upcomingEventComponent'; 
+import { AccountContext } from '../Account'; //ID from previous file i made!
+import Pool from '../UserPool';  
 
 function ProfilePage() {
-    const { id: userID } = useParams(); 
+    const { id: userID } = useParams();
+    const { email, role, isAuthenticated } = useContext(AccountContext);  //use new context here
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
-    //div click navigation function
-    const handleTeamClick = (teamID) => {
-        navigate(`/team/${teamID}`);  //redirect to the correct team page
+    //dont really need this anymore
+    const getCurrentCognitoUser = () => {
+        const cognitoUser = Pool.getCurrentUser();
+        if (!cognitoUser) {
+            console.error("No current user found in Cognito.");
+            return null;
+        }
+        return cognitoUser;
     };
 
+    //prof data
+    const getProfile = async () => {
+        try {
+            const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            let json = JSON.parse(data.body);  
+            setUser(json[0]);  
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+            setError("Failed to load user data. Please try again.");
+        }
+    };
+
+    //update user info
     const updateUserInfo = async (UserID, field, update) => {
         try {
             const response = await fetch(`https://u2so2b3hpc.execute-api.us-east-1.amazonaws.com/prod/updateUserInfo`, {
@@ -52,57 +70,41 @@ function ProfilePage() {
     };
 
     useEffect(() => {
-        const userInfo = Pool.getCurrentUser();
-        console.log(userInfo);
-        const getProfile = async () => {
-            try {
-                const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile`); {/*userID=${userID} */}
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log(data);
-                let json = data.body;
-                json = JSON.parse(json)
-                setUser(json[0]); 
-            } catch (error) {
-                console.error("Error fetching user data:", error);
-                setError("Failed to load user data. Please try again.");
-            }
-        };
+        const cognitoUser = getCurrentCognitoUser(); 
+        if (cognitoUser) {
+            console.log("Cognito User:", cognitoUser);
+        }
 
         getProfile();
-    }, [userID]); // Refetch when userID is different
-    let approved = "";
-    if (!user) {
+    }, [userID]);
+
+    //logging user email found in context
+    console.log("User email from AccountContext:", email);
+
+    //error
+    if (!user && !isAuthenticated) {
         return <div className="error">⚠️ {error || "User not found"}</div>;
-    } else {
-        console.log(user);
-        console.log(user.UserID);
-        console.log(user.teamID);
-        approved = user.tournamentSignedUp === true ? <IoIosCheckmarkCircle/> : <GoXCircleFill/>;
     }
 
-
+    //tourney
+    const approved = user && user.tournamentSignedUp ? <IoIosCheckmarkCircle /> : <GoXCircleFill />;
 
     return (
         <div>
             {/* The header section */}
             <div className='horizontalFlex centerButton paddingTop'>
-                <h1>{user.firstname}'s Profile</h1>
+                <h1>{user ? `${user.firstname}'s Profile` : 'Profile'}</h1>
             </div>
 
             <div id='profilePageTeamActionButtons'>
-                <button className='heroButton' onClick={() => handleTeamClick(user.teamID)}>View My Team!</button>
+                <button className='heroButton' onClick={() => navigate(`/team/${user ? user.teamID : ''}`)}>View My Team!</button>
                 <div className='horizontalFlex'>
                     <button className='heroButton'>Deactivate Account</button>
                     <button className='heroButton'>Leave Team</button>
                 </div>
-
             </div>
 
-            {user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
-            {/* <PendingAccountApprovalComponent/> */}
+            {user && user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
 
             <div className='pageGrid'>
                 <div className='box' id='accountInformation'>
@@ -110,13 +112,14 @@ function ProfilePage() {
                         <h2>Account Information</h2> {approved}
                     </div>
                     <div>
-                        <p>College Affiliation: {user.collegeAffiliation || "University of Nebraska Lincoln"}</p>
-                        <p>Username: {user.username || "user_name2024"}</p>
-                        <p>Full Name: {user.firstname+" "+user.lastname || "Jane Smith"}</p>
-                        <p>Email Address: {user.email || "jsmith@unl.edu"}</p>
+                        <p>College Affiliation: {user ? user.collegeAffiliation : "University of Nebraska Lincoln"}</p>
+                        <p>Username: {user ? user.username : "user_name2024"}</p>
+                        <p>Full Name: {user ? `${user.firstname} ${user.lastname}` : "Jane Smith"}</p>
+                        <p>Email Address: {email || "jsmith@unl.edu"}</p> {/* Use the email from context */}
                     </div>
                 </div>
 
+                {/* Additional sections */}
                 <div className='box' id='registrationInformation'>
                     <div className='horizontalFlex spaceBetween'>
                         <h2>Registration Information</h2>
@@ -126,7 +129,6 @@ function ProfilePage() {
                             <p>Team Name: </p>
                             <img src={"https://placehold.co/100"} className='smallLogo' alt="Team Logo" />
                         </div>
-
                         <div>
                             <p>Registration Status</p>
                             <img src={"https://placehold.co/100"} className='smallLogo' alt="Registration Status" />
@@ -136,10 +138,10 @@ function ProfilePage() {
 
                 <div className='box' id='upcomingEvents'>
                     <h2>Upcoming Events</h2>
-                    
-                    <UpcomingEventComponent nextGame={null}/>
+                    <UpcomingEventComponent nextGame={null} />
                 </div>
 
+                {/* Bio information */}
                 <div className='box' id='bioInformation'>
                     <div className='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>Your Bio</h2>
@@ -168,8 +170,8 @@ function ProfilePage() {
                     <div id='bioInformationText'>
                         <p>Your Bio Goes Here!</p>
                     </div>
-                    <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>View My Team!</button>
-                </div>   
+                    <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>Update Bio</button>
+                </div>
             </div>
         </div>
     );

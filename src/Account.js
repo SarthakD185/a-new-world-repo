@@ -8,6 +8,7 @@ const AccountContext = createContext();
 const Account = (props) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [role, setRole] = useState(null);
+    const [email, setEmail] = useState(null); 
     const navigate = useNavigate(); 
 
     useEffect(() => {
@@ -21,6 +22,9 @@ const Account = (props) => {
                     const idToken = session.getIdToken();
                     const payload = JSON.parse(atob(idToken.getJwtToken().split('.')[1])); 
                     const groups = payload["cognito:groups"];
+                    const userEmail = payload.email; //Fetch the email from the jwt token payload
+                    
+                    setEmail(userEmail); //state
                     if (groups) {
                         const userGroups = groups;
                         let userRole = 'User';
@@ -39,6 +43,7 @@ const Account = (props) => {
         } else {
             setIsAuthenticated(false);
             setRole(null);
+            setEmail(null); //Reset email if no user is logged in
         }
     }, []); 
 
@@ -80,6 +85,9 @@ const Account = (props) => {
                             const idToken = data.getIdToken();
                             const payload = JSON.parse(atob(idToken.getJwtToken().split('.')[1]));
                             const groups = payload["cognito:groups"];
+                            const userEmail = payload.email; 
+                            
+                            setEmail(userEmail);
                             if (groups) {
                                 const userGroups = groups;
                                 let userRole = 'User';
@@ -90,7 +98,7 @@ const Account = (props) => {
                                 }
                                 setRole(userRole);
                                 setIsAuthenticated(true);
-                                //redirect to respective pages
+                                // Redirect to respective pages
                                 if (userRole === 'Admin') {
                                     navigate('/adminLanding');
                                 } else if (userRole === 'Moderator') {
@@ -98,12 +106,12 @@ const Account = (props) => {
                                 } else {
                                     navigate('/user-landing');
                                 }
-                                resolve({ data, role: userRole });
+                                resolve({ data, role: userRole, email: userEmail });
                             } else {
                                 setRole('User');
                                 setIsAuthenticated(true);
                                 navigate('/user-landing');
-                                resolve({ data, role: 'User' });
+                                resolve({ data, role: 'User', email: userEmail });
                             }
                         }
                     });
@@ -126,13 +134,14 @@ const Account = (props) => {
             user.signOut();
             setIsAuthenticated(false);
             setRole(null);
+            setEmail(null); // Reset email on logout
             localStorage.removeItem("CognitoIdentityServiceProvider.*");
             sessionStorage.clear();
         }
     };
 
     return (
-        <AccountContext.Provider value={{ isAuthenticated, role, authenticate, getSession, logout }}>
+        <AccountContext.Provider value={{ isAuthenticated, role, email, authenticate, getSession, logout }}>
             {props.children}
         </AccountContext.Provider>
     );
