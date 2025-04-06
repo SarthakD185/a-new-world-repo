@@ -97,11 +97,20 @@ function ProfilePage() {
             </div>
 
             <div id='profilePageTeamActionButtons'>
-                <button className='heroButton' onClick={() => navigate(`/team/${user ? user.teamID : ''}`)}>View My Team!</button>
-                <div className='horizontalFlex'>
-                    <button className='heroButton'>Deactivate Account</button>
-                    <button className='heroButton'>Leave Team</button>
-                </div>
+                {/*conditionally show these buttons only if user has a team */}
+                {user && user.teamID ? (
+                    <>
+                        <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
+                        <div className='horizontalFlex'>
+                            {/* TODO - add button actions!!!!! */}
+                            <button className='heroButton'>Leave Team</button>
+                            <button className='heroButton'>Deactivate Account</button>
+                        </div>
+                    </>
+                ) : (
+                    // else, show this 'Join a Team!' button
+                    <button className='heroButton' onClick={() => navigate(`/college/${user.collegeAffiliation}`)}>Join a Team!</button>
+                )}
             </div>
 
             {user && user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
