@@ -6,6 +6,7 @@ function ModeratorTeamsList(props) {
     const [loading, setLoading] = useState(true); // State for loading indicator
     const [error, setError] = useState(null); // State for error handling
 
+    {/* 
     useEffect(() => {
         // Fetch data from the API endpoint
         const fetchTeamList = async () => {
@@ -37,7 +38,28 @@ function ModeratorTeamsList(props) {
         };
 
         fetchTeamList(); // Call the fetch function when the component mounts
-    }, []); // Empty dependency array ensures this effect runs once on mount
+    }, []); // Empty dependency array ensures this effect runs once on mount 
+*/}
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/teams/${props.moderatorCollegeID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch teams');
+                }
+                const data = await response.json();
+                console.log("API response data:", data); //log
+                setTeamList(data); 
+            } catch (err) {
+                setError(err.message); 
+            } finally {
+                setLoading(false); 
+            }
+        };
+
+        fetchTeams();
+    }, [props.moderatorCollegeID]);
 
     // If still loading, show a loading message
     if (loading) {
@@ -53,17 +75,17 @@ function ModeratorTeamsList(props) {
 
     console.log("Filtering team list with input:", props.input);
 
-    // Filter teams based on input (like in your original code)
-    const filteredTeams = Array.isArray(teamList) ? teamList.filter((team) => {
+    // Filtering teams
+    // eslint-disable-next-line
+    const filteredTeams = teamList.filter((el) => {
         if (props.input === '') {
-            console.log("No filter applied, returning all teams.");
-            return team;
+            return el;
         } else {
-            const isMatch = team.TEAM_NAME.toLowerCase().includes(props.input.toLowerCase());
-            console.log(`Filtering team: ${team.TEAM_NAME}, match: ${isMatch}`);
-            return isMatch;
+            return (
+                el.TEAM_NAME.toLowerCase().includes(props.input.toLowerCase())
+            );
         }
-    }) : [];
+    });
 
     if (filteredTeams.length === 0) {
         console.log("No teams to display after filtering.");
@@ -83,23 +105,6 @@ function ModeratorTeamsList(props) {
                             <div>
                                 <h3>{team.TEAM_NAME}</h3>
                                 <p>{team.TEAM_BLURB}</p>
-                            </div>
-
-                            {/* Approve and Delete Buttons */}
-                            <div className="horizontalFlex approveDeleteButtons">
-                                {/* Approve Button */}
-                                <div className="centerButton">
-                                    <button className="approveButton">
-                                        <span style={{ color: 'green', fontSize: '20px' }}>Approve</span>
-                                    </button>
-                                </div>
-
-                                {/* Delete Button */}
-                                <div className="centerButton">
-                                    <button className="deleteButton">
-                                        <span style={{ color: 'red', fontSize: '20px' }}>X Deny</span>
-                                    </button>
-                                </div>
                             </div>
                         </div>
                         <HR />

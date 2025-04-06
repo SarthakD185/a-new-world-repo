@@ -34,6 +34,26 @@ function ModeratorManageUsersList(props) {
         return <div className="center">Error: {error}</div>;
     }
 
+    // Delete function
+    const handleDeleteUser = async (userID) => {
+        try {
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/users/deleteUser?userId=${userID}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete user');
+            }
+
+            setUsers(users.filter(user => user.UserID !== userID)); //Update the user list after deletion
+            alert("User deleted successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error deleting user:', err);
+            alert('Failed to delete user');
+        }
+    };
+
 
     // Filtering users
     const filteredData = users.filter((el) => {
@@ -86,7 +106,16 @@ function ModeratorManageUsersList(props) {
                         <div className="horizontalFlex spaceBetween">
                             <div>
                                 <h3>{user.username}</h3>
-                                <p>{user.teamRole || 'No Role Assigned'}</p>
+                            </div>
+
+                            {/* Delete Button */}
+                            <div className="centerButton">
+                                <button
+                                    className="deleteButton"
+                                    onClick={() => handleDeleteUser(user.UserID)} // Trigger delete on button click
+                                >
+                                    <span style={{ color: 'red', fontSize: '20px' }}>X Delete</span>
+                                </button>
                             </div>
                         </div>
                         <HR />

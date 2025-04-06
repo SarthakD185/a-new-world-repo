@@ -159,7 +159,7 @@ function ModeratorViewDataPage() {
                             />
                         </div>
                     </div>
-                    <ModeratorTeamsList input={tasksInputText} />
+                    <ModeratorTeamsList input={tasksInputText} moderatorCollegeID={moderatorCollegeID} />
                 </div>
 
                 {/* Manage Users */}
