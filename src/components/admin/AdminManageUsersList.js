@@ -299,7 +299,7 @@ function AdminManageUsersList(props) {
                             <div className="horizontalFlex approveDeleteButtons">
                                 <div className='centerButton'>
                                     <Popup trigger=
-                                        {<button className='secondaryButton'>View Profile</button>} 
+                                        {<button className='secondaryButton'>Manage User</button>} 
                                         modal nested>
                                         {
                                             close => (
