@@ -17,6 +17,7 @@ function ProfilePage() {
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [games, setGames] = useState([]);
 
     //dont really need this anymore
     const getCurrentCognitoUser = () => {
@@ -77,6 +78,38 @@ function ProfilePage() {
 
         getProfile();
     }, [userID]);
+
+    //Fetch games on mount
+    useEffect(() => {
+        const fetchGames = async () => {
+            if(user) {
+                if(user.teamID){
+                    try {
+                        const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/fetchTeamMatches?teamID=${user.teamID}`);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch games');
+                        }
+                        const data = await response.json();
+                        console.log('Fetched data:', data);
+        
+                        if (data.matches && Array.isArray(data.matches)) {
+                            setGames(data.matches);
+        
+                        } else {
+                            throw new Error('Fetched data is not in expected format');
+                        }
+        
+                    } catch (error) {
+                        console.error('Error fetching games:', error);
+                        setError('Error fetching games. Please try again later.');
+                    }
+                }
+            }
+        };
+
+        fetchGames();
+
+    }, [user]);
 
     //logging user email found in context
     console.log("User email from AccountContext:", email);
@@ -147,7 +180,7 @@ function ProfilePage() {
 
                 <div className='box' id='upcomingEvents'>
                     <h2>Upcoming Events</h2>
-                    <UpcomingEventComponent nextGame={null} />
+                    <UpcomingEventComponent games = {games} />
                 </div>
 
                 {/* Bio information */}

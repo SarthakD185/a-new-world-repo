@@ -18,7 +18,6 @@ function TeamPage() {
     const [teamCaptain, setTeamCaptain] = useState([]);
     const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
     const [games, setGames] = useState([]);
-    const [nextGame, setNextGame] = useState([]);
 
     function teamCaptainCheck(member) {
         if(member.IS_CAPTAIN === 1) {
@@ -62,7 +61,6 @@ function TeamPage() {
 
                 if (data.matches && Array.isArray(data.matches)) {
                     setGames(data.matches);
-                    setNextGame(data.matches[0]);
 
                 } else {
                     throw new Error('Fetched data is not in expected format');
@@ -75,7 +73,6 @@ function TeamPage() {
         };
 
         fetchGames();
-        // look into useEffect running multiple times
         // eslint-disable-next-line
     }, [teamID]);
 
@@ -211,8 +208,8 @@ function TeamPage() {
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>
-                    <h2>Next Event</h2>
-                    <UpcomingEventComponent nextGame = {nextGame}/>
+                    <h2>Upcoming Events</h2>
+                    <UpcomingEventComponent games = {games}/>
                 </div>
 
                 {/* Team Bio */}
