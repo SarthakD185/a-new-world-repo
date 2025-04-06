@@ -102,7 +102,10 @@ function ModeratorTournamentEditPage() {
 
                 <div id='individualTournamentButtons'>
                     <div className='centerButton'>
-                        <button className='standardButton largeButton'>View Bracket</button>
+                        <button 
+                            className='standardButton largeButton'
+                            onClick={() => navigate('/bracket', { state: data })}
+                        >View Bracket</button>
                     </div>
                 </div>
             </div>
