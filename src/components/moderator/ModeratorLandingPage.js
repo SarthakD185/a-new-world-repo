@@ -10,6 +10,7 @@ import Popup from 'reactjs-popup';
 import { FaFilter } from "react-icons/fa";
 import TeamsAwaitingApprovalList from './TeamsAwaitingApprovalList';
 import UsersAwaitingApprovalList from './UsersAwaitingApprovalList';
+import CreateTournamentPopup from './CreateTournamentPopup';
 
 function ModeratorLandingPage() {
     //state management
@@ -51,34 +52,36 @@ function ModeratorLandingPage() {
     const tasksInputHandler = (e) => setTasksInputText(e.target.value.toLowerCase());
     const usersInputHandler = (e) => setUsersInputText(e.target.value.toLowerCase());
 
-    const handleCreateTournament = async () => {
-        if (!tournamentData?.id || !tournamentData?.name) {
-            setErrorMessage('Error: Tournament data is missing. Please try again later.');
-            return;
-        }
+    // commented out because we're using the CreateTournamentPopup component instead. 04/06/2025 at 1:30pm
 
-        setLoading(true);
-        setErrorMessage('');
-        setSuccessMessage('');
+    // const handleCreateTournament = async () => {
+    //     if (!tournamentData?.id || !tournamentData?.name) {
+    //         setErrorMessage('Error: Tournament data is missing. Please try again later.');
+    //         return;
+    //     }
 
-        try {
-            const response = await axios.post('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTournament', {
-                collegeID: tournamentData.id,
-                tournamentName: tournamentData.name,
-            });
+    //     setLoading(true);
+    //     setErrorMessage('');
+    //     setSuccessMessage('');
 
-            if (response.status === 200) {
-                setSuccessMessage('Tournament created successfully!');
-            } else {
-                throw new Error(`Failed to create tournament. Status: ${response.status}`);
-            }
-        } catch (error) {
-            console.error('Error creating tournament:', error);
-            setErrorMessage('Error creating tournament. Please try again later.');
-        } finally {
-            setLoading(false);
-        }
-    };
+    //     try {
+    //         const response = await axios.post('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTournament', {
+    //             collegeID: tournamentData.id,
+    //             tournamentName: tournamentData.name,
+    //         });
+
+    //         if (response.status === 200) {
+    //             setSuccessMessage('Tournament created successfully!');
+    //         } else {
+    //             throw new Error(`Failed to create tournament. Status: ${response.status}`);
+    //         }
+    //     } catch (error) {
+    //         console.error('Error creating tournament:', error);
+    //         setErrorMessage('Error creating tournament. Please try again later.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const handleViewTournament = () => {
         navigate('/moderator/tournamentEdit', { 
@@ -115,22 +118,14 @@ function ModeratorLandingPage() {
             <h1 className='center'>Moderator Landing Page</h1>
 
             <div className='horizontalFlex spaceBetween' id='moderatorLandingPageButtons'>
-            {/* Conditionally render Create Tournament button for Moderators */}
+
+
+{/* removed the old 'Create Tournament button because I couldn't comment it out. */}
+            {/* Conditionally render Create Tournament button */}
             {tournamentData && (
-                <div className='centerButton'>
-                    <button
-                        className='standardButton largeButton'
-                        style={{ marginRight: '10px' }}
-                        onClick={handleCreateTournament}
-                        disabled={loading}
-                    >
-                        {loading ? 'Creating Tournament...' : 'Create New Tournament'}
-                    </button>
-                    {/* Display Success or Error Messages */}
-                    {successMessage && <p className="successMessage">{successMessage}</p>}
-                    {errorMessage && <p className="errorMessage">{errorMessage}</p>}
-                </div>
+                <CreateTournamentPopup/>
             )}
+
 
             {/* View Tournament Button */}
             <div className='centerButton'>
