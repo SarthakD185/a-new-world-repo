@@ -16,6 +16,7 @@ function TeamPage() {
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
     const [showTeamCaptainModal, setShowTeamCaptainModal] = useState(false);
+    const [showRemoveTeamCaptainModal, setShowRemoveTeamCaptainModal] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [teamMembers, setTeamMembers] = useState([]); 
     const [teamCaptain, setTeamCaptain] = useState([]);
@@ -155,6 +156,39 @@ function TeamPage() {
         }
     };
 
+    const handleRemoveTeamCaptain = async () => {
+        if (!userEmail) {
+            setError('Please enter your email before proceeding.');
+            return;
+        }
+        if (!teamID) {
+            setError('No team selected.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/removeTeamCaptain`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: email,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log(`Successfully gave up team captain status:`, data);
+            setShowRemoveTeamCaptainModal(false);
+            window.location.reload();
+        } catch (error) {
+            console.error("Network error:", error);
+            setError("An error occurred. Please try again.");
+        }
+    };
+
     // Edit Bio function
     const handleEditTeamBio = async (newBio) => {
         try {
@@ -203,6 +237,9 @@ function TeamPage() {
                         {(teamCaptain.length === 0) && (
                             <button className='heroButton' onClick={() => setShowTeamCaptainModal(true)}>Become Team Captain</button>
                         )}
+                        {(teamCaptain && teamCaptain.IS_CAPTAIN === 1 && teamCaptain.email === email) && (
+                            <button className='heroButton' onClick={() => setShowRemoveTeamCaptainModal(true)}>Give Up Team Captain Status</button>
+                        )}
                     </div>
                 )}
 
@@ -211,15 +248,17 @@ function TeamPage() {
                     <div className="modal">
                         <div className="modalContent">
                             <button className="closeModalButton" onClick={() => setShowJoinModal(false)}>X</button>
-                            <h3>Join the Team</h3>
-                            <input
-                                type="email"
-                                value={userEmail}
-                                onChange={handleEmailChange}
-                                placeholder="Enter your email to join"
-                            />
-                            <button className='heroButton' onClick={() => handleTeamAction('join')}>Join Team</button>
-                            {error && <div className="error">{error}</div>}
+                            <div className='verticalFlex'>
+                                <h3>Join the Team</h3>
+                                <input
+                                    type="email"
+                                    value={userEmail}
+                                    onChange={handleEmailChange}
+                                    placeholder="Enter your email to join"
+                                />
+                                <button className='heroButton' onClick={() => handleTeamAction('join')}>Join Team</button>
+                                {error && <div className="error">{error}</div>}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -229,15 +268,17 @@ function TeamPage() {
                     <div className="modal">
                         <div className="modalContent">
                             <button className="closeModalButton" onClick={() => setShowLeaveModal(false)}>X</button>
-                            <h3>Leave the Team</h3>
-                            <input
-                                type="email"
-                                value={userEmail}
-                                onChange={handleEmailChange}
-                                placeholder="Enter your email to leave"
-                            />
-                            <button className='heroButton' onClick={() => handleTeamAction('leave')}>Leave Team</button>
-                            {error && <div className="error">{error}</div>}
+                            <div className='verticalFlex'>
+                                <h3>Leave the Team</h3>
+                                <input
+                                    type="email"
+                                    value={userEmail}
+                                    onChange={handleEmailChange}
+                                    placeholder="Enter your email to leave"
+                                />
+                                <button className='heroButton' onClick={() => handleTeamAction('leave')}>Leave Team</button>
+                                {error && <div className="error">{error}</div>}
+                            </div>
                         </div>
                     </div>
                 )}
@@ -247,15 +288,37 @@ function TeamPage() {
                     <div className="modal">
                         <div className="modalContent">
                             <button className="closeModalButton" onClick={() => setShowTeamCaptainModal(false)}>X</button>
-                            <h3>Become Team Captain</h3>
-                            <input
-                                type="email"
-                                value={userEmail}
-                                onChange={handleEmailChange}
-                                placeholder="Enter your email to become the team captain"
-                            />
-                            <button className='heroButton' onClick={handleBecomeTeamCaptain}>Become Team Captain</button>
-                            {error && <div className="error">{error}</div>}
+                            <div className='verticalFlex'>
+                                <h3>Become Team Captain</h3>
+                                <input
+                                    type="email"
+                                    value={userEmail}
+                                    onChange={handleEmailChange}
+                                    placeholder="Enter your email to become the team captain"
+                                />
+                                <button className='heroButton' onClick={handleBecomeTeamCaptain}>Become Team Captain</button>
+                                {error && <div className="error">{error}</div>}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Remove Team Captain Modal */}
+                {showRemoveTeamCaptainModal && (
+                    <div className="modal">
+                        <div className="modalContent">
+                            <button className="closeModalButton" onClick={() => setShowRemoveTeamCaptainModal(false)}>X</button>
+                            <div className='verticalFlex'>
+                                <h3>Remove Team Captain</h3>
+                                <input
+                                    type="email"
+                                    value={userEmail}
+                                    onChange={handleEmailChange}
+                                    placeholder="Enter your email to remove the team captain"
+                                />
+                                <button className='heroButton' onClick={handleRemoveTeamCaptain}>Give Up Team Captain Status</button>
+                                {error && <div className="error">{error}</div>}
+                            </div>
                         </div>
                     </div>
                 )}
