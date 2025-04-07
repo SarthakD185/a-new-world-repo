@@ -175,9 +175,9 @@ function IndividualCollegePage() {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        teamID,  
-                        userID,  
-                        userEmail,
+                        teamID: teamID,  
+                        userID: userID,  
+                        email: userEmail,
                     }),
                 });
     

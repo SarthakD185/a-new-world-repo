@@ -38,7 +38,7 @@ function TeamPage() {
                 }
                 const data = await response.json();
                 setTeam(data); 
-                setTeamMembers(data.team_members);
+                setTeamMembers(data.team_members[0]);
 
                 // Check for team captain
                 teamMembers.forEach(teamCaptainCheck);
@@ -50,7 +50,7 @@ function TeamPage() {
         };
 
         fetchTeamData();
-    }, [teamID, teamCaptain, teamMembers]); //refetch when teamID, teamCaptain, or teamMembers are different
+    }, [teamID]); //refetch when teamID, teamCaptain, or teamMembers are different
 
     //Fetch games on mount
     useEffect(() => {
@@ -104,7 +104,10 @@ function TeamPage() {
             ? 'https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/leaveTeam' 
             : `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/joinTeam`;
 
-        const requestBody = { userEmail, teamID };
+        const requestBody = {
+            email: userEmail,
+            teamID: teamID,
+        };
 
         try {
             console.log(`Sending ${action} request with data:`, requestBody);
@@ -328,8 +331,8 @@ function TeamPage() {
                 )}
 
                 {/* Team Members (Desktop & Mobile) */}
-                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
-                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers} teamCaptain={teamCaptain}/></div>
+                <div id='teamMembersDESKTOP'><TeamMembersPanelDESKTOP teamMembers={teamMembers}/></div>
+                <div id='teamMembersMOBILE'><TeamMembersPanelMOBILE teamMembers={teamMembers}/></div>
 
                 {/* Upcoming Event */}
                 <div id='teamEvents'>

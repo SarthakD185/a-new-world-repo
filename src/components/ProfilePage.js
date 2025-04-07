@@ -161,8 +161,8 @@ function ProfilePage() {
                     <>
                         <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
                         <div className='horizontalFlex'>
-                            {/* TODO - add button actions!!!!! */}
-                            <button className='heroButton'>Deactivate Account</button>
+                            {/* TODO - add button actions!!!!! - remove user from their team */}
+                            <button className='heroButton'>Opt Out of Tournament</button>
                         </div>
                     </>
                 ) : (
