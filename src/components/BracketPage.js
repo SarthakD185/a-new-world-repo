@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import '../assets/css/Bracket.css';
-
+import { AccountContext } from "../Account.js"; // Update path as needed
 
 // Helper function to create matchups ensuring each has exactly two teams
 const createMatchups = (teams) => {
@@ -13,53 +13,70 @@ const createMatchups = (teams) => {
 
 export default function Bracket() {
   const [teams, setTeams] = useState([]);
-  const [initialTeams, setInitialTeams] = useState([]); // <-- new
+  const [initialTeams, setInitialTeams] = useState([]);
   const [rounds, setRounds] = useState([]);
   const [history, setHistory] = useState([]);
+  const [collegeID, setCollegeID] = useState(() => {
+  const savedCollegeID = sessionStorage.getItem('selectedCollegeID');
+  return savedCollegeID ? parseInt(savedCollegeID, 10) : null;
+});
+
+  const { email: userEmail, role: userRole } = useContext(AccountContext);
+  // Set isEditable after fetching API role instead
+let isEditable = false;
 
   useEffect(() => {
-    const collegeID = "6"; // Hardcoded college ID
+    if (!userEmail) return;
 
-    // First, try to load saved bracket data
-    fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${collegeID}`)
-      .then(response => response.json())
+    fetch(`https://kg1a83zh9k.execute-api.us-east-1.amazonaws.com/prod/getSessioning?email=${encodeURIComponent(userEmail)}`)
+      .then(res => res.json())
       .then(data => {
-        if (data.tournamentData && data.tournamentData.rounds && data.tournamentData.history) {
-          console.log("Loaded saved tournament data:", data);
-          setRounds(data.tournamentData.rounds);
-          setHistory(data.tournamentData.history);
-
-          // Pull team list from the first round if available
-          if (data.tournamentData.rounds.length > 0) {
-            const teamSet = new Set();
-            data.tournamentData.rounds[0].forEach(match => match.forEach(t => teamSet.add(t)));
-            const teamList = Array.from(teamSet);
-            setInitialTeams(teamList);
-            setTeams(teamList);
-          }
-        } else {
-          // No saved data? Fetch fresh team list instead
-          console.log("No saved data found, loading fresh team list...");
-          fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
-            .then(response => response.json())
-            .then(data => {
-              console.log("Team list API Response:", data);
-              if (data.teams && Array.isArray(data.teams)) {
-                const teamNames = data.teams.map(team => team.TEAM_NAME);
-                setTeams(teamNames);
-                setInitialTeams(teamNames);
-                setRounds([createMatchups(teamNames)]);
-              } else {
-                console.error("Unexpected team data format:", data);
-              }
-            })
-            .catch(error => console.error("Error fetching team list:", error));
+        console.log("User Role (from context):", userRole);
+        if (!collegeID && data.CollegeID) {
+          setCollegeID(data.CollegeID);
         }
+        if (data.role === 'Moderator') isEditable = true;
+
+        fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${data.CollegeID}`)
+          .then(response => response.json())
+          .then(tournamentData => {
+            if (tournamentData.tournamentData && tournamentData.tournamentData.rounds && tournamentData.tournamentData.history) {
+              console.log("Loaded saved tournament data:", tournamentData);
+              setRounds(tournamentData.tournamentData.rounds);
+              setHistory(tournamentData.tournamentData.history);
+
+              if (tournamentData.tournamentData.rounds.length > 0) {
+                const teamSet = new Set();
+                tournamentData.tournamentData.rounds[0].forEach(match => match.forEach(t => teamSet.add(t)));
+                const teamList = Array.from(teamSet);
+                setInitialTeams(teamList);
+                setTeams(teamList);
+              }
+            } else {
+              console.log("No saved data found, loading fresh team list...");
+              fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${data.CollegeID}`)
+                .then(response => response.json())
+                .then(teamData => {
+                  console.log("Team list API Response:", teamData);
+                  if (teamData.teams && Array.isArray(teamData.teams)) {
+                    const teamNames = teamData.teams.map(team => team.TEAM_NAME);
+                    setTeams(teamNames);
+                    setInitialTeams(teamNames);
+                    setRounds([createMatchups(teamNames)]);
+                  } else {
+                    console.error("Unexpected team data format:", teamData);
+                  }
+                })
+                .catch(error => console.error("Error fetching team list:", error));
+            }
+          })
+          .catch(error => console.error("Error loading tournament data:", error));
       })
-      .catch(error => console.error("Error loading tournament data:", error));
-  }, []);
+      .catch(error => console.error("Error fetching user session data:", error));
+  }, [userEmail]);
 
   const handleWin = (roundIndex, matchIndex, winner) => {
+    if (!isEditable) return;
     let newRounds = [...rounds];
     if (!newRounds[roundIndex + 1]) {
       newRounds[roundIndex + 1] = [];
@@ -67,13 +84,12 @@ export default function Bracket() {
 
     const nextMatchIndex = matchIndex >> 1;
 
-    // Ensure only one or two teams are in the next round match
     if (!newRounds[roundIndex + 1][nextMatchIndex]) {
       newRounds[roundIndex + 1][nextMatchIndex] = [winner];
     } else if (newRounds[roundIndex + 1][nextMatchIndex].length < 2) {
       newRounds[roundIndex + 1][nextMatchIndex].push(winner);
     } else {
-      return; // Prevent adding a third team to the match
+      return;
     }
 
     setHistory([...history, { roundIndex, matchIndex, winner }]);
@@ -81,11 +97,11 @@ export default function Bracket() {
   };
 
   const handleUndo = () => {
+    if (!isEditable) return;
     if (history.length === 0) return;
     const lastAction = history[history.length - 1];
     let newRounds = [...rounds];
 
-    // Remove the last added winner from the next round
     newRounds[lastAction.roundIndex + 1][lastAction.matchIndex >> 1] =
       newRounds[lastAction.roundIndex + 1][lastAction.matchIndex >> 1].filter(
         player => player !== lastAction.winner
@@ -96,13 +112,15 @@ export default function Bracket() {
   };
 
   const handleRestart = () => {
+    if (!isEditable) return;
     setRounds([createMatchups(initialTeams)]);
     setHistory([]);
   };
 
   const handleSave = () => {
+    if (!isEditable) return;
     const payload = {
-      collegeID: "6",
+      collegeID: collegeID,
       tournamentData: {
         rounds,
         history,
@@ -129,19 +147,23 @@ export default function Bracket() {
       });
   };
 
+  if (!userEmail || collegeID === null) return <p>Loading session data...</p>;
+
   return (
     <div className="bracket-container">
-      <div className="button-container">
-        <button className="button button-undo" onClick={handleUndo}>
-          Undo
-        </button>
-        <button className="button button-restart" onClick={handleRestart}>
-          Restart
-        </button>
-        <button className="button button-save" onClick={handleSave}>
-          Save
-        </button>
-      </div>
+      {isEditable && (
+        <div className="button-container">
+          <button className="button button-undo" onClick={handleUndo}>
+            Undo
+          </button>
+          <button className="button button-restart" onClick={handleRestart}>
+            Restart
+          </button>
+          <button className="button button-save" onClick={handleSave}>
+            Save
+          </button>
+        </div>
+      )}
       <div className="round-section">
         {rounds.map((round, roundIndex) => (
           <div key={roundIndex} className="round">
@@ -154,6 +176,7 @@ export default function Bracket() {
                       key={i}
                       className="match-button"
                       onClick={() => handleWin(roundIndex, matchIndex, player)}
+                      disabled={!isEditable}
                     >
                       {player}
                     </button>
