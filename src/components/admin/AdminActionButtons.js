@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import FileUploader from '../../components/gallery/FileUploader';
 
 function AdminActionButtons() {
     const navigate = useNavigate(); 
@@ -74,6 +75,7 @@ function AdminActionButtons() {
                                     required 
                                 />
                                 <br />
+
                                 <label htmlFor="collegeCountry">College Country: </label>
                                 <input 
                                     type="text" 
@@ -84,6 +86,12 @@ function AdminActionButtons() {
                                     style={{ marginBottom: '24px' }} 
                                     required 
                                 />
+
+                                <br />
+                                <label htmlFor="collegeImage">College Image: </label>
+                                <FileUploader />
+
+                                
                                 <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
                                     <button type="button" className='redButton fullWidth' onClick={() => close()}>
                                         Close
