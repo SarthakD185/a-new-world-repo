@@ -17,13 +17,12 @@ export default function Bracket() {
   const [rounds, setRounds] = useState([]);
   const [history, setHistory] = useState([]);
   const [collegeID, setCollegeID] = useState(() => {
-  const savedCollegeID = sessionStorage.getItem('selectedCollegeID');
-  return savedCollegeID ? parseInt(savedCollegeID, 10) : null;
-});
+    const savedCollegeID = sessionStorage.getItem('selectedCollegeID');
+    return savedCollegeID ? parseInt(savedCollegeID, 10) : null;
+  });
 
   const { email: userEmail, role: userRole } = useContext(AccountContext);
-  // Set isEditable after fetching API role instead
-let isEditable = false;
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     if (!userEmail) return;
@@ -32,12 +31,15 @@ let isEditable = false;
       .then(res => res.json())
       .then(data => {
         console.log("User Role (from context):", userRole);
+        console.log("Role from API:", data.role);
         if (!collegeID && data.CollegeID) {
           setCollegeID(data.CollegeID);
         }
-        if (data.role === 'Moderator') isEditable = true;
+        if (data.role === 'Moderator' || userRole === 'Moderator') setIsEditable(true);
 
-        fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${data.CollegeID}`)
+        const idToUse = data.CollegeID || collegeID;
+
+        fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${idToUse}`)
           .then(response => response.json())
           .then(tournamentData => {
             if (tournamentData.tournamentData && tournamentData.tournamentData.rounds && tournamentData.tournamentData.history) {
@@ -54,7 +56,7 @@ let isEditable = false;
               }
             } else {
               console.log("No saved data found, loading fresh team list...");
-              fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${data.CollegeID}`)
+              fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${idToUse}`)
                 .then(response => response.json())
                 .then(teamData => {
                   console.log("Team list API Response:", teamData);

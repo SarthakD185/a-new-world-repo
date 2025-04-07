@@ -35,24 +35,25 @@ function TournamentList(props) {
     }, []);
 
     function handleClick(tournamentInfo) {
-        // Check if tournament data exists
+        // Store CollegeID in session storage
+        sessionStorage.setItem('selectedCollegeID', tournamentInfo.CollegeID);
+
         const tournamentData = tournamentInfo ? {
-            id: tournamentInfo.CollegeID || 'new',  // Use 'new' for a new tournament
-            name: tournamentInfo.COLLEGE_NAME || 'New Tournament',  // Default name for a new tournament
-            image: tournamentInfo.image || 'default_image.png'  // Default image
+            id: tournamentInfo.CollegeID || 'new',
+            name: tournamentInfo.COLLEGE_NAME || 'New Tournament',
+            image: tournamentInfo.image || 'default_image.png'
         } : {
             id: 'new',
             name: 'New Tournament',
             image: 'default_image.png'
         };
-    
+
         navigate('/individualTournament', { state: tournamentData });
     }
 
     if (loading) return <p className="center">Loading tournaments...</p>;
     if (error) return <p className="center">Error: {error}</p>;
 
-    // Ensure el.COLLEGE_NAME is defined before calling toLowerCase
     const filteredData = tournaments.filter((el) => {
         return props.input === '' || (el.COLLEGE_NAME && typeof el.COLLEGE_NAME === 'string' && el.COLLEGE_NAME.toLowerCase().includes(props.input.toLowerCase()));
     });
