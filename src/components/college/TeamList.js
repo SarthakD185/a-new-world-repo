@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { HR } from "flowbite-react";
 import { useNavigate } from 'react-router-dom';
 import '../../assets/css/IndividualCollege.css';
+import { AccountContext } from '../../Account';
 
 function TeamList({ teams, collegeID, onJoinTeam }) {
     const [joiningTeam, setJoiningTeam] = useState(null);
     const [error, setError] = useState("");
     const navigate = useNavigate(); 
+    const { isAuthenticated } = useContext(AccountContext);
 
     //Ensure that teams is an array and is not null or undefined
     if (!teams || !Array.isArray(teams)) {
@@ -56,15 +58,28 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
                                 <p className="shortBio">{team.TEAM_BLURB || "No description available."}</p>
                             </div>
                         </div>
+
+                        {/* If the user is logged in, show the join team button, otherwise show the view team button */}
+                        {/* Check if the user is authenticated using the AccountContext */}
                         <div className="centerButton">
-                            <button
-                                className="secondaryButton"
-                                style={{ width: '120px' }}
-                                onClick={(event) => handleJoinClick(event, team.TeamID)}  // Pass event and teamID to prevent redirection
-                                disabled={joiningTeam === team.TeamID}
-                            >
-                                {joiningTeam === team.TeamID ? "Joining..." : "Join Team"}
-                            </button>
+                            {isAuthenticated ? (
+                                <button
+                                    className="secondaryButton"
+                                    style={{ width: '120px' }}
+                                    onClick={(event) => handleJoinClick(event, team.TeamID)}
+                                    disabled={joiningTeam === team.TeamID}
+                                >
+                                    {joiningTeam === team.TeamID ? "Joining..." : "Join Team"}
+                                </button>
+                            ) : (
+                                <button
+                                    className="secondaryButton"
+                                    style={{ width: '120px' }}
+                                    onClick={() => handleTeamClick(team.TeamID)}
+                                >
+                                    View Team
+                                </button>
+                            )}
                         </div>
                     </div>
                     <HR />
