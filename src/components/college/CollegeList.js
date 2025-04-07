@@ -6,7 +6,7 @@ function CollegeList({ colleges }) {
     const navigate = useNavigate();
 
     function handleClick(collegeInfo) {
-        navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, image: collegeInfo.image } });
+        navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, filename: collegeInfo.filename } });
     }
 
     if (colleges.length === 0) {
@@ -24,7 +24,7 @@ function CollegeList({ colleges }) {
                         <div className="horizontalFlex spaceBetween">
                             <div className="horizontalFlex">
                                 {/* Update this to match your image setup */}
-                                <img src={`../../assets/images/${college.image}`} className="smallLogo" alt={`${college.COLLEGE_NAME} logo`} />
+                                <img src={`${college.filename}`} className="smallLogo" alt={`${college.COLLEGE_NAME} logo`} />
                                 <h3 className="listTitle">{college.COLLEGE_NAME}</h3>
                             </div>
                             <div className="centerButton">
