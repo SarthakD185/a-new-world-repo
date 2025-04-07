@@ -9,6 +9,7 @@ function CurrentGameList({ collegeID }) {
     const [error, setError] = useState('');
     const [teams, setTeams] = useState([]);
     const [allMatchesCompleted, setAllMatchesCompleted] = useState(false); // Track if all matches are completed
+    const [roundNumber, setRoundNumber] = useState(1); // Track the current round
 
     // Team to College mapping
     const teamToCollegeMap = {
@@ -130,10 +131,15 @@ function CurrentGameList({ collegeID }) {
         return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
     };
 
-    //Handle starting the next round
+    // Handle starting the next round
     const handleStartNextRound = async () => {
+        if (!allMatchesCompleted) {
+            setError('All games must be completed before starting the next round.');
+            return;
+        }
+
         try {
-            const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/startRound2', {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/startRound${roundNumber + 1}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,18 +147,20 @@ function CurrentGameList({ collegeID }) {
             });
 
             if (!response.ok) {
-                throw new Error('Failed to start Round 2');
+                throw new Error(`Failed to start Round ${roundNumber + 1}`);
             }
 
             const data = await response.json();
-            console.log('Round 2 started successfully:', data);
+            console.log(`Round ${roundNumber + 1} started successfully:`, data);
 
-            //maybe we can update state here to reflect round change
-            setAllMatchesCompleted(false);  //reset for the next round
-            setFilteredGames([]); //filter for the next round
+            // Update the round number and reset state for the next round
+            setRoundNumber(roundNumber + 1);
+            setAllMatchesCompleted(false);  // Reset for the next round
+            setFilteredGames([]); // Clear current round's games
+            setError(''); // Clear any previous error message
         } catch (error) {
-            console.error('Error starting Round 2:', error);
-            setError('Failed to start Round 2. Please try again later.');
+            console.error(`Error starting Round ${roundNumber + 1}:`, error);
+            setError(`Failed to start Round ${roundNumber + 1}. Please try again later.`);
         }
     };
 
@@ -176,11 +184,11 @@ function CurrentGameList({ collegeID }) {
         return (
             <div className='fullHeight'>
                 <p className='center'>No Games to Display</p>
-                {/* Show the "Start Round 2" button only if all matches are completed */}
+                {/* Show the "Start Next Round" button only if all matches are completed */}
                 {allMatchesCompleted && (
                     <div className='centerButton'>
                         <button className='standardButton largeButton' onClick={handleStartNextRound}>
-                            Start Round 2
+                            Start Round {roundNumber + 1}
                         </button>
                     </div>
                 )}
@@ -192,6 +200,10 @@ function CurrentGameList({ collegeID }) {
         return (
             <div>
                 <HR />
+                <div className="roundInfo">
+                    <h3>Round {roundNumber}</h3>
+                    <p>Current round in progress</p>
+                </div>
                 {filteredGames.map((game) => (
                     <div key={game.MatchID}>
                         <div className='horizontalFlex spaceBetween'>
@@ -217,4 +229,3 @@ function CurrentGameList({ collegeID }) {
 }
 
 export default CurrentGameList;
-    
