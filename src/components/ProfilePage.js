@@ -1,11 +1,9 @@
 import * as React from 'react';
 import '../App.css';
 import '../assets/css/ProfilePage.css';
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { IoIosCheckmarkCircle } from "react-icons/io";
-import { GoXCircleFill } from "react-icons/go";
 import PendingAccountApprovalComponent from './profile/PendingAccountApprovalComponent';
 import UpcomingEventComponent from './profile/upcomingEventComponent'; 
 import { AccountContext } from '../Account'; //ID from previous file i made!
@@ -13,7 +11,7 @@ import Pool from '../UserPool';
 
 function ProfilePage() {
     const { id: userID } = useParams();
-    const { isAuthenticated, email } = useContext(AccountContext);  //use new context here
+    const { email } = useContext(AccountContext);  //use new context here
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -99,7 +97,7 @@ function ProfilePage() {
         }
 
         getProfile();
-    }, [email]);
+    }, [email, userID]);
 
     //Fetch games on mount
     useEffect(() => {
@@ -113,9 +111,14 @@ function ProfilePage() {
                         }
                         const data = await response.json();
                         console.log('Fetched data:', data);
-        
-                        if (data.matches && Array.isArray(data.matches)) {
+
+                        if(data.matches && Array.isArray(data.matches)) {
+
                             setGames(data.matches);
+
+                        } else if (data) {
+                            
+                            console.log('No matches for this team');
         
                         } else {
                             throw new Error('Fetched data is not in expected format');
@@ -144,10 +147,6 @@ function ProfilePage() {
     if (!user) {
         return <div className="loading">Loading...</div>;
     }
-    
-
-    //tourney
-    const approved = user && user.tournamentSignedUp ? <IoIosCheckmarkCircle /> : <GoXCircleFill />;
 
     return (
         <div>
@@ -163,7 +162,6 @@ function ProfilePage() {
                         <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
                         <div className='horizontalFlex'>
                             {/* TODO - add button actions!!!!! */}
-                            <button className='heroButton'>Leave Team</button>
                             <button className='heroButton'>Deactivate Account</button>
                         </div>
                     </>
@@ -178,30 +176,13 @@ function ProfilePage() {
             <div className='pageGrid'>
                 <div className='box' id='accountInformation'>
                     <div className='horizontalFlex spaceBetween'>
-                        <h2>Account Information</h2> {approved}
+                        <h2>Account Information</h2>
                     </div>
                     <div>
-                        <p>College Affiliation: {user ? user.collegeAffiliation : "University of Nebraska Lincoln"}</p>
-                        <p>Username: {user ? user.username : "user_name2024"}</p>
-                        <p>Full Name: {user ? `${user.firstname} ${user.lastname}` : "Jane Smith"}</p>
-                        <p>Email Address: {email || "jsmith@unl.edu"}</p> {/* Use the email from context */}
-                    </div>
-                </div>
-
-                {/* Additional sections */}
-                <div className='box' id='registrationInformation'>
-                    <div className='horizontalFlex spaceBetween'>
-                        <h2>Registration Information</h2>
-                    </div>
-                    <div className='verticalFlexMobile480 horizontalFlex spaceBetween'>
-                        <div>
-                            <p>Team Name: </p>
-                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Team Logo" />
-                        </div>
-                        <div>
-                            <p>Registration Status</p>
-                            <img src={"https://placehold.co/100"} className='smallLogo' alt="Registration Status" />
-                        </div>
+                        <p>College Affiliation: {(user && user.college) ? user.college : "Unknown"}</p>
+                        <p>Username: {(user && user.username) ? user.username : "Unknown"}</p>
+                        <p>Full Name: {(user && user.firstname && user.lastname) ? `${user.firstname} ${user.lastname}` : "Unknown"}</p>
+                        <p>Email Address: {(user && email) || "Unknown"}</p> {/* Use the email from context */}
                     </div>
                 </div>
 

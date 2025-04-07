@@ -66,6 +66,10 @@ function TeamPage() {
                 if (data.matches && Array.isArray(data.matches)) {
                     setGames(data.matches);
 
+                } else if (data) {
+                            
+                    console.log('No matches for this team');
+
                 } else {
                     throw new Error('Fetched data is not in expected format');
                 }

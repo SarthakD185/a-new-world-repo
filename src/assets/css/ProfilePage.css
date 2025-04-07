@@ -26,14 +26,6 @@
     height: auto;
 }
 
-#registrationInformation {
-    grid-column-start: 2;
-    grid-column-end: 3;
-    grid-row-start: 2;
-    grid-row-end: 3;
-    height: auto;
-}
-
 #bioInformation {
     grid-column-start: 3;
     grid-column-end: 4;
@@ -47,11 +39,11 @@
 }
 
 #upcomingEvents {
-    grid-column-start: 1;
-    grid-column-end: 2;
-    grid-row-start: 3;
-    grid-row-end: 4;
-    height: 180px;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    height: 240px;
     overflow: scroll;
 }
 
@@ -62,17 +54,6 @@
     grid-row-end: 5;
     height: auto;
 }
-
-/*
-#individualCollegeAnnouncements {
-    grid-column-start: 3;
-    grid-column-end: 4;
-    grid-row-start: 1;
-    grid-row-end: 3;
-    height: 800px;
-    overflow: scroll;
-}
-*/
 
 .upcomingEvent {
     display: flex;
@@ -172,14 +153,6 @@
         height: auto;
     }
     
-    #registrationInformation {
-        grid-column-start: 2;
-        grid-column-end: 3;
-        grid-row-start: 1;
-        grid-row-end: 2;
-        height: auto;
-    }
-    
     #bioInformation {
         grid-column-start: 1;
         grid-column-end: 2;
@@ -204,9 +177,6 @@
         grid-row-end: 3;
         height: auto;
     }
-
-    
-    
 }
 
 
@@ -234,10 +204,6 @@
     #accountInformation {
         height: auto;
     }
-
-    /* #registrationInformation {
-        height: auto;
-    } */
 
     #bioInformation {
         height: auto;

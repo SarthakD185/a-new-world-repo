@@ -14,13 +14,13 @@ function IndividualCollegePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const data = location.state || {}; 
-    const { isAuthenticated } = useContext(AccountContext);
+    const { isAuthenticated, email } = useContext(AccountContext);
     // State management
     const [teams, setTeams] = useState([]);
     const [inputText, setInputText] = useState("");
     const [teamName, setTeamName] = useState(""); 
     const [teamID, setTeamID] = useState(null); 
-    const [email, setEmail] = useState("");  
+    const [userEmail, setUserEmail] = useState("");  
     const [showJoinPopup, setShowJoinPopup] = useState(false);  
     const [userTeamID, setUserTeamID] = useState(null);  
     const [isEmailValid, setIsEmailValid] = useState(false); 
@@ -82,7 +82,11 @@ function IndividualCollegePage() {
             const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTeam', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ teamName, collegeID: data.id }),
+                body: JSON.stringify({ 
+                    teamName: teamName, 
+                    collegeID: data.id,  
+                    email: email,
+                }),
             });
 
             const result = await response.json();
@@ -119,7 +123,7 @@ function IndividualCollegePage() {
     //email handler
     const handleEmailChange = (e) => {
         const emailValue = e.target.value;
-        setEmail(emailValue);
+        setUserEmail(emailValue);
 
         //email val
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -127,7 +131,7 @@ function IndividualCollegePage() {
     };
 
     const handleEmailSubmit = async () => {
-        if (!email || !isEmailValid) {
+        if (!userEmail || !isEmailValid) {
             alert("Please provide a valid email.");
             return;
         }
@@ -141,11 +145,11 @@ function IndividualCollegePage() {
             setLoading(true);
     
             //logging for testing
-            console.log("Email:", email);
+            console.log("Email:", userEmail);
             console.log("Selected team ID:", teamID);
     
             const response = await fetch(
-                `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${encodeURIComponent(email)}`
+                `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getUserByEmail?email=${encodeURIComponent(userEmail)}`
             );
     
             const result = await response.json();
@@ -173,7 +177,7 @@ function IndividualCollegePage() {
                     body: JSON.stringify({
                         teamID,  
                         userID,  
-                        email,
+                        userEmail,
                     }),
                 });
     
@@ -283,7 +287,7 @@ function IndividualCollegePage() {
                                 label="Email"
                                 type="email"
                                 fullWidth
-                                value={email}
+                                value={userEmail}
                                 onChange={handleEmailChange}
                                 style={{ marginBottom: '20px' }}
                             />
