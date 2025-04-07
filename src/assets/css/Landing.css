@@ -10,8 +10,7 @@ body {
   /* margin: 10px; */
   object-fit: cover;
 
-  padding: 12px;
-  backdrop-filter: blur(16px);
+  /* padding: 12px; */
 }
   
 /* https://www.w3schools.com/howto/howto_css_hero_image.asp */
@@ -45,6 +44,12 @@ body {
   padding: 6em 0;
 }
 
+#blurBackground {
+  backdrop-filter: blur(8px);
+  padding: 20px 8px;
+  margin: 12px;
+}
+
 .overflowList {
   max-height: 500px; 
   overflow-y: auto;
@@ -61,10 +66,10 @@ body {
 }
   
 #heroTextSmall {
-  margin: 36px 24px;
+  margin: 30px;
   font-size: 1.6em;
-  backdrop-filter: blur(8px);
-  padding: 24px;
+  /* backdrop-filter: blur(8px); */
+  /* padding: 24px; */
 }
   
 #heroText h4 {

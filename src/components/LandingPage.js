@@ -22,12 +22,14 @@ function LandingPage() {
 
 {/* className={window.innerWidth < 768 ? 'smallLogo' : ''} */}
             <div id="heroText">
-                <img src={logo} className='heroImage' alt="A New World Logo" />
-                <div id='heroTextSmall'>
-                    <h3>Introducing Aardvark’s newest board game, A New World, with a global collegiate competition!</h3>
-                    <h3>Can your University’s team bring home the prize?</h3>
+                <div id="blurBackground">
+                    <img src={logo} className='heroImage' alt="A New World Logo" />
+                    <div id='heroTextSmall'>
+                        <h3>Introducing Aardvark’s newest board game, A New World, with a global collegiate competition!</h3>
+                        <h3>Can your University’s team bring home the prize?</h3>
+                    </div>
+                    <button className='heroButton' onClick={() => window.location.replace("/signup")}><h4>Register Now</h4></button>
                 </div>
-                <button className='heroButton' onClick={() => window.location.replace("/signup")}><h4>Register Now</h4></button>
             </div>
 
             <div className='container'>
