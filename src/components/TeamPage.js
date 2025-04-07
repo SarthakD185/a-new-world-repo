@@ -41,7 +41,7 @@ function TeamPage() {
                 setTeamMembers(data.team_members[0]);
 
                 // Check for team captain
-                teamMembers.forEach(teamCaptainCheck);
+                data.team_members[0].forEach(teamCaptainCheck);
 
             } catch (error) {
                 console.error("Error fetching team data:", error);
@@ -345,7 +345,7 @@ function TeamPage() {
                     <div className='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>Team Bio</h2>
                         {/* Only show edit button if user is admin, moderator, or team captain */}
-                        {(role === 'Admin' || role === 'Moderator' || (teamCaptain && teamCaptain.IS_CAPTAIN === 1)) && (
+                        {(role === 'Admin' || role === 'Moderator' || (teamCaptain && teamCaptain.IS_CAPTAIN === 1 && teamCaptain.email === email)) && (
                             <button className='editButton'>
                                 <img 
                                     src={isEditingTeamBio ? require('../assets/images/saveIcon.png') : require('../assets/images/pencil.png')} 
