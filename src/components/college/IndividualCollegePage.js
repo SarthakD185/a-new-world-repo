@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import '../../App.css';
 import '../../assets/css/IndividualCollege.css';
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,12 +8,13 @@ import AnnouncementsList from './AnnouncementsList';
 import GalleryList from './GalleryList';
 import { FaPlusCircle } from 'react-icons/fa';
 import Popup from 'reactjs-popup';
+import { AccountContext } from '../../Account';
 
 function IndividualCollegePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const data = location.state || {}; 
-
+    const { isAuthenticated } = useContext(AccountContext);
     // State management
     const [teams, setTeams] = useState([]);
     const [inputText, setInputText] = useState("");
@@ -218,36 +219,40 @@ function IndividualCollegePage() {
                 </div>
 
                 <div className='box' id='individualCollegeRegisteredTeams'>
-                    <div className='horizontalFlex spaceBetween stickyHeader'>
+                    <div className='horizontalFlex spaceBetween stickyHeader' style={{ gap: '16px'}}>
                         <div className='horizontalFlex'>
                             <h2 className='noPadding noMargin'>Registered Teams</h2>
-                            <Popup trigger={<button className='standardButton' style={{ marginLeft: '12px'}}>
-                                <div style={{ display: 'flex', alignItems: 'center' }}>
-                                    Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
-                                </div>
-                            </button>} modal nested>
-                                {close => (
-                                    <div className='modal popup'>
-                                        <div className='popupContent'>
-                                            <h1 className='center'>Create Team</h1>
-                                            <form className='center' onSubmit={handleCreateTeam}>
-                                                <label htmlFor="teamName">Team Name: </label>
-                                                <input 
-                                                    type="text" 
-                                                    id="teamName" 
-                                                    value={teamName} 
-                                                    onChange={(e) => setTeamName(e.target.value)} 
-                                                    style={{ marginBottom: '24px' }} 
-                                                />
-                                                <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
-                                                    <button className='standardButton fullWidth' type="submit" disabled={loading}>Save</button>
-                                                    <button className='redButton fullWidth' onClick={() => close()}>Close</button>
-                                                </div>
-                                            </form>
-                                        </div>
+
+                            {isAuthenticated && (
+                                <Popup trigger={<button className='standardButton' style={{ marginLeft: '12px'}}>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                                        Create Team <FaPlusCircle size='14px' style={{ paddingLeft: '6px' }} />
                                     </div>
-                                )}
-                            </Popup>
+                                </button>} modal nested>
+                                    {close => (
+                                        <div className='modal popup'>
+                                            <div className='popupContent'>
+                                                <h1 className='center'>Create Team</h1>
+                                                <form className='center' onSubmit={handleCreateTeam}>
+                                                    <label htmlFor="teamName">Team Name: </label>
+                                                    <input 
+                                                        type="text" 
+                                                        id="teamName" 
+                                                        value={teamName} 
+                                                        onChange={(e) => setTeamName(e.target.value)} 
+                                                        style={{ marginBottom: '24px' }} 
+                                                    />
+                                                    <div className='centerButton horizontalFlex spaceBetween' style={{ gap: '24px' }}>
+                                                        <button className='standardButton fullWidth' style={{ backgroundColor: '#F47A60' }} onClick={() => close()}>Close</button>
+                                                        <button className='standardButton fullWidth' type="submit" disabled={loading}>Save</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    )}
+                                </Popup>
+                            )}
+                            
                         </div>
                         <div className="search">
                             <TextField 
