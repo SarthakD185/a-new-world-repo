@@ -5,10 +5,13 @@ body {
 }
 
 .heroImage {
-  width: 70%;
+  width: 90%;
   max-height: 32em;
   /* margin: 10px; */
   object-fit: cover;
+
+  padding: 12px;
+  backdrop-filter: blur(16px);
 }
   
 /* https://www.w3schools.com/howto/howto_css_hero_image.asp */

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import logo from '../assets/images/ANewWorldTitleTextWhiteOnClear.png';
+import logo from '../assets/images/ANewWorldTitleWhiteOnClear.png';
 
 import '../App.css';
 import '../assets/css/Landing.css';
