@@ -13,7 +13,7 @@ import Pool from '../UserPool';
 
 function ProfilePage() {
     const { id: userID } = useParams();
-    const { email, role, isAuthenticated } = useContext(AccountContext);  //use new context here
+    const { isAuthenticated, email } = useContext(AccountContext);  //use new context here
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -32,19 +32,38 @@ function ProfilePage() {
 
     //prof data
     const getProfile = async () => {
+        if (!email) {
+            setError("Email is not available");
+            return; // Early exit if email is not available
+        }
+    
         try {
-            const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile`);
+            const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile?email=${email}`);
+            
+            // Log the raw response for debugging
+            console.log("API Response:", response);
+            
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
+    
+            // Directly parse the response as JSON
             const data = await response.json();
-            let json = JSON.parse(data.body);  
-            setUser(json[0]);  
+            
+            // Assuming the data is an array and we want the first user in that array
+            if (Array.isArray(data) && data.length > 0) {
+                setUser(data[0]);  // Directly use the first object in the array
+            } else {
+                setError("No user data found.");
+            }
         } catch (error) {
             console.error("Error fetching user data:", error);
             setError("Failed to load user data. Please try again.");
         }
     };
+    
+    
+    
 
     // Edit Bio function
     const handleEditUserBio = async (newBio) => {
@@ -80,7 +99,7 @@ function ProfilePage() {
         }
 
         getProfile();
-    }, [userID]);
+    }, [email]);
 
     //Fetch games on mount
     useEffect(() => {
@@ -118,9 +137,14 @@ function ProfilePage() {
     console.log("User email from AccountContext:", email);
 
     //error
-    if (!user && !isAuthenticated) {
-        return <div className="error">⚠️ {error || "User not found"}</div>;
+    if (error) {
+        return <div className="error">⚠️ {error}</div>;
     }
+    
+    if (!user) {
+        return <div className="loading">Loading...</div>;
+    }
+    
 
     //tourney
     const approved = user && user.tournamentSignedUp ? <IoIosCheckmarkCircle /> : <GoXCircleFill />;
