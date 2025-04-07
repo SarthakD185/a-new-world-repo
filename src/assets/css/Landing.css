@@ -38,7 +38,7 @@ body {
   position: sticky;
   color: white;
   width: 100%;
-  height: 24em;
+  min-height: 24em;
   padding: 6em 0;
 }
 
@@ -177,10 +177,8 @@ body {
     padding: 16px;
   }
 }
-  
-.popup {
-  padding: 24px;
-}
+
+/* .popup class was removed to be consistent with other popups using the .popupContent class. See below */
 
 .popupHeader {
   margin: 12px 0px 8px 0px;
@@ -193,6 +191,16 @@ body {
 .widePopup {
   width: 80%;
 }
+
+.homeGridText {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+
 
 /* Admin Landing Page */
 
@@ -328,10 +336,21 @@ body {
     margin: 5px;
 }
 
+/* this replaces the .popoup class, any instances of className='popup' should be replaced with className='popupContent' */
 .popupContent {
   background-color: #e1f3f4;
   padding: 24px;
+  margin: 0px;
   border-radius: 8px;
+
+  /* width: 90vw !important; */
+
+  overflow-y: auto;
+  max-height: 80vh;
+
+
+
+
 }
 
 .popupContent input {
