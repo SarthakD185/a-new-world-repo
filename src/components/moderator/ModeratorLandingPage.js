@@ -13,10 +13,10 @@ import UsersAwaitingApprovalList from './UsersAwaitingApprovalList';
 import CreateTournamentPopup from './CreateTournamentPopup';
 
 function ModeratorLandingPage() {
-    //state management
+    // State management
     const [tasksInputText, setTasksInputText] = useState("");
     const [usersInputText, setUsersInputText] = useState("");
-    const [tournamentData, setTournamentData] = useState(null); //storing tournament data in a local state so its accessible
+    const [tournamentData, setTournamentData] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -24,10 +24,9 @@ function ModeratorLandingPage() {
     
     const navigate = useNavigate();
 
-    //temporary
     const moderatorCollegeID = 6;
 
-    //fetch teams on mount
+    // Fetch teams on mount
     useEffect(() => {
         const fetchTeams = async () => {
             try {
@@ -48,40 +47,39 @@ function ModeratorLandingPage() {
         fetchTeams();
     }, []);
 
-    //input changes if any
+    // Input handlers
     const tasksInputHandler = (e) => setTasksInputText(e.target.value.toLowerCase());
     const usersInputHandler = (e) => setUsersInputText(e.target.value.toLowerCase());
 
-    // commented out because we're using the CreateTournamentPopup component instead. 04/06/2025 at 1:30pm
+    // Tournament creation
+    const handleCreateTournament = async () => {
+        if (!tournamentData?.id || !tournamentData?.name) {
+            setErrorMessage('Error: Tournament data is missing. Please try again later.');
+            return;
+        }
 
-    // const handleCreateTournament = async () => {
-    //     if (!tournamentData?.id || !tournamentData?.name) {
-    //         setErrorMessage('Error: Tournament data is missing. Please try again later.');
-    //         return;
-    //     }
+        setLoading(true);
+        setErrorMessage('');
+        setSuccessMessage('');
 
-    //     setLoading(true);
-    //     setErrorMessage('');
-    //     setSuccessMessage('');
+        try {
+            const response = await axios.post('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTournament', {
+                collegeID: tournamentData.id,
+                tournamentName: tournamentData.name,
+            });
 
-    //     try {
-    //         const response = await axios.post('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/createTournament', {
-    //             collegeID: tournamentData.id,
-    //             tournamentName: tournamentData.name,
-    //         });
-
-    //         if (response.status === 200) {
-    //             setSuccessMessage('Tournament created successfully!');
-    //         } else {
-    //             throw new Error(`Failed to create tournament. Status: ${response.status}`);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error creating tournament:', error);
-    //         setErrorMessage('Error creating tournament. Please try again later.');
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
+            if (response.status === 200) {
+                setSuccessMessage('Tournament created successfully!');
+            } else {
+                throw new Error(`Failed to create tournament. Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error creating tournament:', error);
+            setErrorMessage('Error creating tournament. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleViewTournament = () => {
         navigate('/moderator/tournamentEdit', { 
@@ -94,8 +92,8 @@ function ModeratorLandingPage() {
 
     const fetchTournamentData = () => {
         setTournamentData({
-            id: 123, // Tournament ID
-            name: 'Sample Tournament', // Tournament Name
+            id: 123,
+            name: 'Sample Tournament',
         });
     };
 
@@ -103,7 +101,6 @@ function ModeratorLandingPage() {
         fetchTournamentData();
     }, []);
 
-    // Add this new handler
     const handleViewAllData = () => {
         navigate('/moderator/viewData');
     };
@@ -118,49 +115,53 @@ function ModeratorLandingPage() {
             <h1 className='center'>Moderator Landing Page</h1>
 
             <div className='horizontalFlex spaceBetween' id='moderatorLandingPageButtons'>
+                {tournamentData && (
+                    <div className='centerButton'>
+                        <button
+                            className='standardButton largeButton'
+                            style={{ marginRight: '10px' }}
+                            onClick={handleCreateTournament}
+                            disabled={loading}
+                        >
+                            {loading ? 'Creating Tournament...' : 'Create New Tournament'}
+                        </button>
+                        {/* Display Success or Error Messages */}
+                        {successMessage && <p className="successMessage">{successMessage}</p>}
+                        {errorMessage && <p className="errorMessage">{errorMessage}</p>}
+                    </div>
+                )}
 
+                {/* View Tournament Button */}
+                <div className='centerButton'>
+                    <button className='standardButton largeButton' style={{marginRight: '10px'}} onClick={handleViewTournament} disabled={loading}>
+                        {loading ? 'Viewing Tournament...' : 'View and Edit Tournament'}
+                    </button>
+                </div>
 
-{/* removed the old 'Create Tournament button because I couldn't comment it out. */}
-            {/* Conditionally render Create Tournament button */}
-            {tournamentData && (
-                <CreateTournamentPopup/>
-            )}
+                {/* View All Data Button */}
+                <div className='centerButton' style={{ marginTop: '10px' }}>
+                    <button 
+                        className='standardButton largeButton' 
+                        onClick={handleViewAllData}
+                    >
+                        View All Teams and Users Data on this Page
+                    </button>
+                </div>
 
-
-            {/* View Tournament Button */}
-            <div className='centerButton'>
-                <button className='standardButton largeButton' style={{marginRight: '10px'}} onClick={handleViewTournament} disabled={loading}>
-                    {loading ? 'Viewing Tournament...' : 'View and Edit Tournament'}
-                </button>
-            </div>
-
-            {/* Add new View All Data Button */}
-            <div className='centerButton' style={{ marginTop: '10px' }}>
-                <button 
-                    className='standardButton largeButton' 
-                    onClick={handleViewAllData}
-                >
-                    View All Teams and Users Data on this Page
-                </button>
-            </div>
-
-
-            {/* Add new View All Data Button */}
-            <div className='centerButton' style={{ marginTop: '10px' }}>
-                <button 
-                    className='standardButton largeButton' 
-                    onClick={handleViewMarketerPage}
-                >
-                    View Marketer Page
-                </button>
-            </div>
-
+                {/* View Marketer Page Button */}
+                <div className='centerButton' style={{ marginTop: '10px' }}>
+                    <button 
+                        className='standardButton largeButton' 
+                        onClick={handleViewMarketerPage}
+                    >
+                        View Marketer Page
+                    </button>
+                </div>
             </div>
 
             {/* Teams and Users Awaiting Approval */}
             <div className='container' style={{ marginTop: '0px' }}>
-
-                {/* New Teams Awaiting Approval */}
+                {/* Teams Awaiting Approval */}
                 <div className='box' id='moderatorUncompletedTasks' style={{ marginTop: '0px' }}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>New Teams Awaiting Approval</h2>

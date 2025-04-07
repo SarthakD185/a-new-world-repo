@@ -8,15 +8,17 @@ function CurrentGameList({ collegeID }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [teams, setTeams] = useState([]);
+    const [round, setRound] = useState(1); // Track the current round
+    const [allMatchesCompleted, setAllMatchesCompleted] = useState(false); // Check if all matches are completed
 
-    //teamMap
+    // Team to College mapping (assuming this comes from somewhere)
     const teamToCollegeMap = {
         1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6, 7: 6, 20: 6,
         8: 1, 9: 1, 10: 1, 11: 2, 12: 3, 13: 1, 14: 1, 15: 1,
         16: 2, 17: 3, 18: 1, 19: 4
     };
 
-    //Fetch teams on mount
+    // Fetch teams on mount
     useEffect(() => {
         const fetchTeams = async () => {
             try {
@@ -96,7 +98,13 @@ function CurrentGameList({ collegeID }) {
             console.log('Filtered games:', filtered);
             setFilteredGames(filtered);
         }
-    }, [games, collegeID]); // Refetch if changes
+    }, [games, collegeID]);
+
+    // Check if all matches are completed (Result === 1)
+    useEffect(() => {
+        const allCompleted = games.every(game => game.Result === 1);
+        setAllMatchesCompleted(allCompleted);
+    }, [games]);
 
     const getTeamName = (teamID) => {
         if (Array.isArray(teams)) {
@@ -106,11 +114,10 @@ function CurrentGameList({ collegeID }) {
         return 'Unknown Team'; 
     };
 
-    // Date formatting options
     const formatOptions = {
-        weekday: 'long', 
+        weekday: 'long',
         year: 'numeric',
-        month: 'long', 
+        month: 'long',
         day: 'numeric',
         hour: 'numeric',
         minute: 'numeric',
@@ -123,6 +130,14 @@ function CurrentGameList({ collegeID }) {
             return 'Invalid Date';
         }
         return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
+    };
+
+    // Handle starting the next round (e.g., Round 2)
+    const handleStartNextRound = async () => {
+        // You can call an API or update your match data here
+        console.log('Starting Round 2 with winners of current round...');
+        // Fetch winners of the current round (Result === 1) and create new matches for Round 2
+        // API call to create next round matches (you would need to implement this part)
     };
 
     if (loading) {
@@ -145,6 +160,13 @@ function CurrentGameList({ collegeID }) {
         return (
             <div className='fullHeight'>
                 <p className='center'>No Games to Display</p>
+                {allMatchesCompleted && (
+                    <div className='centerButton'>
+                        <button className='standardButton largeButton' onClick={handleStartNextRound}>
+                            Start Round 2
+                        </button>
+                    </div>
+                )}
             </div>
         );
     } else {
