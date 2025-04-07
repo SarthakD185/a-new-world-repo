@@ -46,33 +46,6 @@ function ProfilePage() {
         }
     };
 
-{/* 
-    //update user info
-    const updateUserInfo = async (UserID, field, update) => {
-        try {
-            const response = await fetch(`https://u2so2b3hpc.execute-api.us-east-1.amazonaws.com/prod/updateUserInfo`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    UserID: UserID,
-                    field: field,
-                    new: update
-                }),
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            console.log(data);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            setError("Failed to load user data. Please try again.");
-        }
-    };
-    */}
-
     // Edit Bio function
     const handleEditUserBio = async (newBio) => {
         try {
@@ -246,7 +219,6 @@ function ProfilePage() {
                     <div id='bioInformationText'>
                         <p>{user && user.bio ? user.bio : "No bio available."}</p>
                     </div>
-                    {/* <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>Update Bio</button> */}
                 </div>
             </div>
         </div>

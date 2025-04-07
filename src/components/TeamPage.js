@@ -10,12 +10,13 @@ import TeamMembersPanelMOBILE from './team/TeamMembersPanelMOBILE';
 
 function TeamPage() {
     const { id: teamID } = useParams(); 
-    const { isAuthenticated, role } = useContext(AccountContext);
+    const { isAuthenticated, role, email } = useContext(AccountContext);
     const [team, setTeam] = useState([]); 
     const [error, setError] = useState('');
     const [showLeaveModal, setShowLeaveModal] = useState(false);
     const [showJoinModal, setShowJoinModal] = useState(false);
-    const [email, setEmail] = useState('');
+    const [showTeamCaptainModal, setShowTeamCaptainModal] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
     const [teamMembers, setTeamMembers] = useState([]); 
     const [teamCaptain, setTeamCaptain] = useState([]);
     const [isEditingTeamBio, setIsEditingTeamBio] = useState(false);
@@ -82,10 +83,10 @@ function TeamPage() {
         return <div className="error">⚠️ {error || "Team not found"}</div>;
     }
 
-    const handleEmailChange = (e) => setEmail(e.target.value);
+    const handleEmailChange = (e) => setUserEmail(e.target.value);
 
     const handleTeamAction = async (action) => {
-        if (!email) {
+        if (!userEmail) {
             setError('Please enter your email before proceeding.');
             return;
         }
@@ -98,7 +99,7 @@ function TeamPage() {
             ? 'https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/leaveTeam' 
             : `https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/joinTeam`;
 
-        const requestBody = { email, teamID };
+        const requestBody = { userEmail, teamID };
 
         try {
             console.log(`Sending ${action} request with data:`, requestBody);
@@ -116,6 +117,38 @@ function TeamPage() {
             console.log(`Successfully ${action}ed team:`, data);
             setShowLeaveModal(false);
             setShowJoinModal(false);
+        } catch (error) {
+            console.error("Network error:", error);
+            setError("An error occurred. Please try again.");
+        }
+    };
+
+    const handleBecomeTeamCaptain = async () => {
+        if (!userEmail) {
+            setError('Please enter your email before proceeding.');
+            return;
+        }
+        if (!teamID) {
+            setError('No team selected.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/becomeTeamCaptain`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    email: email,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log(`Successfully became team captain:`, data);
+            setShowTeamCaptainModal(false);
         } catch (error) {
             console.error("Network error:", error);
             setError("An error occurred. Please try again.");
@@ -167,6 +200,9 @@ function TeamPage() {
                     <div id='teamActionButtons'>
                         <button className='heroButton' onClick={() => setShowJoinModal(true)}>Join Team</button>
                         <button className='heroButton' onClick={() => setShowLeaveModal(true)}>Leave Team</button>
+                        {(teamCaptain.length === 0) && (
+                            <button className='heroButton' onClick={() => setShowTeamCaptainModal(true)}>Become Team Captain</button>
+                        )}
                     </div>
                 )}
 
@@ -178,7 +214,7 @@ function TeamPage() {
                             <h3>Join the Team</h3>
                             <input
                                 type="email"
-                                value={email}
+                                value={userEmail}
                                 onChange={handleEmailChange}
                                 placeholder="Enter your email to join"
                             />
@@ -196,11 +232,29 @@ function TeamPage() {
                             <h3>Leave the Team</h3>
                             <input
                                 type="email"
-                                value={email}
+                                value={userEmail}
                                 onChange={handleEmailChange}
                                 placeholder="Enter your email to leave"
                             />
                             <button className='heroButton' onClick={() => handleTeamAction('leave')}>Leave Team</button>
+                            {error && <div className="error">{error}</div>}
+                        </div>
+                    </div>
+                )}
+
+                {/* Become Team Captain Modal */}
+                {showTeamCaptainModal && (
+                    <div className="modal">
+                        <div className="modalContent">
+                            <button className="closeModalButton" onClick={() => setShowTeamCaptainModal(false)}>X</button>
+                            <h3>Become Team Captain</h3>
+                            <input
+                                type="email"
+                                value={userEmail}
+                                onChange={handleEmailChange}
+                                placeholder="Enter your email to become the team captain"
+                            />
+                            <button className='heroButton' onClick={handleBecomeTeamCaptain}>Become Team Captain</button>
                             {error && <div className="error">{error}</div>}
                         </div>
                     </div>
