@@ -8,10 +8,9 @@ function CurrentGameList({ collegeID }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [teams, setTeams] = useState([]);
-    const [round, setRound] = useState(1); // Track the current round
-    const [allMatchesCompleted, setAllMatchesCompleted] = useState(false); // Check if all matches are completed
+    const [allMatchesCompleted, setAllMatchesCompleted] = useState(false); // Track if all matches are completed
 
-    // Team to College mapping (assuming this comes from somewhere)
+    // Team to College mapping
     const teamToCollegeMap = {
         1: 6, 2: 6, 3: 6, 4: 6, 5: 6, 6: 6, 7: 6, 20: 6,
         8: 1, 9: 1, 10: 1, 11: 2, 12: 3, 13: 1, 14: 1, 15: 1,
@@ -35,7 +34,6 @@ function CurrentGameList({ collegeID }) {
                     console.error('Invalid data format for teams:', data);
                     setTeams([]); 
                 }
-
             } catch (error) {
                 console.error('Error fetching teams:', error);
                 setTeams([]); 
@@ -68,11 +66,11 @@ function CurrentGameList({ collegeID }) {
         }
     };
 
-    // Polling for ongoing games (every 10 seconds)
+    // Polling for ongoing games (every 1 second)
     useEffect(() => {
         const intervalId = setInterval(() => {
             fetchOngoingGames();
-        }, 1000); // 10 seconds interval
+        }, 1000); // 1 second interval
 
         // Cleanup interval on unmount
         return () => clearInterval(intervalId);
@@ -100,11 +98,11 @@ function CurrentGameList({ collegeID }) {
         }
     }, [games, collegeID]);
 
-    // Check if all matches are completed (Result === 1)
+    // Check if all filtered games are completed (Result === 1)
     useEffect(() => {
-        const allCompleted = games.every(game => game.Result === 1);
-        setAllMatchesCompleted(allCompleted);
-    }, [games]);
+        const allFilteredGamesCompleted = filteredGames.every(game => game.Result === 1);
+        setAllMatchesCompleted(allFilteredGamesCompleted);
+    }, [filteredGames]);
 
     const getTeamName = (teamID) => {
         if (Array.isArray(teams)) {
@@ -132,12 +130,30 @@ function CurrentGameList({ collegeID }) {
         return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
     };
 
-    // Handle starting the next round (e.g., Round 2)
+    //Handle starting the next round
     const handleStartNextRound = async () => {
-        // You can call an API or update your match data here
-        console.log('Starting Round 2 with winners of current round...');
-        // Fetch winners of the current round (Result === 1) and create new matches for Round 2
-        // API call to create next round matches (you would need to implement this part)
+        try {
+            const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/startRound2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to start Round 2');
+            }
+
+            const data = await response.json();
+            console.log('Round 2 started successfully:', data);
+
+            //maybe we can update state here to reflect round change
+            setAllMatchesCompleted(false);  //reset for the next round
+            setFilteredGames([]); //filter for the next round
+        } catch (error) {
+            console.error('Error starting Round 2:', error);
+            setError('Failed to start Round 2. Please try again later.');
+        }
     };
 
     if (loading) {
@@ -160,6 +176,7 @@ function CurrentGameList({ collegeID }) {
         return (
             <div className='fullHeight'>
                 <p className='center'>No Games to Display</p>
+                {/* Show the "Start Round 2" button only if all matches are completed */}
                 {allMatchesCompleted && (
                     <div className='centerButton'>
                         <button className='standardButton largeButton' onClick={handleStartNextRound}>
@@ -200,3 +217,4 @@ function CurrentGameList({ collegeID }) {
 }
 
 export default CurrentGameList;
+    
