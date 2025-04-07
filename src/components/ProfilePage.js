@@ -18,6 +18,7 @@ function ProfilePage() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const [games, setGames] = useState([]);
+    const [isEditingUserBio, setIsEditingUserBio] = useState(false);
 
     //dont really need this anymore
     const getCurrentCognitoUser = () => {
@@ -45,6 +46,7 @@ function ProfilePage() {
         }
     };
 
+{/* 
     //update user info
     const updateUserInfo = async (UserID, field, update) => {
         try {
@@ -67,6 +69,34 @@ function ProfilePage() {
         } catch (error) {
             console.error("Error fetching user data:", error);
             setError("Failed to load user data. Please try again.");
+        }
+    };
+    */}
+
+    // Edit Bio function
+    const handleEditUserBio = async (newBio) => {
+        try {
+            const response = await fetch(`https://u2so2b3hpc.execute-api.us-east-1.amazonaws.com/prod/updateUserInfo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    userID: user.UserID,
+                    newBio: newBio,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to edit user bio');
+            }
+
+            //Success message
+            alert("User bio updated successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error editing user bio:', err);
+            alert('Failed to edit user bio');
         }
     };
 
@@ -189,10 +219,13 @@ function ProfilePage() {
                         <h2>Your Bio</h2>
                         <button className='editButton'>
                             <img 
-                                src={require('../assets/images/pencil.png')} 
+                                src={isEditingUserBio ? require('../assets/images/saveIcon.png') : require('../assets/images/pencil.png')}  
                                 className='editButton' 
                                 alt="Edit Bio" 
                                 onClick={() => {
+
+                                    setIsEditingUserBio(prev => !prev);
+
                                     const bioText = document.getElementById('bioInformationText');
                                     const textarea = bioText.querySelector('textarea');
                                     
@@ -200,6 +233,7 @@ function ProfilePage() {
                                         // Save the text and convert back to div
                                         const newText = textarea.value;
                                         bioText.innerHTML = `<p>${newText}</p>`;
+                                        handleEditUserBio(newText);
                                     } else {
                                         // Convert to textarea
                                         const currentText = bioText.innerText;
@@ -210,9 +244,9 @@ function ProfilePage() {
                         </button>
                     </div>
                     <div id='bioInformationText'>
-                        <p>Your Bio Goes Here!</p>
+                        <p>{user && user.bio ? user.bio : "No bio available."}</p>
                     </div>
-                    <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>Update Bio</button>
+                    {/* <button className='heroButton' onClick={() => updateUserInfo(user.UserID, "bio", document.getElementById('bioInformationText').innerHTML)}>Update Bio</button> */}
                 </div>
             </div>
         </div>
