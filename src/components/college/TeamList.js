@@ -58,11 +58,8 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
                                 <p className="shortBio">{team.TEAM_BLURB || "No description available."}</p>
                             </div>
                         </div>
-
-                        {/* If the user is logged in, show the join team button, otherwise show the view team button */}
-                        {/* Check if the user is authenticated using the AccountContext */}
-                        <div className="centerButton">
-                            {isAuthenticated ? (
+                        {isAuthenticated && (
+                            <div className="centerButton">
                                 <button
                                     className="secondaryButton"
                                     style={{ width: '120px' }}
@@ -71,16 +68,8 @@ function TeamList({ teams, collegeID, onJoinTeam }) {
                                 >
                                     {joiningTeam === team.TeamID ? "Joining..." : "Join Team"}
                                 </button>
-                            ) : (
-                                <button
-                                    className="secondaryButton"
-                                    style={{ width: '120px' }}
-                                    onClick={() => handleTeamClick(team.TeamID)}
-                                >
-                                    View Team
-                                </button>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
                     <HR />
                 </div>
