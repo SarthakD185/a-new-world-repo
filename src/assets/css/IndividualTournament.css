@@ -6,7 +6,6 @@
     height: auto;
     max-height: 700px;
     overflow: scroll;
-    
 }
 
 #individualTournamentCurrentGames {
@@ -17,7 +16,6 @@
     min-height: 400px;
     max-height: 500px;
     overflow: scroll;
-    
 }
 
 #individualTournamentPastGames {
@@ -42,7 +40,9 @@
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
-    height: 200px;
+    height: auto; /* Make sure this adjusts based on content */
+    padding-bottom: 10px; /* Prevents overlap */
+    margin-bottom: 30px; /* Adds space at the bottom for better visibility */
 }
 
 #stripeButton {
@@ -59,7 +59,6 @@
     grid-row-end: 5;
     height: 100px;
 }
-
 
 .largeButton {
     padding: 16px 36px;
@@ -127,27 +126,26 @@
     cursor: pointer;
 }
 
-
 @media only screen and (max-width: 480px) {
     .box {
         margin: 10px;
         border-radius: 8px;
-   }
+    }
 
-   .threeColumnContainerMobile480 {
+    .threeColumnContainerMobile480 {
         grid-template-columns: 100%;
         margin: 5px;
-   }
+    }
 
-   .modal-container {
-    padding: 15px;
-    width: 90%;
-    max-width: 400px;
-}
+    .modal-container {
+        padding: 15px;
+        width: 90%;
+        max-width: 400px;
+    }
 
-.formActions button {
-    padding: 12px 20px;
-}
+    .formActions button {
+        padding: 12px 20px;
+    }
 
     #individualTournamentAnnouncements {
         grid-column-start: 1;
@@ -166,6 +164,7 @@
         height: auto;
         overflow: scroll;
     }
+
     #individualTournamentNextGame {
         grid-column-start: 1;
         grid-column-end: 1;
@@ -179,14 +178,16 @@
         grid-column-end: 1;
         grid-row-start: 4;
         grid-row-end: 5;
-        height: 200px;
+        height: auto; /* Change from fixed height to auto to allow flexibility */
+        padding-bottom: 10px; /* Added padding to prevent overlap */
+        margin-bottom: 30px; /* Added bottom margin to create space for the footer */
     }
 
     .largeButton {
         padding: 24px;
         border-radius: 48px;
         margin: 18px 0px 5px 0px;
-        width: 80%;
+        width: 80%; /* Ensure button width adjusts on mobile */
         font-size: 16px;
         font-weight: bold;
     }
@@ -197,5 +198,4 @@
         align-items: center;
         text-align: center;
     }
-
-  }
+}
