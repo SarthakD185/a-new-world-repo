@@ -11,7 +11,7 @@ import Pool from '../UserPool';
 
 function ProfilePage() {
     const { id: userID } = useParams();
-    const { email } = useContext(AccountContext);  //use new context here
+    const { role, email } = useContext(AccountContext);  //use new context here
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -84,7 +84,7 @@ function ProfilePage() {
 
             //Success message
             alert("User bio updated successfully!");
-            window.location.reload();
+
         } catch (err) {
             console.error('Error editing user bio:', err);
             alert('Failed to edit user bio');
@@ -132,7 +132,7 @@ function ProfilePage() {
 
     useEffect(() => {
         const getTeamName = async () => {
-            if(user){
+            if(user && role === "Player"){
                 if(user.teamID){
                     try {
                         const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamByID?teamID=${user.teamID}`, {
@@ -171,7 +171,7 @@ function ProfilePage() {
     //fetch collegeID and filename for user's college
     useEffect(() => {
         const getCollegeInfo = async () => {
-            if(user){
+            if(user && (role === "Player" || role === "Marketer" || role === "Moderator")){
                 if(user.college){
                     try {
                         const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getCollegeByName?college=${user.college}`, {
@@ -210,7 +210,7 @@ function ProfilePage() {
     //Fetch games on mount
     useEffect(() => {
         const fetchGames = async () => {
-            if(user) {
+            if(user && role === "Player") {
                 if(user.teamID){
                     try {
                         const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/fetchTeamMatches?teamID=${user.teamID}`);
@@ -265,20 +265,22 @@ function ProfilePage() {
                 <h1>{user ? `${user.firstname}'s Profile` : 'Profile'}</h1>
             </div>
 
-            <div id='profilePageTeamActionButtons'>
-                {/*conditionally show these buttons only if user has a team */}
-                {user && user.teamID ? (
-                    <>
-                        <div className='horizontalFlex'>
-                            <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
-                            <button className='heroButton' onClick={() => setShowOptOutModal(true)}>Opt Out of Tournament</button>
-                        </div>
-                    </>
-                ) : (
-                    // else, show this 'Join a Team!' button
-                    <button className='heroButton' onClick={() => navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, filename: collegeInfo.filename } })}>Join a Team!</button>
-                )}
-            </div>
+            {(role === 'Player') && (
+                <div id='profilePageTeamActionButtons'>
+                    {/*conditionally show these buttons only if user has a team */}
+                    {user && user.teamID ? (
+                        <>
+                            <div className='horizontalFlex'>
+                                <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
+                                <button className='heroButton' onClick={() => setShowOptOutModal(true)}>Opt Out of Tournament</button>
+                            </div>
+                        </>
+                    ) : (
+                        // else, show this 'Join a Team!' button
+                        <button className='heroButton' onClick={() => navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, filename: collegeInfo.filename } })}>Join a Team!</button>
+                    )}
+                </div>
+            )}
 
             {/* Opt Out Modal */}
             {showOptOutModal && (
@@ -308,8 +310,12 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
-                        <p>Registration Status: {(user && user.Approved && user.teamID && teamName) ? `Registered with ${teamName}` : "Not registered (join a team)"}</p>
-                        <p>College Affiliation: {(user && user.college) ? user.college : "Unknown"}</p>
+                        {(role === 'Player') && 
+                            <p>Registration Status: {(user && user.Approved && user.teamID && teamName) ? `Registered with ${teamName}` : "Not registered (join a team)"}</p>
+                        }
+                        {(role === 'Player' || role === 'Marketer' || role === 'Moderator') &&
+                            <p>College Affiliation: {(user && user.college) ? user.college : "Unknown"}</p>
+                        }
                         <p>Username: {(user && user.username) ? user.username : "Unknown"}</p>
                         <p>Full Name: {(user && user.firstname && user.lastname) ? `${user.firstname} ${user.lastname}` : "Unknown"}</p>
                         <p>Email Address: {(user && email) || "Unknown"}</p> {/* Use the email from context */}
