@@ -64,7 +64,7 @@ function AnnouncementsList({ collegeID }) {
                                 <div>
                                     <div class='horizontalFlex spaceBetween'>
                                         <h4 class='noMargin'>{announcement.title}</h4>
-                                        <p id='postDate'>{announcement.POST_DATE}</p>
+                                        <p id='postDate'>{announcement.POST_DATE.split(" ")[[0]]}</p>
                                     </div>
                                     <p class='shortBio'>{announcement.CONTENT}</p>
                                 </div>
