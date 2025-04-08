@@ -8,10 +8,7 @@ import { AccountContext } from '../Account';
 
 
 function GalleryPage() {
-    const { user } = React.useContext(AccountContext);
-    const isAdmin = user?.role === 'admin';
-    const isModerator = user?.role === 'moderator';
-    const isCaptain = user?.role === 'captain';
+    const { role } = React.useContext(AccountContext);
 
     return (
         <div>
@@ -27,7 +24,7 @@ function GalleryPage() {
                 </div>
             </div>
 
-            {isAdmin || isModerator || isCaptain && (
+            {(role === 'Admin' || role === 'Moderator' || role === 'Marketer') && (
                 <div className="upload-section">
                     <FileUploader />
                 </div>
