@@ -13,7 +13,7 @@ import axios from 'axios';
 
 function ModeratorTournamentEditPage() {
     const location = useLocation();
-    const data = location.state; 
+    const data = location.state || {}; // Fallback to an empty object if location.state is not provided
 
     const navigate = useNavigate();
     const { isAuthenticated, role } = React.useContext(AccountContext); 
@@ -23,7 +23,7 @@ function ModeratorTournamentEditPage() {
     const [successMessage, setSuccessMessage] = React.useState('');
     const [teams, setTeams] = React.useState([]); 
 
-    //Fetch and log teams
+    // Fetch and log teams
     const fetchTeams = async () => {
         try {
             const response = await axios.get('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamsTournament'); 
@@ -43,19 +43,23 @@ function ModeratorTournamentEditPage() {
         }
     };
 
-    //Shuffle/randomize teams
+    // Shuffle/randomize teams
     const shuffleTeams = (teams) => {
         return teams.sort(() => Math.random() - 0.5);
     };
 
     React.useEffect(() => {
-        fetchTeams(); //on mount fetch
+        fetchTeams(); // on mount fetch teams
     }, []); 
 
     return (
         <div>
             <div className='verticalFlexMobile480 horizontalFlex paddingTop' style={{ justifyContent: 'center' }}>
-                <h1>{data.name} Tournament Information</h1>
+                {data.name ? (
+                    <h1>{data.name} Tournament Information</h1>
+                ) : (
+                    <h1>Loading Tournament Information...</h1>
+                )}
             </div>
 
             <div className='threeColumnContainerMobile480 threeColumnContainer'>

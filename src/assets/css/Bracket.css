@@ -82,7 +82,7 @@
   .match-button {
     width: 100%;
     padding: 16px;
-    background-color: #4299e1; /* Blue */
+    background-color: #13505b; /* Blue */
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -90,7 +90,7 @@
   }
   
   .match-button:hover {
-    background-color: #3182ce;
+    background-color: #3cacc0;
   }
   
   /* Style for the winner text */

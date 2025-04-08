@@ -25,57 +25,60 @@ export default function Bracket() {
   const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
-    if (!userEmail) return;
-
-    fetch(`https://kg1a83zh9k.execute-api.us-east-1.amazonaws.com/prod/getSessioning?email=${encodeURIComponent(userEmail)}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log("User Role (from context):", userRole);
-        console.log("Role from API:", data.role);
-        if (!collegeID && data.CollegeID) {
-          setCollegeID(data.CollegeID);
-        }
-        if (data.role === 'Moderator' || userRole === 'Moderator') setIsEditable(true);
-
-        const idToUse = data.CollegeID || collegeID;
-
-        fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${idToUse}`)
-          .then(response => response.json())
-          .then(tournamentData => {
-            if (tournamentData.tournamentData && tournamentData.tournamentData.rounds && tournamentData.tournamentData.history) {
-              console.log("Loaded saved tournament data:", tournamentData);
-              setRounds(tournamentData.tournamentData.rounds);
-              setHistory(tournamentData.tournamentData.history);
-
-              if (tournamentData.tournamentData.rounds.length > 0) {
-                const teamSet = new Set();
-                tournamentData.tournamentData.rounds[0].forEach(match => match.forEach(t => teamSet.add(t)));
-                const teamList = Array.from(teamSet);
-                setInitialTeams(teamList);
-                setTeams(teamList);
-              }
-            } else {
-              console.log("No saved data found, loading fresh team list...");
-              fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${idToUse}`)
-                .then(response => response.json())
-                .then(teamData => {
-                  console.log("Team list API Response:", teamData);
-                  if (teamData.teams && Array.isArray(teamData.teams)) {
-                    const teamNames = teamData.teams.map(team => team.TEAM_NAME);
-                    setTeams(teamNames);
-                    setInitialTeams(teamNames);
-                    setRounds([createMatchups(teamNames)]);
-                  } else {
-                    console.error("Unexpected team data format:", teamData);
-                  }
-                })
-                .catch(error => console.error("Error fetching team list:", error));
-            }
-          })
-          .catch(error => console.error("Error loading tournament data:", error));
-      })
-      .catch(error => console.error("Error fetching user session data:", error));
+    // If user is logged in, fetch session info
+    if (userEmail) {
+      fetch(`https://kg1a83zh9k.execute-api.us-east-1.amazonaws.com/prod/getSessioning?email=${encodeURIComponent(userEmail)}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log("User Role (from context):", userRole);
+          console.log("Role from API:", data.role);
+          if (!collegeID && data.CollegeID) {
+            setCollegeID(data.CollegeID);
+          }
+          if (data.role === 'Moderator' || userRole === 'Moderator') setIsEditable(true);
+        })
+        .catch(error => console.error("Error fetching user session data:", error));
+    }
   }, [userEmail]);
+
+  useEffect(() => {
+    if (!collegeID) return;
+
+    fetch(`https://grppmbkv7j.execute-api.us-east-1.amazonaws.com/prod/getTournamentData?collegeID=${collegeID}`)
+      .then(response => response.json())
+      .then(tournamentData => {
+        if (tournamentData.tournamentData && tournamentData.tournamentData.rounds && tournamentData.tournamentData.history) {
+          console.log("Loaded saved tournament data:", tournamentData);
+          setRounds(tournamentData.tournamentData.rounds);
+          setHistory(tournamentData.tournamentData.history);
+
+          if (tournamentData.tournamentData.rounds.length > 0) {
+            const teamSet = new Set();
+            tournamentData.tournamentData.rounds[0].forEach(match => match.forEach(t => teamSet.add(t)));
+            const teamList = Array.from(teamSet);
+            setInitialTeams(teamList);
+            setTeams(teamList);
+          }
+        } else {
+          console.log("No saved data found, loading fresh team list...");
+          fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
+            .then(response => response.json())
+            .then(teamData => {
+              console.log("Team list API Response:", teamData);
+              if (teamData.teams && Array.isArray(teamData.teams)) {
+                const teamNames = teamData.teams.map(team => team.TEAM_NAME);
+                setTeams(teamNames);
+                setInitialTeams(teamNames);
+                setRounds([createMatchups(teamNames)]);
+              } else {
+                console.error("Unexpected team data format:", teamData);
+              }
+            })
+            .catch(error => console.error("Error fetching team list:", error));
+        }
+      })
+      .catch(error => console.error("Error loading tournament data:", error));
+  }, [collegeID]);
 
   const handleWin = (roundIndex, matchIndex, winner) => {
     if (!isEditable) return;
@@ -115,8 +118,21 @@ export default function Bracket() {
 
   const handleRestart = () => {
     if (!isEditable) return;
-    setRounds([createMatchups(initialTeams)]);
-    setHistory([]);
+    fetch(`https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=${collegeID}`)
+      .then(response => response.json())
+      .then(teamData => {
+        console.log("Team list reloaded on restart:", teamData);
+        if (teamData.teams && Array.isArray(teamData.teams)) {
+          const teamNames = teamData.teams.map(team => team.TEAM_NAME);
+          setTeams(teamNames);
+          setInitialTeams(teamNames);
+          setRounds([createMatchups(teamNames)]);
+          setHistory([]);
+        } else {
+          console.error("Unexpected team data format:", teamData);
+        }
+      })
+      .catch(error => console.error("Error refetching team list on restart:", error));
   };
 
   const handleSave = () => {
@@ -149,7 +165,7 @@ export default function Bracket() {
       });
   };
 
-  if (!userEmail || collegeID === null) return <p>Loading session data...</p>;
+  if (collegeID === null) return <p>Loading tournament data...</p>;
 
   return (
     <div className="bracket-container">
