@@ -32,6 +32,8 @@ const Account = (props) => {
                             userRole = 'Admin';
                         } else if (userGroups.includes('Moderator')) {
                             userRole = 'Moderator';
+                        } else if (userGroups.includes('Marketer')) {
+                            userRole = 'Marketer';
                         }
                         setRole(userRole);
                     } else {

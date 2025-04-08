@@ -28,6 +28,7 @@ function IndividualCollegePage() {
     const [userID, setUserID] = useState(null);
     const [isEditingCollegeBio, setIsEditingCollegeBio] = useState(false);
     const [collegeBio, setCollegeBio] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
     //debounce ref
     const debounceTimeout = useRef(null);
@@ -69,9 +70,8 @@ function IndividualCollegePage() {
                     throw new Error('Failed to fetch college bio');
                 }
         
-                const bioData = await response.json();  // Renamed 'data' to 'bioData'
+                const bioData = await response.json();
         
-                console.log(bioData.bio);  // This should now work correctly
                 if (bioData) {
                     setCollegeBio(bioData.bio); 
                 } else {
@@ -85,6 +85,31 @@ function IndividualCollegePage() {
 
         if (data.id) getCollegeBio();
     }, [data.id]);
+
+    useEffect(() => {
+        const getUserInfo = async () => {
+            try {
+                const response = await fetch(`https://m375ypxakl.execute-api.us-east-1.amazonaws.com/production/getProfile?email=${email}`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user info');
+                }
+        
+                const userData = await response.json();  
+
+                if (userData[0]) {
+                    setUserInfo(userData[0]); 
+                } else {
+                    throw new Error('Fetched data is not in expected format');
+                }
+
+            } catch (err) {
+                console.error('Error fetching user info:', err);
+            }
+        };
+
+        if (email) getUserInfo();
+    }, [email]);
 
     //slowing doubming api call
     const inputHandler = (e) => {
@@ -335,8 +360,8 @@ function IndividualCollegePage() {
                 <div className='box' id='individualCollegeBio'>
                     <div className='horizontalFlex spaceBetween bioInformationHeader'>
                         <h2>College Bio</h2>
-                        {/* Only show edit button if user is admin, moderator, or team captain */}
-                        {(role === 'Admin' || role === 'Moderator' || role === 'Marketer') && (
+                        {/* Only show edit button if user is admin, moderator, or marketer */}
+                        {(role === 'Admin' || (role === 'Moderator' && data.name === userInfo.college) || (role === 'Marketer' && data.name === userInfo.college)) && (
                             <button className='editButton'>
                                 <img 
                                     src={isEditingCollegeBio ? require('../../assets/images/saveIcon.png') : require('../../assets/images/pencil.png')}  
