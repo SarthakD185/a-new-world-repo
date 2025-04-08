@@ -109,6 +109,28 @@ function ModeratorLandingPage() {
         navigate('/marketer');
     };
 
+    // Handle Reset Tournament Button Click
+    const handleResetTournament = async () => {
+        setLoading(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        try {
+            const response = await axios.delete('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/deleteTournament');
+
+            if (response.status === 200) {
+                setSuccessMessage('Tournament has been reset successfully!');
+            } else {
+                throw new Error(`Failed to reset tournament. Status: ${response.status}`);
+            }
+        } catch (error) {
+            console.error('Error resetting tournament:', error);
+            setErrorMessage('Error resetting tournament. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <img src={logo} className='centerImagePadding' alt="logo" />
@@ -135,6 +157,17 @@ function ModeratorLandingPage() {
                 <div className='centerButton'>
                     <button className='standardButton largeButton' style={{marginRight: '10px'}} onClick={handleViewTournament} disabled={loading}>
                         {loading ? 'Viewing Tournament...' : 'View and Edit Tournament'}
+                    </button>
+                </div>
+
+                {/* Reset Tournament Button */}
+                <div className='centerButton' style={{ marginTop: '10px' }}>
+                    <button 
+                        className='standardButton largeButton' 
+                        onClick={handleResetTournament}
+                        disabled={loading}
+                    >
+                        {loading ? 'Resetting Tournament...' : 'Reset Tournament'}
                     </button>
                 </div>
 
