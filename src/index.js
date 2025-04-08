@@ -18,7 +18,6 @@ import IndividualTournamentPage from './components/tournament/IndividualTourname
 import TeamPage from './components/TeamPage';
 import AdminLandingPage from './components/admin/AdminLandingPage';
 import AdminManageUsersList from './components/admin/AdminManageUsersList';
-import AdminUncompletedTasks from './components/admin/AdminUncompletedTasksList';
 import ModeratorLandingPage from './components/moderator/ModeratorLandingPage';
 import ModeratorManageUsers from './components/moderator/ModeratorManageUsersList';
 import ModeratorTeamsList from './components/moderator/ModeratorTeamsList';
@@ -70,7 +69,6 @@ root.render(
           {/* Admin and Moderator Routes */}
           <Route path="/adminLanding" element={<AdminLandingPage />} />
           <Route path="/adminManageUsers" element={<AdminManageUsersList />} />
-          <Route path="/adminTasks" element={<AdminUncompletedTasks />} />
           <Route path="/moderatorLanding" element={<ModeratorLandingPage />} />
           <Route path="/moderatorUsers" element={<ModeratorManageUsers />} />
           <Route path="/moderatorTeams" element={<ModeratorTeamsList />} />

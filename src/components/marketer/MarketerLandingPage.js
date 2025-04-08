@@ -6,7 +6,6 @@ import '../../assets/css/Landing.css';
 import 'reactjs-popup/dist/index.css';
 import { useState } from "react";
 import FileUploader from '../gallery/FileUploader.jsx';
-import data from '../../assets/data/colleges.json';
 
 
 function MarketerLandingPage() {
@@ -20,7 +19,6 @@ function MarketerLandingPage() {
     const [marketerFilter, setMarketerFilter] = useState(true);
     const [moderatorFilter, setModeratorFilter] = useState(true);
     const [adminFilter, setAdminFilter] = useState(true);
-    const [collegeFilter, setCollegeFilter] = useState(["All Colleges", null]);
 
     let tasksInputHandler = (e) => {
         var lowerCase = e.target.value.toLowerCase();
@@ -31,18 +29,6 @@ function MarketerLandingPage() {
         var lowerCase = e.target.value.toLowerCase();
         setUsersInputText(lowerCase);
     };
-
-    function handleSelect(collegeName) {
-        if(collegeName === "All Colleges") {
-            setCollegeFilter(["All Colleges", null]);
-        } else {
-            data.forEach(college => {
-                if(college.name === collegeName){
-                    setCollegeFilter([collegeName, college.id]);
-                }
-            });
-        }
-    }
 
     // Redirect to SignUp page
     const redirectToSignup = () => {
