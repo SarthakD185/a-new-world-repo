@@ -16,11 +16,13 @@ function PastWinnersCard({
     const [winner, setWinner] = useState(initialWinner || '');
     const [loser, setLoser] = useState(initialLoser || '');
     const [round, setRound] = useState('');  // State for selected round
+    const [winnerScore, setWinnerScore] = useState('');  // State for winner score
+    const [loserScore, setLoserScore] = useState('');    // State for loser score
     const [isSaved, setIsSaved] = useState(initialSaved);
 
     // Handle save on PastWinners
     const handleSave = async () => {
-        if (winner && loser && round) {  // Check if all fields are filled
+        if (winner && loser && round && winnerScore && loserScore) {  // Check if all fields are filled
             try {
                 console.log('Attempting to fetch MatchID for:', { winner, loser });
 
@@ -61,6 +63,8 @@ function PastWinnersCard({
                         WinnerTeamName: winner,
                         LoserTeamName: loser,
                         roundNumber: round,  // Send the selected round number
+                        winnerScore: winnerScore,  // Send winner score
+                        loserScore: loserScore,    // Send loser score
                     }),
                 });
 
@@ -82,6 +86,8 @@ function PastWinnersCard({
                     setWinner('');
                     setLoser('');
                     setRound('');  // Reset round
+                    setWinnerScore('');  // Reset winner score
+                    setLoserScore('');    // Reset loser score
                     setIsEditing(true);  // Reset to editing mode
                 }, 3000); // 3 sec delay
             } catch (error) {
@@ -89,7 +95,7 @@ function PastWinnersCard({
                 alert('There was an error saving the result');
             }
         } else {
-            alert('Please fill out all fields (winner, loser, and round)');
+            alert('Please fill out all fields (winner, loser, round, and scores)');
         }
     };
 
@@ -155,6 +161,24 @@ function PastWinnersCard({
                             <option value="3">Round 3</option>
                             <option value="4">Round 4</option>
                         </select>
+
+                        {/* Winner Score Input */}
+                        <input
+                            type="number"
+                            value={winnerScore}
+                            onChange={(e) => setWinnerScore(e.target.value)}
+                            placeholder="Winner Score"
+                            className='resultsInput'
+                        />
+
+                        {/* Loser Score Input */}
+                        <input
+                            type="number"
+                            value={loserScore}
+                            onChange={(e) => setLoserScore(e.target.value)}
+                            placeholder="Loser Score"
+                            className='resultsInput'
+                        />
                     </div>
                     <button
                         className='standardButton resultsSaveButton'
@@ -170,7 +194,9 @@ function PastWinnersCard({
                             <div className='savedResult'>
                                 <p className='winnerText'>Winner: {winner}</p>
                                 <p className='loserText'>Loser: {loser}</p>
-                                <p className='roundText'>Round: {round}</p>  {/* Display the selected round */}
+                                <p className='roundText'>Round: {round}</p>
+                                <p className='winnerScoreText'>Winner Score: {winnerScore}</p> {/* Display the winner score */}
+                                <p className='loserScoreText'>Loser Score: {loserScore}</p> {/* Display the loser score */}
                             </div>
                         )}
                     </div>

@@ -11,10 +11,12 @@ function CurrentGameList({ collegeID }) {
     const [allMatchesCompleted, setAllMatchesCompleted] = useState(false);
     const [isRoundInProgress, setIsRoundInProgress] = useState(false);
     const [isLoadingNextRound, setIsLoadingNextRound] = useState(false);
-    const [isFinalRound, setIsFinalRound] = useState(false);
     const [finalRoundMatchCompleted, setFinalRoundMatchCompleted] = useState(false);
+    
+    // State to store the final match result and winner
+    const [finalMatchResult, setFinalMatchResult] = useState(null);
 
-    //Fetch ongoing games with polling
+    // Fetch ongoing games with polling
     const fetchOngoingGames = async () => {
         try {
             const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getGames');
@@ -28,11 +30,11 @@ function CurrentGameList({ collegeID }) {
             console.log('Fetched games data:', data);
 
             if (data.matches && Array.isArray(data.matches)) {
-                //Remove completed games (games with result === 1) from the list
+                // Remove completed games (games with result === 1) from the list
                 const ongoingGames = data.matches.filter(game => game?.Result !== 1);
-                setGames(ongoingGames);  //Update ongoing games
+                setGames(ongoingGames);  // Update ongoing games
 
-                //Filter games based on collegeID
+                // Filter games based on collegeID
                 setFilteredGames(ongoingGames.filter(game => 
                     game?.Team1CollegeID === collegeID || game?.Team2CollegeID === collegeID
                 ));
@@ -48,27 +50,47 @@ function CurrentGameList({ collegeID }) {
         }
     };
 
-    //Polling for ongoing games (every 1 second)
+    // Polling for ongoing games (every 1 second)
     useEffect(() => {
         const intervalId = setInterval(() => {
             fetchOngoingGames();
-        }, 1000); //1 sec interval
+        }, 1000); // 1 sec interval
 
         return () => clearInterval(intervalId);
     }, []);
 
-    //Check if all filtered games are completed
+    // Check if all filtered games are completed
     useEffect(() => {
         const allFilteredGamesCompleted = filteredGames.every(game => game?.Result !== null);
         setAllMatchesCompleted(allFilteredGamesCompleted);
-
-        //Check if there's only one match left and it's completed (This might be the problem for winner))
-        if (filteredGames.length === 1 && filteredGames[0]?.Result !== null && isFinalRound) {
-            setFinalRoundMatchCompleted(true); //Mark final match as completed
+    
+        // Check if there's only one match left and it's completed (final match)
+        if (filteredGames.length === 1 && filteredGames[0]?.Result !== null && roundNumber === 4) {
+            setFinalRoundMatchCompleted(true); // Mark final match as completed
+    
+            // Log the final match and its result
+            const finalGame = filteredGames[0];  // The final match
+            console.log('Final match result:', finalGame?.Result); // Log the result of the final match
+    
+            // Determine the winner based on the result of the final match
+            let winner;
+            if (finalGame?.Result === 1) {
+                winner = finalGame?.Team1Name; // Team1 wins
+            } else if (finalGame?.Result === 2) {
+                winner = finalGame?.Team2Name; // Team2 wins
+            } else {
+                winner = "Undetermined"; // If the result is neither 1 nor 2, mark it as undetermined
+            }
+    
+            // Log the winner
+            console.log('Winner of the final match:', winner);
+    
+            // Store the final match result (winner)
+            setFinalMatchResult(winner); 
         }
-
+    
         console.log('All Matches Completed:', allMatchesCompleted);
-    }, [filteredGames, isFinalRound]);
+    }, [filteredGames, roundNumber]);
 
     const formatOptions = {
         weekday: 'long',
@@ -88,46 +110,36 @@ function CurrentGameList({ collegeID }) {
         return new Intl.DateTimeFormat('en-US', formatOptions).format(date);
     };
 
-    //Function to check if the final match is completed
-    const isFinalMatchCompleted = () => {
-        return filteredGames.length === 1 && filteredGames[0]?.Result !== null;
-    };
-
-    //Handle starting the next round or declaring the winner
     const handleStartNextRound = async () => {
         if (!allMatchesCompleted) {
             setError('All games must be completed before starting the next round.');
             return;
         }
 
-        //Prevent starting the round while in progress
         if (isLoadingNextRound) {
             return;
         }
 
-        //Only declare the winner after final match is completed
-        if (isFinalRound && finalRoundMatchCompleted) {
-            const winner = filteredGames[0]?.Result === 1 ? filteredGames[0]?.Team1Name : filteredGames[0]?.Team2Name;
-            setError(`Tournament Over! ${winner} is the winner.`);
+        if (finalRoundMatchCompleted && finalMatchResult) {
+            // Tournament has ended, so show the winner and prevent starting another round
+            setError(`Tournament Over! ${finalMatchResult} is the winner.`);
             setIsLoadingNextRound(false);
             return; 
         }
 
-        setIsLoadingNextRound(true);  //Flag to prevent button from being clicked multiple times
-        setIsRoundInProgress(true);  //Indicate that a new round is in progress
+        setIsLoadingNextRound(true);
+        setIsRoundInProgress(true);
 
-        //Calculate the next round number
         const nextRoundNumber = roundNumber + 1;
 
         try {
-            //Send roundNumber in the request body
             const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/startRound${nextRoundNumber}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    roundNumber: nextRoundNumber,  //Sending the next round number in the body
+                    roundNumber: nextRoundNumber,
                 }),
             });
 
@@ -138,19 +150,17 @@ function CurrentGameList({ collegeID }) {
             const data = await response.json();
             console.log(`Round ${nextRoundNumber} started successfully:`, data);
 
-            //Only after the new round is successfully started, we update the round number
             setRoundNumber(nextRoundNumber);
-            setIsRoundInProgress(false);  //Round has ended, reset flag
-            setIsLoadingNextRound(false); //Allow the button to be clicked again
-
-            setAllMatchesCompleted(false);  //Reset for the next round
-            setFilteredGames([]);  //Clear current round's games
-            setError('');  //Clear any previous error message
+            setIsRoundInProgress(false);
+            setIsLoadingNextRound(false);
+            setAllMatchesCompleted(false);
+            setFilteredGames([]);
+            setError('');
         } catch (error) {
             console.error(`Error starting Round ${nextRoundNumber}:`, error);
             setError(`Failed to start Round ${nextRoundNumber}. Please try again later.`);
-            setIsLoadingNextRound(false);  //Reset the flag in case of failure
-            setIsRoundInProgress(false);  //Reset the round progress flag
+            setIsLoadingNextRound(false);
+            setIsRoundInProgress(false);
         }
     };
 
@@ -170,13 +180,12 @@ function CurrentGameList({ collegeID }) {
         );
     }
 
-    // Show "Start Round" button if no games are displayed and all matches are completed
     if (filteredGames.length === 0 && allMatchesCompleted && !isRoundInProgress) {
-        if (isFinalRound && finalRoundMatchCompleted) {
-            const winner = filteredGames[0]?.Result === 1 ? filteredGames[0]?.Team1Name : filteredGames[0]?.Team2Name;
+        // Only check if it is the final round (round 4)
+        if (finalRoundMatchCompleted && finalMatchResult) {
             return (
                 <div className='fullHeight'>
-                    <p className='center'>Tournament Over! {winner} is the winner!</p>
+                    <p className='center'>Tournament Over! {finalMatchResult} is the winner!</p>
                 </div>
             );
         }
@@ -193,26 +202,12 @@ function CurrentGameList({ collegeID }) {
         );
     }
 
-    // Display ongoing games
     return (
         <div>
             <HR />
             <div className="roundInfo">
                 <h3>Round {roundNumber}</h3>
                 <p>Current round in progress</p>
-            </div>
-
-            {/* Checkbox to mark final round */}
-            <div>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        checked={isFinalRound} 
-                        onChange={() => setIsFinalRound(!isFinalRound)} 
-                        disabled={roundNumber !== 4} //hardcoded round 4 as final for now
-                    />
-                    Mark as Final Round
-                </label>
             </div>
 
             {filteredGames.map((game) => (
