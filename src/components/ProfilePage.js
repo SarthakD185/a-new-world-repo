@@ -11,7 +11,7 @@ import Pool from '../UserPool';
 
 function ProfilePage() {
     const { id: userID } = useParams();
-    const { role, email } = useContext(AccountContext);  //use new context here
+    const { role, email, tournamentSignedUp } = useContext(AccountContext);  //use new context here
     const [user, setUser] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -261,9 +261,13 @@ function ProfilePage() {
     return (
         <div>
             {/* The header section */}
-            <div className='horizontalFlex centerButton paddingTop'>
+            <div className='verticalFlex centerButton paddingTop'>
                 <h1>{user ? `${user.firstname}'s Profile` : 'Profile'}</h1>
+                <h2 id='tournamentSignedUp'>Tournament Signed Up: {user && user.tournamentSignedUp ? "Yes, user has paid" : "No"}</h2>
             </div>
+
+
+
 
             {(role === 'Player') && (
                 <div id='profilePageTeamActionButtons'>
