@@ -22,7 +22,7 @@ const Images = (props) => {
           key={index}
           className='image'
         >
-          {/* Image element displaying data the slide source (a URL) and description */}
+          {/* Image element displaying data the slide source (a URL) and description commit something new */}
           <img src={slide.src} alt={slide.description} />
         </div>
       ))}
