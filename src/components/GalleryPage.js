@@ -11,8 +11,15 @@ import logo from '../assets/images/AardvarkLogoClearHorizontal.png';
 import FileUploader from './gallery/FileUploader.jsx';
 import Filter from './gallery/Filter.jsx';
 import '../App.css';
+import { AccountContext } from '../Account';
+
 
 function GalleryPage() {
+    const { user } = React.useContext(AccountContext);
+    const isAdmin = user?.role === 'admin';
+    const isModerator = user?.role === 'moderator';
+    const isCaptain = user?.role === 'captain';
+
     return (
         <div >
             <div className='center'>
@@ -27,9 +34,11 @@ function GalleryPage() {
                 </div>
             </div>
 
-            <div className="upload-section">
-                <FileUploader />
-            </div>
+            {isAdmin || isModerator || isCaptain && (
+                <div className="upload-section">
+                    <FileUploader />
+                </div>
+            )}
         </div>
     );
 }
