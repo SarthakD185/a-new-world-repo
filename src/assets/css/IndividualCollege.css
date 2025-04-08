@@ -18,9 +18,18 @@
 #individualCollegeAnnouncements {
     grid-column-start: 2;
     grid-column-end: 3;
-    grid-row-start: 1;
+    grid-row-start: 2;
     grid-row-end: 3;
-    height: 800px;
+    height: 316px;
+    overflow: scroll;
+}
+
+#individualCollegeBio {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    height: 400px;
     overflow: scroll;
 }
 

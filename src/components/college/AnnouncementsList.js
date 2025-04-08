@@ -33,7 +33,7 @@ function AnnouncementsList({ collegeID }) {
                     if (data) {
                         setAnnouncements(data);  
                     } else {
-                        console.error("No announcements found.");
+                        console.log("No announcements found.");
                     }
                 } catch (error) {
                     console.error("Error fetching announcements:", error);
@@ -46,8 +46,8 @@ function AnnouncementsList({ collegeID }) {
     if(announcements.length === 0){
 
         return(
-            <div class='fullHeight'>
-                <p class='center'>No Announcements to Display</p>
+            <div className='fullHeight'>
+                <p className='center'>No Announcements to Display</p>
             </div>
         )
 
@@ -60,13 +60,13 @@ function AnnouncementsList({ collegeID }) {
                         <HR />
                         
                         {announcements.map((announcement) => (
-                            <div key={announcement.announcementID}>
+                            <div key={announcement.AnnouncementID}>
                                 <div>
-                                    <div class='horizontalFlex spaceBetween'>
-                                        <h4 class='noMargin'>{announcement.title}</h4>
+                                    <div className='horizontalFlex spaceBetween'>
+                                        <h4 className='noMargin'>{announcement.title}</h4>
                                         <p id='postDate'>{announcement.POST_DATE.split(" ")[[0]]}</p>
                                     </div>
-                                    <p class='shortBio'>{announcement.CONTENT}</p>
+                                    <p className='shortBio'>{announcement.CONTENT}</p>
                                 </div>
                                 <HR />
                             </div>

@@ -14,7 +14,7 @@ function IndividualCollegePage() {
     const location = useLocation();
     const navigate = useNavigate();
     const data = location.state || {}; 
-    const { isAuthenticated, email } = useContext(AccountContext);
+    const { isAuthenticated, role, email } = useContext(AccountContext);
     // State management
     const [teams, setTeams] = useState([]);
     const [inputText, setInputText] = useState("");
@@ -25,7 +25,9 @@ function IndividualCollegePage() {
     const [userTeamID, setUserTeamID] = useState(null);  
     const [isEmailValid, setIsEmailValid] = useState(false); 
     const [loading, setLoading] = useState(false);
-    const [userID, setUserID] = useState(null);  
+    const [userID, setUserID] = useState(null);
+    const [isEditingCollegeBio, setIsEditingCollegeBio] = useState(false);
+    const [collegeBio, setCollegeBio] = useState([]);
 
     //debounce ref
     const debounceTimeout = useRef(null);
@@ -55,6 +57,33 @@ function IndividualCollegePage() {
         };
 
         if (data.id) fetchTeams();
+    }, [data.id]);
+
+    useEffect(() => {
+        // Edit Bio function
+        const getCollegeBio = async (newBio) => {
+            try {
+                const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getCollegeBio?collegeID=${data.id}`);
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch college bio');
+                }
+        
+                const bioData = await response.json();  // Renamed 'data' to 'bioData'
+        
+                console.log(bioData.bio);  // This should now work correctly
+                if (bioData) {
+                    setCollegeBio(bioData.bio); 
+                } else {
+                    throw new Error('Fetched data is not in expected format');
+                }
+
+            } catch (err) {
+                console.error('Error fetching college bio:', err);
+            }
+        };
+
+        if (data.id) getCollegeBio();
     }, [data.id]);
 
     //slowing doubming api call
@@ -201,6 +230,33 @@ function IndividualCollegePage() {
         }
     };
 
+    // Edit Bio function
+    const handleEditCollegeBio = async (newBio) => {
+        try {
+            const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/editCollegeBio`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    collegeID: data.id,
+                    newBio: newBio,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to edit college bio');
+            }
+
+            //Success message
+            alert("College bio updated successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error editing college bio:', err);
+            alert('Failed to edit college bio');
+        }
+    };
+
     // Navigate to the gallery
     const handleClickGallery = () => {
         navigate('/gallery');
@@ -274,6 +330,43 @@ function IndividualCollegePage() {
                 <div className='box' id='individualCollegeAnnouncements'>
                     <h2>Announcements</h2>
                     <AnnouncementsList collegeID={data.id} />
+                </div>
+
+                <div className='box' id='individualCollegeBio'>
+                    <div className='horizontalFlex spaceBetween bioInformationHeader'>
+                        <h2>College Bio</h2>
+                        {/* Only show edit button if user is admin, moderator, or team captain */}
+                        {(role === 'Admin' || role === 'Moderator' || role === 'Marketer') && (
+                            <button className='editButton'>
+                                <img 
+                                    src={isEditingCollegeBio ? require('../../assets/images/saveIcon.png') : require('../../assets/images/pencil.png')}  
+                                    className='editButton' 
+                                    alt="Edit Bio" 
+                                    onClick={() => {
+
+                                        setIsEditingCollegeBio(prev => !prev);
+
+                                        const bioText = document.getElementById('collegeBioInformationText');
+                                        const textarea = bioText.querySelector('textarea');
+                                        
+                                        if (textarea) {
+                                            // Save the text and convert back to div
+                                            const newText = textarea.value;
+                                            bioText.innerHTML = `<p>${newText}</p>`;
+                                            handleEditCollegeBio(newText);
+                                        } else {
+                                            // Convert to textarea
+                                            const currentText = bioText.innerText;
+                                            bioText.innerHTML = `<textarea placeholder="Type Your Bio Here!" style="width: 100%; min-height: 100px;">${currentText}</textarea>`;
+                                        }
+                                    }}
+                                />
+                            </button>
+                        )}
+                    </div>
+                    <div id='collegeBioInformationText'>
+                        <p>{data.id && collegeBio ? collegeBio : "No bio available."}</p>
+                    </div>
                 </div>
             </div>
 
