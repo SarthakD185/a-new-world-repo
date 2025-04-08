@@ -263,7 +263,7 @@ function ProfilePage() {
             {/* The header section */}
             <div className='verticalFlex centerButton paddingTop'>
                 <h1>{user ? `${user.firstname}'s Profile` : 'Profile'}</h1>
-                <h2 id='tournamentSignedUp'>Tournament Signed Up: {user && user.tournamentSignedUp ? "Yes, user has paid" : "No"}</h2>
+                {/* <h2 id='tournamentSignedUp'>Tournament Status: {user.tournamentSignedUp === 1 ? "Registered and Paid" : "Not Registered"}</h2> */}
             </div>
 
 
