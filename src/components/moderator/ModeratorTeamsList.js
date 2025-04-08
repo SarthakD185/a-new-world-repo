@@ -6,41 +6,6 @@ function ModeratorTeamsList(props) {
     const [loading, setLoading] = useState(true); // State for loading indicator
     const [error, setError] = useState(null); // State for error handling
 
-    {/* 
-    useEffect(() => {
-        // Fetch data from the API endpoint
-        const fetchTeamList = async () => {
-            console.log("Starting API request to fetch team list...");
-            try {
-                const response = await fetch('https://bywmhgmfjg.execute-api.us-east-1.amazonaws.com/prod/getModTeamList?collegeID=2', {
-                    method: 'GET', // Ensure this is a GET request
-                    headers: {
-                        'Content-Type': 'application/json', // Set appropriate headers
-                    },
-                });
-
-                console.log("API response status:", response.status);
-
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch team list. Status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log("Fetched team list:", data);
-                setTeamList(Array.isArray(data) ? data : []); // Store fetched data in the state
-            } catch (error) {
-                console.error("Error fetching data:", error.message); // Log the error
-                setError(error.message); // Store error message in state
-            } finally {
-                console.log("API request finished, setting loading to false.");
-                setLoading(false); // Set loading to false once data is fetched
-            }
-        };
-
-        fetchTeamList(); // Call the fetch function when the component mounts
-    }, []); // Empty dependency array ensures this effect runs once on mount 
-*/}
-
     useEffect(() => {
         const fetchTeams = async () => {
             try {
@@ -60,6 +25,30 @@ function ModeratorTeamsList(props) {
 
         fetchTeams();
     }, [props.moderatorCollegeID]);
+
+    // Delete function
+    const handleDeleteTeam = async (teamID) => {
+        try {
+            console.log(`Deleting team with ID: ${teamID}`);
+            const response = await fetch(`https://6y2z21yv11.execute-api.us-east-1.amazonaws.com/prod/teams/deleteTeam?teamID=${teamID}`, {
+                method: 'DELETE',
+            });
+    
+            const responseText = await response.text(); // Capture raw response
+            console.log("Delete API response:", responseText);
+    
+            if (!response.ok) {
+                throw new Error('Failed to delete team');
+            }
+    
+            setTeamList(teamList.filter(team => team.teamID !== teamID));
+            alert("Team deleted successfully!");
+            window.location.reload();
+        } catch (err) {
+            console.error('Error deleting team:', err);
+            alert('Failed to delete team');
+        }
+    };
 
     // If still loading, show a loading message
     if (loading) {
@@ -105,6 +94,16 @@ function ModeratorTeamsList(props) {
                             <div>
                                 <h3>{team.TEAM_NAME}</h3>
                                 <p>{team.TEAM_BLURB}</p>
+                            </div>
+
+                            {/* Delete Button */}
+                            <div className="centerButton">
+                                <button
+                                    className="deleteButton"
+                                    onClick={() => handleDeleteTeam(team.TeamID)} // Trigger delete on button click
+                                >
+                                    <span style={{ color: 'red', fontSize: '20px' }}>X Delete</span>
+                                </button>
                             </div>
                         </div>
                         <HR />

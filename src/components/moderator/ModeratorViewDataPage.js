@@ -50,11 +50,6 @@ function ModeratorViewDataPage() {
         fetchTeams();
     }, []);
 
-    //shuffle
-    const shuffleTeams = (teams) => {
-        return teams.sort(() => Math.random() - 0.5);
-    };
-
     //input changes if any
     const tasksInputHandler = (e) => setTasksInputText(e.target.value.toLowerCase());
     const usersInputHandler = (e) => setUsersInputText(e.target.value.toLowerCase());
@@ -142,10 +137,10 @@ function ModeratorViewDataPage() {
                 </button>
             </div>
 
-            {/* Uncompleted Tasks and Manage Users */}
+            {/* Team List and Manage Users */}
             <div className='container' style={{ marginTop: '0px' }}>
 
-                {/* Uncompleted Tasks */}
+                {/* Team List */}
                 <div className='box' id='moderatorUncompletedTasks' style={{ marginTop: '0px' }}>
                     <div className='horizontalFlex spaceBetween'>
                         <h2 className='noPadding noMargin'>All Teams in your Tournament</h2>
