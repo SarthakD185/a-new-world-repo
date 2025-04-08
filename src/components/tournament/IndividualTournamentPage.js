@@ -142,9 +142,11 @@ function IndividualTournamentPage() {
                         </button>
                     </div>
 
-                    <div className='centerButton'>
-                        <button className='standardButton largeButton' onClick={handleClick}>Sign Up Now!</button>
-                    </div>
+                    {!isAuthenticated && (
+                        <div className='centerButton'>
+                            <button className='standardButton largeButton' onClick={handleClick}>Sign Up Now!</button>
+                        </div>
+                    )}
 
                     {isAuthenticated && (
                         <div className='centerButton'>
