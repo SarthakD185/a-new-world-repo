@@ -13,6 +13,11 @@ function NavBar() {
   const navigate = useNavigate();
   const menuRef = React.useRef(null);
 
+  // Debug logs
+  useEffect(() => {
+    console.log('NavBar - Authentication State:', { isAuthenticated, role });
+  }, [isAuthenticated, role]);
+
   const toggleMenu = () => {
     setIsExpanded(!isExpanded);
   };
@@ -74,6 +79,9 @@ function NavBar() {
       <div className={`navGroup ${isExpanded ? 'expanded' : ''}`}>
         {isAuthenticated ? (
           <>
+            {/* Debug comment */}
+            {console.log('NavBar Render - Current Role:', role)}
+            
             {/* Admin Links */}
             {role === 'Admin' && (
               <>
@@ -95,6 +103,15 @@ function NavBar() {
               </>
             )}
 
+            {/* Marketer Links */}
+            {role === 'Marketer' && (
+              <>
+                <div onClick={() => handleNavigation("/marketer")} className='navItem'>
+                  <span>Marketer Landing</span>
+                </div>
+              </>
+            )}
+            
             {/* Profile and Logout */}
             <div onClick={() => handleNavigation("/profile")} className='navItem'>
               <span>Profile</span>

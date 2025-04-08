@@ -13,9 +13,11 @@ const Account = (props) => {
 
     useEffect(() => {
         const user = Pool.getCurrentUser();
+        console.log('Account - Current User:', user);
         if (user) {
             user.getSession((err, session) => {
                 if (err) {
+                    console.error('Account - Session Error:', err);
                     setIsAuthenticated(false);
                     setRole(null);
                 } else {
@@ -24,6 +26,7 @@ const Account = (props) => {
                     const groups = payload["cognito:groups"];
                     const userEmail = payload.email; //Fetch the email from the jwt token payload
                     
+                    console.log('Account - Token Payload:', { groups, userEmail });
                     setEmail(userEmail); //state
                     if (groups) {
                         const userGroups = groups;
@@ -35,14 +38,17 @@ const Account = (props) => {
                         } else if (userGroups.includes('Marketer')) {
                             userRole = 'Marketer';
                         }
+                        console.log('Account - Setting Role:', userRole);
                         setRole(userRole);
                     } else {
+                        console.log('Account - No Groups Found, Setting Default Role: User');
                         setRole('User');
                     }
                     setIsAuthenticated(true);
                 }
             });
         } else {
+            console.log('Account - No User Found, Clearing State');
             setIsAuthenticated(false);
             setRole(null);
             setEmail(null); //Reset email if no user is logged in
@@ -97,6 +103,8 @@ const Account = (props) => {
                                     userRole = 'Admin';
                                 } else if (userGroups.includes('Moderator')) {
                                     userRole = 'Moderator';
+                                } else if (userGroups.includes('Marketer')) {
+                                    userRole = 'Marketer';
                                 }
                                 setRole(userRole);
                                 setIsAuthenticated(true);
@@ -105,6 +113,8 @@ const Account = (props) => {
                                     navigate('/adminLanding');
                                 } else if (userRole === 'Moderator') {
                                     navigate('/moderatorLanding');
+                                } else if (userRole === 'Marketer')  {
+                                    navigate('/marketer');
                                 } else {
                                     navigate('/user-landing');
                                 }

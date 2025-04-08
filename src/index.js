@@ -70,13 +70,13 @@ root.render(
           <Route path="/adminLanding" element={<AdminLandingPage />} />
           <Route path="/adminManageUsers" element={<AdminManageUsersList />} />
           <Route path="/moderatorLanding" element={<ModeratorLandingPage />} />
+          <Route path="/marketer" element={<MarketerLandingPage />} />
           <Route path="/moderatorUsers" element={<ModeratorManageUsers />} />
           <Route path="/moderatorTeams" element={<ModeratorTeamsList />} />
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/moderator/tournamentEdit" element={<ModeratorTournamentEditPage />} />
           <Route path="/moderator/viewData" element={<ModeratorViewDataPage />} />
           <Route path="/tournament/payment" element={<TournamentPaymentPage />} />
-          <Route path="/marketer" element={<MarketerLandingPage />} />
           <Route path="/pendingAccountApproval" element={<PendingAccountApprovalPage />} />
         </Routes>
 
