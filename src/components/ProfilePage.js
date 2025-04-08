@@ -17,6 +17,10 @@ function ProfilePage() {
     const navigate = useNavigate();
     const [games, setGames] = useState([]);
     const [isEditingUserBio, setIsEditingUserBio] = useState(false);
+    const [teamName, setTeamName] = useState(null);
+    const [showOptOutModal, setShowOptOutModal] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+    const [collegeInfo, setCollegeInfo] = useState(null);
 
     //dont really need this anymore
     const getCurrentCognitoUser = () => {
@@ -58,10 +62,7 @@ function ProfilePage() {
             console.error("Error fetching user data:", error);
             setError("Failed to load user data. Please try again.");
         }
-    };
-    
-    
-    
+    };    
 
     // Edit Bio function
     const handleEditUserBio = async (newBio) => {
@@ -90,6 +91,36 @@ function ProfilePage() {
         }
     };
 
+    const handleLeaveTeam = async () => {
+
+        const requestBody = {
+            email: email,
+            teamID: user.teamID,
+        };
+
+        try {
+            console.log(`Sending leave request with data:`, requestBody);
+            const response = await fetch('https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/leaveTeam', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log(`Successfully opted out of tournament and left team:`, data);
+
+            setShowOptOutModal(false);
+
+        } catch (error) {
+            console.error("Network error:", error);
+            setError("An error occurred. Please try again.");
+        }
+    };
+
     useEffect(() => {
         const cognitoUser = getCurrentCognitoUser(); 
         if (cognitoUser) {
@@ -98,6 +129,83 @@ function ProfilePage() {
 
         getProfile();
     }, [email, userID]);
+
+    useEffect(() => {
+        const getTeamName = async () => {
+            if(user){
+                if(user.teamID){
+                    try {
+                        const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getTeamByID?teamID=${user.teamID}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
+                        
+                        // Log the raw response for debugging
+                        console.log("API Response:", response);
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                
+                        // Directly parse the response as JSON
+                        const data = await response.json();
+                        
+                        // Assuming the data is an array and we want the first user in that array
+                        if (data && data.team && data.team.TEAM_NAME) {
+                            setTeamName(data.team.TEAM_NAME);  
+                        } else {
+                            setError("No team found.");
+                        }
+                    } catch (error) {
+                        console.error("Error fetching team name:", error);
+                        setError("Failed to load team name. Please try again.");
+                    }
+                }
+            }
+        };
+        getTeamName();
+    }, [email, userID, user]);
+
+    //fetch collegeID and filename for user's college
+    useEffect(() => {
+        const getCollegeInfo = async () => {
+            if(user){
+                if(user.college){
+                    try {
+                        const response = await fetch(`https://dumjg4a5uk.execute-api.us-east-1.amazonaws.com/prod/getCollegeByName?college=${user.college}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        });
+                        
+                        // Log the raw response for debugging
+                        console.log("API Response:", response);
+                        
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                
+                        // Directly parse the response as JSON
+                        const data = await response.json();
+                        
+                        // Assuming the data is an array and we want the first user in that array
+                        if (data) {
+                            setCollegeInfo(data);  
+                        } else {
+                            setError("No team found.");
+                        }
+                    } catch (error) {
+                        console.error("Error fetching team name:", error);
+                        setError("Failed to load team name. Please try again.");
+                    }
+                }
+            }
+        };
+        getCollegeInfo();
+    }, [email, userID, user]);
 
     //Fetch games on mount
     useEffect(() => {
@@ -139,6 +247,8 @@ function ProfilePage() {
     //logging user email found in context
     console.log("User email from AccountContext:", email);
 
+    const handleEmailChange = (e) => setUserEmail(e.target.value);
+
     //error
     if (error) {
         return <div className="error">⚠️ {error}</div>;
@@ -159,17 +269,36 @@ function ProfilePage() {
                 {/*conditionally show these buttons only if user has a team */}
                 {user && user.teamID ? (
                     <>
-                        <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
                         <div className='horizontalFlex'>
-                            {/* TODO - add button actions!!!!! - remove user from their team */}
-                            <button className='heroButton'>Opt Out of Tournament</button>
+                            <button className='heroButton' onClick={() => navigate(`/team/${user.teamID}`)}>View My Team!</button>
+                            <button className='heroButton' onClick={() => setShowOptOutModal(true)}>Opt Out of Tournament</button>
                         </div>
                     </>
                 ) : (
                     // else, show this 'Join a Team!' button
-                    <button className='heroButton' onClick={() => navigate(`/college/${user.collegeAffiliation}`)}>Join a Team!</button>
+                    <button className='heroButton' onClick={() => navigate('/individualCollege', { state: { id: collegeInfo.CollegeID, name: collegeInfo.COLLEGE_NAME, filename: collegeInfo.filename } })}>Join a Team!</button>
                 )}
             </div>
+
+            {/* Opt Out Modal */}
+            {showOptOutModal && (
+                <div className="modal">
+                    <div className="modalContent">
+                        <button className="closeModalButton" onClick={() => setShowOptOutModal(false)}>X</button>
+                        <div className='verticalFlex'>
+                            <h3>Opt Out of Tournament</h3>
+                            <input
+                                type="email"
+                                value={userEmail}
+                                onChange={handleEmailChange}
+                                placeholder="Enter your email to opt out"
+                            />
+                            <button className='heroButton' onClick={handleLeaveTeam}>Opt Out</button>
+                            {error && <div className="error">{error}</div>}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {user && user.tournamentSignedUp === false && <PendingAccountApprovalComponent />}
 
@@ -179,6 +308,7 @@ function ProfilePage() {
                         <h2>Account Information</h2>
                     </div>
                     <div>
+                        <p>Registration Status: {(user && user.Approved && user.teamID && teamName) ? `Registered with ${teamName}` : "Not registered (join a team)"}</p>
                         <p>College Affiliation: {(user && user.college) ? user.college : "Unknown"}</p>
                         <p>Username: {(user && user.username) ? user.username : "Unknown"}</p>
                         <p>Full Name: {(user && user.firstname && user.lastname) ? `${user.firstname} ${user.lastname}` : "Unknown"}</p>
