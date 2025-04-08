@@ -167,8 +167,6 @@ function IndividualTournamentPage() {
                     )}
                 </div>
 
-                <div className='divider'></div>
-
             </div>
         </div>
     );
