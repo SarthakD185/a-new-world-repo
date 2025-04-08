@@ -273,7 +273,7 @@ function IndividualCollegePage() {
 
                 <div className='box' id='individualCollegeAnnouncements'>
                     <h2>Announcements</h2>
-                    <AnnouncementsList collegeID={data.id || ""} />
+                    <AnnouncementsList collegeID={data.id} />
                 </div>
             </div>
 
