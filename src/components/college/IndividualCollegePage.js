@@ -300,7 +300,7 @@ function IndividualCollegePage() {
                         <h2 className='noPadding noMargin'>Gallery</h2>
                         <button className='standardButton' onClick={handleClickGallery}>View More</button>
                     </div>
-                    <GalleryList collegeID={data.id || ""} />
+                    <GalleryList />
                 </div>
 
                 <div className='box' id='individualCollegeRegisteredTeams'>
