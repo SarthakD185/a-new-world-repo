@@ -1,64 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import './GalleryGrid.css';
-import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css';
+import Filter from './Filter';
 
 function GalleryGrid() {
   const [galleryData, setGalleryData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  const slideProperties = {
-    duration: 3000,
-    transitionDuration: 500,
-    infinite: true,
-    indicators: true,
-    arrows: true
-  };
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchGalleryData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('https://bs9mr54c86.execute-api.us-east-1.amazonaws.com/prod/getGallery', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Server error: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        if (!data || !Array.isArray(data) || data.length === 0) {
-          setError('No images available');
-          setGalleryData([]);
-          return;
-        }
+        const response = await fetch('https://bs9mr54c86.execute-api.us-east-1.amazonaws.com/prod/getGallery');
+        if (!response.ok) throw new Error(`Server error: ${response.status}`);
 
+        const data = await response.json();
         const formattedData = data.map(item => ({
-          src: item.Src,
-          title: item.CollegeID,
-          description: item.Description,
-          teamName: `Team Name: ${item.CollegeID}`
-        })).filter(item => item.src && item.title); // Only keep items with required data
-        
-        if (formattedData.length === 0) {
-          setError('No valid images available');
-          return;
-        }
+          src: item.s3Url || item.imageUrl || item.src || item.image_path,
+          title: item.CollegeID || "Unknown",
+          description: item.description || "",
+          teamName: item.teamName || "No Team Name"
+        }));
 
         setGalleryData(formattedData);
-        setError(null);
+        setFilteredData(formattedData);
       } catch (err) {
-        console.error('Error fetching gallery data:', err);
         setError(err.message);
-        setGalleryData([]);
       } finally {
         setLoading(false);
       }
@@ -67,47 +37,91 @@ function GalleryGrid() {
     fetchGalleryData();
   }, []);
 
-  // Don't render anything if we're loading or have no data
-  if (loading || error || !galleryData || galleryData.length === 0) {
-    return null;
-  }
+  const handleFilter = (filtered) => {
+    const lowerCaseQuery = searchQuery.toLowerCase();
+    const searched = filtered.filter(item =>
+      item.teamName.toLowerCase().includes(lowerCaseQuery)
+    );
+    setFilteredData(searched);
+  };
 
-  // Only render if we actually have data
-  return galleryData.length > 0 ? (
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    const lowerCaseQuery = query.toLowerCase();
+    const filtered = galleryData.filter(item =>
+      item.teamName.toLowerCase().includes(lowerCaseQuery)
+    );
+    setFilteredData(filtered);
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
     <div className="gallery-container">
-      {selectedImage ? (
-        <div className="slideshow-container">
-          <button className="back-button" onClick={() => setSelectedImage(null)}>
-            Back to Gallery
-          </button>
-          <Slide {...slideProperties}>
-            {galleryData.map((item, index) => (
-              <div className="each-slide" key={index}>
-                <div style={{ backgroundImage: `url(${item.src})` }}>
-                  <div className="slide-caption">{item.teamName}</div>
-                </div>
-              </div>
-            ))}
-          </Slide>
-        </div>
-      ) : (
-        <div className="gallery-grid">
-          {galleryData.map((item, index) => (
-            <div 
-              key={index} 
-              className="gallery-item" 
-              onClick={() => setSelectedImage(item)}
-              role="button"
-              tabIndex={0}
-            >
-              <img src={item.src} alt={item.description || item.title} />
-              <div className="team-name">{item.teamName}</div>
-            </div>
-          ))}
+      {selectedImageIndex !== null && (
+        <div className="modal-overlay" onClick={() => setSelectedImageIndex(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => setSelectedImageIndex(null)}>&times;</button>
+            <img
+              src={filteredData[selectedImageIndex].src}
+              alt={filteredData[selectedImageIndex].description || filteredData[selectedImageIndex].title}
+            />
+            <div className="slide-caption">{filteredData[selectedImageIndex].teamName}</div>
+            {selectedImageIndex > 0 && (
+              <button className="modal-arrow left" onClick={() => setSelectedImageIndex(selectedImageIndex - 1)}>
+                &#8592;
+              </button>
+            )}
+            {selectedImageIndex < filteredData.length - 1 && (
+              <button className="modal-arrow right" onClick={() => setSelectedImageIndex(selectedImageIndex + 1)}>
+                &#8594;
+              </button>
+            )}
+          </div>
         </div>
       )}
+
+      {/* Search Bar */}
+      <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Search by team name..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="search-bar"
+        />
+      </div>
+
+      <Filter
+        galleryData={galleryData}
+        onFilter={handleFilter}
+        onClick={(item) => {
+          const index = filteredData.findIndex(i => i.src === item.src);
+          setSelectedImageIndex(index);
+        }}
+      />
+
+      <div className="gallery-grid">
+        {filteredData.map((item, index) => (
+          <div
+            key={index}
+            className="gallery-item"
+            onClick={() => setSelectedImageIndex(index)}
+            role="button"
+            tabIndex={0}
+          >
+            <div className="image-container">
+              <img src={item.src} alt={item.description || item.title} />
+            </div>
+            <div className="team-name">{item.teamName}</div>
+          </div>
+        ))}
+      </div>
     </div>
-  ) : null;
+  );
 }
 
-export default GalleryGrid; 
+export default GalleryGrid;

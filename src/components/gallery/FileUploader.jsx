@@ -4,10 +4,10 @@ import './GalleryGrid.css';
 
 const FileUploader = () => {
   const [files, setFiles] = useState(null);
-  const [collegeID, setCollegeID] = useState(""); // Allow user to input CollegeID
+  const [collegeID, setCollegeID] = useState('');
+  const [teamName, setTeamName] = useState('');
   const [status, setStatus] = useState('initial');
 
-  // Replace with your API Gateway URL
   const API_GATEWAY_URL = 'https://84aqocbo7g.execute-api.us-east-1.amazonaws.com/prod/uploadGallery';
 
   const handleFileChange = (e) => {
@@ -21,77 +21,65 @@ const FileUploader = () => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        const base64Data = reader.result.split(',')[1]; // Remove metadata prefix
-        resolve(base64Data);
-      };
-
+      reader.onload = () => resolve(reader.result.split(',')[1]);
       reader.onerror = (error) => reject(error);
     });
   };
 
   const handleUpload = async () => {
-    if (!files || files.length === 0) {
-      console.error("❌ No file selected for upload.");
+    if (!files || files.length === 0 || !teamName) {
+      alert("Please select a file and provide a team name.");
       setStatus('fail');
       return;
     }
-  
+
     setStatus('uploading');
-    console.log("📂 Selected file:", files[0]);
-  
+
     try {
       const file = files[0];
       const base64Image = await convertFileToBase64(file);
-  
-      console.log("📸 Base64 Image Data:", base64Image.slice(0, 100)); // Print only first 100 chars for preview
-  
+
       const payload = {
-        image: base64Image,  // Make sure this is not undefined
-        CollegeID: collegeID, // Pass the user input for CollegeID
+        image: base64Image,
+        CollegeID: collegeID,
+        teamName: teamName,
         description: file.name,
         filename: file.name
       };
-  
-      console.log("📡 Sending payload:", JSON.stringify(payload, null, 2));
-  
+
       const result = await fetch(API_GATEWAY_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-  
+
       const data = await result.json();
-      console.log("📨 Server Response:", data);
-  
+
       if (result.ok) {
         setStatus('success');
         alert(`Image uploaded successfully! Image URL: ${data.image_url}`);
       } else {
+        console.error("Upload failed:", data);
         setStatus('fail');
       }
     } catch (error) {
-      console.error("❌ Upload failed:", error);
+      console.error("Upload error:", error);
       setStatus('fail');
     }
   };
-  
 
   return (
     <div className='box'>
       <h1>Upload Files</h1>
-      
+
       <div className="input-group">
         <label>College ID:</label>
-        <input
-          type="text"
-          value={collegeID}
-          onChange={(e) => setCollegeID(e.target.value)}
-          placeholder="Enter College ID"
-        />
+        <input type="text" value={collegeID} onChange={(e) => setCollegeID(e.target.value)} placeholder="Enter College ID" />
+      </div>
+
+      <div className="input-group">
+        <label>Team Name:</label>
+        <input type="text" value={teamName} onChange={(e) => setTeamName(e.target.value)} placeholder="Enter Team Name" />
       </div>
 
       <div className="input-group">
@@ -121,15 +109,10 @@ const FileUploader = () => {
 };
 
 const Result = ({ status }) => {
-  if (status === 'success') {
-    return <p>✅ File uploaded successfully!</p>;
-  } else if (status === 'fail') {
-    return <p>❌ File upload failed!</p>;
-  } else if (status === 'uploading') {
-    return <p>⏳ Uploading file...</p>;
-  } else {
-    return null;
-  }
+  if (status === 'success') return <p>✅ File uploaded successfully!</p>;
+  if (status === 'fail') return <p>❌ File upload failed!</p>;
+  if (status === 'uploading') return <p>⏳ Uploading file...</p>;
+  return null;
 };
 
 export default FileUploader;
