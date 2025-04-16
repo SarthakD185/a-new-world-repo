@@ -269,7 +269,7 @@ function ProfilePage() {
 
 
 
-            {(role === 'Player') && (
+            {(role === 'Player' || role === 'User') && (
                 <div id='profilePageTeamActionButtons'>
                     {/*conditionally show these buttons only if user has a team */}
                     {user && user.teamID ? (
